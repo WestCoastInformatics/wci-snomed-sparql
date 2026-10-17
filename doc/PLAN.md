@@ -70,7 +70,7 @@ column and the notes as each step completes.
 - `EclExampleCatalogTest` parses every executable example with snomed-ecl-parser. Long syntax is reference-only
   (parser and browser support brief syntax only). Known parser gaps (asserted to still fail): 6.1-25 `^R`,
   6.1-27 `LOINC#"..."`, 6.8-44 `active = "*"`, 6.8-39 / 6.9-14 `effectiveTime = ""` (NumberFormatException).
-- Cross-check with `doc/ECL as SPARQL.docx`: 53/56 of its examples are in the catalog; added `S-01` (precoordinated
+- Cross-check with `doc/ECL-as-SPARQL-draft.docx`: 53/56 of its examples are in the catalog; added `S-01` (precoordinated
   focus + refinement); its two concrete-value examples used placeholder ids and are superseded by 6.2-08/09/10.
 
 ### 5. Mode 3: expected results
@@ -201,7 +201,7 @@ column and the notes as each step completes.
   900000000000506000) with the given acceptability (P-13: 1 → 2,839).
 - Results: catalog 254 examples (247 executable): 192 match Snowstorm, 4 match concept-only (HISTORY quirk),
   others explicit (unsupported 19, parser gaps 5, equivalent 5, baseline 22). `make test`: 530 tests, 0 skipped.
-- `doc/ECL as SPARQL.docx` (moved from the project root at the user's request; references updated).
+- `doc/ECL-as-SPARQL-draft.docx` (moved from the project root at the user's request; references updated).
 
 ### 10. Finish
 - Web UI: `src/main/resources/static/index.html` (single self-contained page, as the user prefers): catalog
@@ -292,3 +292,7 @@ column and the notes as each step completes.
   referencedComponentId, dialect !=. 530 tests pass. Docx moved to doc/. README quick-start + UI added to step 10.
 - 2026-10-16: Step 10 done. Web UI, README (quick start, curl, mapping), AGENTS.md, `make owl`, `^*` baseline,
   docs moved to doc/, project renamed to wci-snomed-sparql. 532 tests pass.
+- 2026-10-16: OpenAPI/Swagger (springdoc 3.1) on the REST endpoints: /swagger-ui/index.html, /v3/api-docs; README
+  quick start step 5. Draft docx renamed `doc/ECL-as-SPARQL-draft.docx`; new `doc/ECL-as-SPARQL.md` (requested as
+  .md instead of .docx): the draft's 56 examples (+ 9 for features the draft lacked) with the actual generated SPARQL,
+  logic and results vs Snowstorm.

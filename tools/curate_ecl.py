@@ -83,7 +83,7 @@ out.append({
     "ecl": "19829001 |Disorder of lung| : 116676008 |Associated morphology| = 40829002 |Acute edema|",
     "eclLong": None, "executable": True,
     "note": "From the 'ECL as SPARQL' draft document (Refinements #3); not in the current spec behaviour pages.",
-    "source": "doc/ECL as SPARQL.docx"})
+    "source": "doc/ECL-as-SPARQL-draft.docx"})
 
 # Supplementary examples from the snomed-ecl-parser unit tests (develop branch: ECLQueryBuilderTest,
 # ECLQueryBuilderWithFiltersTest) that add something beyond the spec examples

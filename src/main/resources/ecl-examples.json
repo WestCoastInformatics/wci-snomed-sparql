@@ -3140,7 +3140,7 @@
     ],
     "executable": true,
     "note": "From the 'ECL as SPARQL' draft document (Refinements #3); not in the current spec behaviour pages.",
-    "source": "doc/ECL as SPARQL.docx"
+    "source": "doc/ECL-as-SPARQL-draft.docx"
   },
   {
     "id": "P-01",

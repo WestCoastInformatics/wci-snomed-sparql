@@ -28,7 +28,7 @@ of every catalog example from a local Snowstorm, for the unit tests.
 | `src/test/resources/data/20261001/` | Expected results from Snowstorm, one JSON per example |
 | `tools/` | `extract_ecl.py` / `curate_ecl.py`: build `ecl-examples.json` from the spec (see `tools/README.md`) |
 | `snowstorm/` | docker-compose for the local Snowstorm used to generate expected results |
-| `doc/` | `TODO.md` (requirements), `PLAN.md` (plan, decisions, progress log), `ECL as SPARQL.docx` (draft mapping) |
+| `doc/` | `TODO.md` (requirements), `PLAN.md` (plan, decisions, progress log), `ECL-as-SPARQL-draft.docx` (the original draft mapping), `ECL-as-SPARQL.md` (the same examples as actually translated — regenerate it if the SPARQL changes) |
 
 ## Build and test
 

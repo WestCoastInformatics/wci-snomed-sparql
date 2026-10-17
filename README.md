@@ -168,6 +168,7 @@ FSN), with Previous / Next and a page size of 10, 50, 100, 500, 1000 or 10000.
 
 ## How ECL maps to SPARQL
 
+See `doc/ECL-as-SPARQL.md` for every example of the original draft mapping with its actual SPARQL and results.
 Each expression constraint becomes a SPARQL graph pattern binding `?concept`
 (`src/main/java/com/wci/snomed/sparql/ecl/SparqlGenerator.java`):
 
@@ -332,7 +333,7 @@ Every supported example runs in under 10 s on the 20261001 data (Apple silicon, 
 
 ## Additional ECL examples
 
-Besides the specification examples (6.x) and `S-01` (from the "ECL as SPARQL" draft, `doc/ECL as SPARQL.docx`), the catalog has:
+Besides the specification examples (6.x) and `S-01` (from the "ECL as SPARQL" draft, `doc/ECL-as-SPARQL-draft.docx`), the catalog has:
 
 - **P-01..P-15**: expressions from the snomed-ecl-parser unit tests (develop branch: `ECLQueryBuilderTest`,
   `ECLQueryBuilderWithFiltersTest`) that add something beyond the specification examples: groups joined by OR,
@@ -504,7 +505,9 @@ The build uses Gradle 9.1 (wrapper), Java 25, Spring Boot 4.1, Apache Jena 5.5 a
 
 - `doc/TODO.md`: the original project requirements.
 - `doc/PLAN.md`: the implementation plan, decisions and progress log.
-- `doc/ECL as SPARQL.docx`: the draft mapping of ECL to SPARQL that this project started from.
+- `doc/ECL-as-SPARQL-draft.docx`: the draft mapping of ECL to SPARQL that this project started from.
+- `doc/ECL-as-SPARQL.md`: the same examples, with the SPARQL this project actually generates, how it works, and
+  the results on 20261001 compared with Snowstorm.
 - `AGENTS.md`: notes for maintaining the project with AI coding agents.
 
 ## License
