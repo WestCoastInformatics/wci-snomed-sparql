@@ -1,0 +1,8 @@
+{
+  "id" : "6.8-20",
+  "ecl" : "< 64572001 |Disease| {{ term = \"card\", dialect = ( en-nhs-clinical en-nhs-pharmacy ) }}",
+  "status" : 200,
+  "total" : 0,
+  "ids" : [ ],
+  "error" : null
+}

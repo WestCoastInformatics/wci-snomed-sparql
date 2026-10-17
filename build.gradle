@@ -1,0 +1,170 @@
+// Top level configuration
+buildscript {
+  ext {
+    // Aligned with org.snomed:snomed-parent-bom:5.0.0-SNAPSHOT (snomed-owl-toolkit develop branch)
+    springBootVersion = '4.1.1'
+  }
+
+  repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url = "https://plugins.gradle.org/m2/" }
+  }
+  dependencies {
+    classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+  }
+}
+
+// This must be at the top of the file (only can be below buildscript)
+plugins {
+  id "com.diffplug.spotless" version "7.2.1"
+  id "com.github.spotbugs" version "6.4.2"
+}
+
+// Repositories for dependencies
+// NOTE: snomed-owl-toolkit and snomed-ecl-parser (develop branches) must be installed to the local
+// maven repository first (mvn install -DskipTests -Ddependency-check.skip=true in each project)
+repositories {
+  mavenLocal()
+  mavenCentral()
+  maven { url = "https://nexus3.ihtsdotools.org/repository/maven-releases/" }
+  maven { url = "https://nexus3.ihtsdotools.org/repository/maven-snapshots/" }
+}
+
+// Plugins
+apply plugin: "io.spring.dependency-management"
+apply plugin: "org.springframework.boot"
+apply plugin: "java"
+apply plugin: "eclipse"
+apply plugin: "checkstyle"
+apply plugin: "maven-publish"
+
+group = "com.wci"
+version = '1.0.0-SNAPSHOT'
+
+// Download javadoc and sources for dependencies, run ./gradlew cleanEclipse eclipse
+eclipse {
+  classpath {
+    downloadSources = true
+    downloadJavadoc = true
+  }
+}
+
+// Java Toolchain (same Java version as snomed-owl-toolkit / snomed-parent-bom)
+java {
+  withSourcesJar()
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(25)
+  }
+}
+
+// Apache 2.0 license headers (Spotless; the hierynomus license plugin is incompatible with Spring 7).
+// Headers are added automatically before compiling; "gradle spotlessCheck" verifies them.
+spotless {
+  java {
+    licenseHeaderFile(rootProject.file("config/license-header.txt"))
+    targetExclude("**/package-info.java")
+  }
+}
+tasks.named("compileJava") { dependsOn "spotlessApply" }
+
+// SpotBugs https://github.com/spotbugs/spotbugs-gradle-plugin
+spotbugs {
+  ignoreFailures = false
+  showStackTraces = true
+  showProgress = false
+  excludeFilter = file("${rootDir}/config/spotbugs/excludeFilter.xml")
+}
+tasks.named("spotbugsMain") {
+  reports {
+    xml {
+      required = true
+    }
+    html {
+      required = true
+      outputLocation = layout.buildDirectory.file("reports/spotbugs/main/spotbugs.html")
+      stylesheet = "fancy-hist.xsl"
+    }
+  }
+}
+tasks.named("spotbugsTest") {
+  reports {
+    html {
+      required = true
+      outputLocation = layout.buildDirectory.file("reports/spotbugs/test/spotbugs.html")
+      stylesheet = "fancy-hist.xsl"
+    }
+  }
+}
+
+// Checkstyle
+checkstyle {
+  toolVersion = "10.26.1"
+  ignoreFailures = true
+  configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+}
+
+dependencies {
+  // Use the SNOMED parent BOM so library versions match snomed-owl-toolkit. It is applied as a
+  // platform (not via dependencyManagement) so its pins do not leak into checkstyle/spotbugs.
+  implementation platform("org.snomed:snomed-parent-bom:5.0.0-SNAPSHOT")
+
+  implementation "org.springframework.boot:spring-boot-starter-webmvc"
+
+  // SNOMED libraries (RF2 -> OWL conversion, ECL grammar)
+  implementation "org.snomed.otf:snomed-owl-toolkit:7.0.0-SNAPSHOT"
+  implementation "org.snomed.languages:snomed-ecl-parser:5.0.0-SNAPSHOT"
+
+  // OWL API + ELK reasoner (versions from snomed-parent-bom)
+  implementation "net.sourceforge.owlapi:owlapi-api"
+  implementation "net.sourceforge.owlapi:owlapi-impl"
+  implementation "net.sourceforge.owlapi:owlapi-apibinding"
+  implementation("org.semanticweb.elk:elk-owlapi") {
+    exclude group: "log4j", module: "log4j"
+  }
+  // ELK logs via the log4j 1.x API; route it to slf4j/logback
+  runtimeOnly "org.slf4j:log4j-over-slf4j"
+
+  // SPARQL engine
+  implementation "org.apache.jena:apache-jena-libs"
+  // The BOM excludes libthrift from jena-arq (to pin a patched version); Jena's RIOT needs it at runtime
+  runtimeOnly "org.apache.thrift:libthrift"
+
+  testImplementation "org.springframework.boot:spring-boot-starter-test"
+  testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+}
+
+// OWL API 4.x (via Guice/cglib) needs java.lang opened on Java 9+ (as snomed-owl-toolkit does)
+def owlApiJvmArgs = ["--add-opens", "java.base/java.lang=ALL-UNNAMED"]
+
+test {
+  useJUnitPlatform()
+  jvmArgs(["-Xmx12G"] + owlApiJvmArgs)
+  testLogging.showStandardStreams = true
+}
+
+bootJar {
+  archiveClassifier = "exec"
+  manifest {
+    attributes "Add-Opens": "java.base/java.lang"
+  }
+}
+
+jar {
+  enabled = true
+  archiveClassifier = ""
+}
+
+bootRun {
+  jvmArgs = ["-Xmx16G"] + owlApiJvmArgs
+  // Pass application args, e.g. ./gradlew bootRun --args="--owl=path/to/file.owl"
+}
+
+// "make install" publishes to the local maven repository
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+    }
+  }
+}

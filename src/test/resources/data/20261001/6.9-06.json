@@ -1,0 +1,8 @@
+{
+  "id" : "6.9-06",
+  "ecl" : "< 195967001 |Asthma| {{ C moduleId = 731000124108 |US National Library of Medicine maintained module| }}",
+  "status" : 400,
+  "total" : null,
+  "ids" : null,
+  "error" : "Concepts in the ECL request do not exist or are inactive on branch MAIN/2026-10-01: 731000124108."
+}

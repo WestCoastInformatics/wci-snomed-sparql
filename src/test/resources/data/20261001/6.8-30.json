@@ -1,0 +1,8 @@
+{
+  "id" : "6.8-30",
+  "ecl" : "* MINUS * {{ type = syn, dialect = en-nz (prefer) }}",
+  "status" : 500,
+  "total" : null,
+  "ids" : null,
+  "error" : "ErrorResponse: {\"error\":{\"phase\":\"query\",\"failed_shards\":[{\"shard\":0,\"index\":\"member\",\"node\":\"tXCwFAseSXykRz80HQS7tg\",\"reason\":{\"type\":\"query_shard_exception\",\"reason\":\"failed to create query: The number of terms [659026] used in the Terms Query request has exceeded the allowed maximum of [500000]. This maximum can be set by changing the [index.max_terms_count] index level setting.\",\"index_uuid\":\"Bud1xhKnSKOOcsHNk37SWg\",\"index\":\"member\",\"caused_by\":{\"type\":\"illegal_argument_exception\",\"reason\":\"The number of terms [659026] used in the Terms Query request has exceeded the allowed maximum of [500000]. This maximum can be set by changing the [index.max_terms_count] index level setting.\"}}}],\"grouped\":true,\"type\":\"search_phase_execution_exception\",\"reason\":\"all shards failed\",\"root_cause\":[{\"index_uuid\":\"Bud1xhKnSKOOcsHNk37SWg\",\"index\":\"member\",\"type\":\"query_shard_exception\",\"reason\":\"failed to create query: The number of terms [659026] used in the Terms Query request has exceeded the allowed maximum of [500000]. This maximum can be set by changing the [index.max_terms_count] index level setting.\"}]},\"status\":400}"
+}

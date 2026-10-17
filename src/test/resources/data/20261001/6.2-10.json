@@ -1,0 +1,8 @@
+{
+  "id" : "6.2-10",
+  "ecl" : "< 373873005 |Pharmaceutical / biologic product| : \n  3460481009 |Has product name| = \"PANADOL\"",
+  "status" : 400,
+  "total" : null,
+  "ids" : null,
+  "error" : "Concepts in the ECL request do not exist or are inactive on branch MAIN/2026-10-01: 3460481009."
+}

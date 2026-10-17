@@ -1,0 +1,8 @@
+{
+  "id" : "6.8-41",
+  "ecl" : "^ 816080008 |International Patient Summary| {{ D active = true }}",
+  "status" : 200,
+  "total" : 0,
+  "ids" : [ ],
+  "error" : null
+}

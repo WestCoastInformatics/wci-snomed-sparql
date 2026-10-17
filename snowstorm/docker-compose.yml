@@ -1,0 +1,56 @@
+# Local Snowstorm (the terminology server behind the SNOMED browser) used to generate the expected ECL results
+# for the unit tests (mode 3). See snowstorm/README.md.
+name: snomed-sparql-snowstorm
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.19.8
+    # native image: under amd64 emulation Elasticsearch fails (no seccomp); overrides DOCKER_DEFAULT_PLATFORM
+    platform: linux/arm64
+    container_name: snomed-sparql-es
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - node.name=snowstorm
+      - cluster.name=snowstorm-cluster
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+    volumes:
+      - elastic:/usr/share/elasticsearch/data
+    networks:
+      elastic:
+        aliases:
+          - es
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+    mem_reservation: 4g
+    # not published on the host (port 9200 is often taken); only Snowstorm talks to it
+
+  snowstorm:
+    image: snomedinternational/snowstorm:11.0.0
+    platform: linux/arm64
+    container_name: snomed-sparql-snowstorm
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    # the image (Jib-built) has its own entrypoint; JVM options are passed via JAVA_TOOL_OPTIONS
+    environment:
+      - "JAVA_TOOL_OPTIONS=-Xms2g -Xmx6g --add-opens=java.base/java.util=ALL-UNNAMED"
+    command: ["--elasticsearch.urls=http://es:9200"]
+    volumes:
+      # RF2 release zips to import (see README)
+      - ./import:/import:ro
+    networks:
+      elastic:
+        aliases:
+          - snowstorm
+    ports:
+      - "127.0.0.1:8081:8080"
+
+networks:
+  elastic:
+
+volumes:
+  elastic:

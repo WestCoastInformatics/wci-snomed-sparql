@@ -1,0 +1,8 @@
+{
+  "id" : "6.3-07",
+  "ecl" : "404684003 |Clinical finding| :\n  { 116676008 |Associated morphology| = 72704001 |Fracture|,\n    363698007 |Finding site| = 299701004 |Bone of forearm|,\n    363698007 |Finding site| = 62413002 |Bone structure of radius| }",
+  "status" : 200,
+  "total" : 0,
+  "ids" : [ ],
+  "error" : null
+}

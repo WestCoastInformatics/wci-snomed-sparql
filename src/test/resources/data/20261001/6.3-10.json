@@ -1,0 +1,8 @@
+{
+  "id" : "6.3-10",
+  "ecl" : "< 404684003 |Clinical finding| :\n  { [2..*] 363698007 |Finding site| = < 91723000 |Anatomical structure| }",
+  "status" : 200,
+  "total" : 0,
+  "ids" : [ ],
+  "error" : null
+}

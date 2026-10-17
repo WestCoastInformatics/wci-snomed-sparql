@@ -1,0 +1,8 @@
+{
+  "id" : "6.1-25",
+  "ecl" : "^R 73211009 |Diabetes mellitus|",
+  "status" : 400,
+  "total" : null,
+  "ids" : null,
+  "error" : "Syntax error at line 1, character 1: no viable alternative at input '^R'"
+}

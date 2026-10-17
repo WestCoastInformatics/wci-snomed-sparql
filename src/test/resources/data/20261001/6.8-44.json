@@ -1,0 +1,8 @@
+{
+  "id" : "6.8-44",
+  "ecl" : "^ 816080008 |International Patient Summary| {{ D active = \"*\" }}",
+  "status" : 400,
+  "total" : null,
+  "ids" : null,
+  "error" : "Syntax error at line 1, character 58: unexpected character '\"' expecting {'\\u0009', '\\u000A', '\\u000D', ' ', '/', '0', '1', 'F', 'T', 'f', 't'}"
+}

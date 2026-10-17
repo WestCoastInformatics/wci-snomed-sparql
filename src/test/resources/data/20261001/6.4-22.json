@@ -1,0 +1,8 @@
+{
+  "id" : "6.4-22",
+  "ecl" : "^ 450990004 |Adverse drug reactions reference set for GP/FP health issue| :\n  246075003 |Causative agent| = (< 373873005 |Pharmaceutical / biologic product| OR < 105590001 |Substance| )",
+  "status" : 200,
+  "total" : 0,
+  "ids" : [ ],
+  "error" : null
+}

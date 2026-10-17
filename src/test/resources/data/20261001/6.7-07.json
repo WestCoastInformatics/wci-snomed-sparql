@@ -1,0 +1,8 @@
+{
+  "id" : "6.7-07",
+  "ecl" : "^ 450990004 |Adverse drug reactions reference set for GP/FP health issue|\nOR ^ 450989008 |Allergies reference set for GP/FP health issue|\nOR ^ 450985002 |Disorders and diseases reference set for GP/FP health issue|\nOR ^ 450988000 |Family history reference set for GP/FP health issue|\nOR ^ 450991000 |Processes and procedures reference set for GP/FP health issue|\nOR ^ 450986001 |Results reference set for GP/FP health issue|\nOR ^ 450992007 |Social history reference set for GP/FP health issue|\nOR ^ 450984003 |Symptoms and signs reference set for GP/FP health issue|",
+  "status" : 200,
+  "total" : 0,
+  "ids" : [ ],
+  "error" : null
+}

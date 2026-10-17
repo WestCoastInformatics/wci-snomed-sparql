@@ -1,0 +1,8 @@
+{
+  "id" : "6.1-08",
+  "ecl" : ">! 40541001 |Acute pulmonary edema|",
+  "status" : 200,
+  "total" : 3,
+  "ids" : [ "111273006", "19242006", "846694002" ],
+  "error" : null
+}

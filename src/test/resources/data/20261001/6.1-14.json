@@ -1,0 +1,8 @@
+{
+  "id" : "6.1-14",
+  "ecl" : "^[*] 447562003 |ICD-10 complex map reference set|",
+  "status" : 500,
+  "total" : null,
+  "ids" : null,
+  "error" : "ECL requesting specific refset member fields, can not return concept ids."
+}

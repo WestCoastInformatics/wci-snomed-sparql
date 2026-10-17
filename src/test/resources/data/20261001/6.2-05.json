@@ -1,0 +1,8 @@
+{
+  "id" : "6.2-05",
+  "ecl" : "< 404684003 |Clinical finding| :\n{ 363698007 |Finding site| = << 39057004 |Pulmonary valve structure| ,\n116676008 |Associated morphology| = << 415582006 |Stenosis| },\n{ 363698007 |Finding site| = << 53085002 |Right ventricular structure| ,\n116676008 |Associated morphology| = << 56246009 |Hypertrophy| }",
+  "status" : 200,
+  "total" : 11,
+  "ids" : [ "204306007", "204351007", "253512000", "253513005", "253514004", "253515003", "399228007", "723336008", "762433009", "766976003", "86299006" ],
+  "error" : null
+}

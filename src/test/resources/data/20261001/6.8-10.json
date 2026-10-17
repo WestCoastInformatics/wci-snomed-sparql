@@ -1,0 +1,8 @@
+{
+  "id" : "6.8-10",
+  "ecl" : "< 64572001 |Disease| {{ term = \"hjärt\", language = sv }}",
+  "status" : 200,
+  "total" : 0,
+  "ids" : [ ],
+  "error" : null
+}

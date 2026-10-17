@@ -1,0 +1,8 @@
+{
+  "id" : "6.7-08",
+  "ecl" : "(< 404684003 |Clinical finding| :\n  363698007 |Finding site| = << 39057004 |Pulmonary valve structure| )\nAND ^ 700043003 |Example problem list concepts reference set|",
+  "status" : 400,
+  "total" : null,
+  "ids" : null,
+  "error" : "Concepts in the ECL request do not exist or are inactive on branch MAIN/2026-10-01: 700043003."
+}

@@ -1,0 +1,1714 @@
+[
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Self",
+    "ecl": "404684003 |Clinical finding|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-01"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Descendant of",
+    "ecl": "<404684003 |Clinical finding|",
+    "eclLong": "descendantOf 404684003 |Clinical finding|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-02"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Descendant or Self of",
+    "ecl": "<< 73211009 |Diabetes mellitus|",
+    "eclLong": "descendantOrSelfOf 73211009 |Diabetes mellitus|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-03"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Child of",
+    "ecl": "<! 404684003 |Clinical finding|",
+    "eclLong": "childOf 404684003 |Clinical finding|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-04"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Child or Self of",
+    "ecl": "<<! 404684003 |Clinical finding|",
+    "eclLong": "childOrSelfOf 404684003 |Clinical finding|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-05"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Ancestor of",
+    "ecl": "> 40541001 |Acute pulmonary edema|",
+    "eclLong": "ancestorOf 40541001 |Acute pulmonary edema|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-06"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Ancestor or Self of",
+    "ecl": ">> 40541001 |Acute pulmonary edema|",
+    "eclLong": "ancestorOrSelfOf 40541001 |Acute pulmonary edema|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-07"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Parent of",
+    "ecl": ">! 40541001 |Acute pulmonary edema|",
+    "eclLong": "parentOf 40541001 |Acute pulmonary edema|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-08"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Parent or Self of",
+    "ecl": ">>! 40541001 |Acute pulmonary edema|",
+    "eclLong": "parentOrSelfOf 40541001 |Acute pulmonary edema|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-09"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Member of",
+    "ecl": "^ 700043003 |Example problem list concepts reference set|",
+    "eclLong": "memberOf 700043003 |Example problem list concepts reference set|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-10"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Member of",
+    "ecl": "^ [referencedComponentId] 700043003 |Example problem list concepts reference set|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-11"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Member of",
+    "ecl": "^ [targetComponentId] 734138000 |Anatomy structure and entire association reference set|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-12"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Member of",
+    "ecl": "^ [referencedComponentId, mapTarget] 816210007 |SNOMED CT to MedDRA simple map reference set|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-13"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Member of",
+    "ecl": "^[*] 447562003 |ICD-10 complex map reference set|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-14"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Any",
+    "ecl": "*",
+    "eclLong": "ANY",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-15"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Any",
+    "ecl": "<< 138875005 |SNOMED CT concept|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-16"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Any",
+    "ecl": "*",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-17"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Any",
+    "ecl": "<<*",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-18"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Any",
+    "ecl": ">>*",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-19"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Any",
+    "ecl": "<*",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-20"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Any",
+    "ecl": "<!*",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-21"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Any",
+    "ecl": ">*",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-22"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Any",
+    "ecl": ">!*",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-23"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Any",
+    "ecl": "^*",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-24"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Refset Containing",
+    "ecl": "^R 73211009 |Diabetes mellitus|",
+    "eclLong": "refsetContainingAny 73211009 |Diabetes mellitus|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-25"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Alternate Identifier",
+    "ecl": "LOINC#54486-6",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-26"
+  },
+  {
+    "section": "6.1 Simple Expression Constraints",
+    "heading": "Alternate Identifier",
+    "ecl": "LOINC#\"54486-6\"",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints",
+    "id": "6.1-27"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Attributes",
+    "ecl": "< 19829001 |Disorder of lung| :\n116676008 |Associated morphology| = 79654002 |Edema|",
+    "eclLong": "descendantOf 19829001 |Disorder of lung| :\n116676008 |Associated morphology| = 79654002 |Edema|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-01"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Attributes",
+    "ecl": "< 19829001 |Disorder of lung| :\n116676008 |Associated morphology| = << 79654002 |Edema|",
+    "eclLong": "descendantOf 19829001 |Disorder of lung| :\n116676008 |Associated morphology| = descendantOrSelfOf 79654002 |Edema|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-02"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Attributes",
+    "ecl": "< 404684003 |Clinical finding| :\n363698007 |Finding site| = << 39057004 |Pulmonary valve structure| ,\n116676008 |Associated morphology| = << 415582006 |Stenosis|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-03"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Attributes",
+    "ecl": "*: 246075003 |Causative agent| = 387517004 |Paracetamol|",
+    "eclLong": "ANY : 246075003 |Causative agent| = 387517004 |Paracetamol|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-04"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Attribute Groups",
+    "ecl": "< 404684003 |Clinical finding| :\n{ 363698007 |Finding site| = << 39057004 |Pulmonary valve structure| ,\n116676008 |Associated morphology| = << 415582006 |Stenosis| },\n{ 363698007 |Finding site| = << 53085002 |Right ventricular structure| ,\n116676008 |Associated morphology| = << 56246009 |Hypertrophy| }",
+    "eclLong": "descendantOf 404684003 |Clinical finding| :\n{ 363698007 |Finding site| = descendantOrSelfOf 39057004 |Pulmonary valve structure| ,\n116676008 |Associated morphology| = descendantOrSelfOf 415582006 |Stenosis| },\n{ 363698007 |Finding site| = descendantOrSelfOf 53085002 |Right ventricular structure| ,\n116676008 |Associated morphology| = descendantOrSelfOf 56246009 |Hypertrophy| }",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-05"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Attribute Constraint Operators",
+    "ecl": "<< 404684003 |Clinical finding| :\n<< 47429007 |Associated with| = << 267038008 |Edema|",
+    "eclLong": "descendantOrSelfOf 404684003 |Clinical finding| :\ndescendantOrSelfOf 47429007 |Associated with| = descendantOrSelfOf 267038008 |Edema|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-06"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Attribute Constraint Operators",
+    "ecl": "<< 404684003 |Clinical finding| :\n>>42752001 |Due to| = << 267038008 |Edema|",
+    "eclLong": "descendantOrSelfOf 404684003 |Clinical finding| :\nancestorOrSelfOf 42752001 |Due to| = descendantOrSelfOf 267038008 |Edema|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-07"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Concrete Values",
+    "ecl": "< 763158003 |Medicinal product (product)| :\n  411116001 |Has manufactured dose form (attribute)| = << 385268001 |Oral dose form (dose form)| ,\n  {\n    << 127489000 |Has active ingredient (attribute)| = << 372687004 |Amoxicillin (substance)|,\n    1142135004 |Has presentation strength numerator value (attribute)| >= #250,\n    732945000 |Has presentation strength numerator unit (attribute)| = 258684004 |milligram (qualifier value)|\n  }",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-08"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Concrete Values",
+    "ecl": "< 763158003 |Medicinal product (product)| :\n  411116001 |Has manufactured dose form (attribute)| = << 385268001 |Oral dose form (dose form)|,\n  {\n    << 127489000 |Has active ingredient (attribute)| = << 372687004 |Amoxicillin (substance)| ,\n    1142135004 |Has presentation strength numerator value (attribute)| >= #250,\n    1142135004 |Has presentation strength numerator value (attribute)| <= #800,\n    732945000 |Has presentation strength numerator unit (attribute)| = 258684004 |milligram (qualifier value)|\n  }",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-09"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Concrete Values",
+    "ecl": "< 373873005 |Pharmaceutical / biologic product| : \n  3460481009 |Has product name| = \"PANADOL\"",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-10"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Concrete Values",
+    "ecl": "< 373873005 |Pharmaceutical / biologic product| :\n  859999999102 |Is in national benefit scheme| = TRUE",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-11"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Reverse Attributes",
+    "ecl": "< 91723000 |Anatomical structure| :\n  R 363698007 |Finding site| = < 125605004 |Fracture of bone|",
+    "eclLong": "descendantOf 91723000 |Anatomical structure| :\n  reverseOf 363698007 |Finding site| = descendantOf 125605004 |Fracture of bone|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-12"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Dotted Attributes",
+    "ecl": "< 91723000 |Anatomical structure| AND (< 125605004 |Fracture of bone| . 363698007 |Finding site| )",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-13"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Dotted Attributes",
+    "ecl": "< 125605004 |Fracture of bone| . 363698007 |Finding site|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-14"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Dotted Attributes",
+    "ecl": "< 105590001 |Substance| :\n  R << 127489000 |Has active ingredient| = < 27658006 |Product containing amoxicillin|",
+    "eclLong": "descendantOf 105590001 |Substance| :\n  ReverseOf descendantOrSelfOf 127489000 |Has active ingredient| = descendantOf 27658006 |Product containing amoxicillin|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-15"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Dotted Attributes",
+    "ecl": "< 105590001 |Substance| AND ( < 27658006 |Product containing amoxicillin| . << 127489000 |Has active ingredient| )",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-16"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Dotted Attributes",
+    "ecl": "< 27658006 |Product containing amoxicillin| . << 127489000 |Has active ingredient|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-17"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Dotted Attributes",
+    "ecl": "< 19829001 |Disorder of lung| . < 47429007 |Associated with| . 363698007 |Finding site|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-18"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Dotted Attributes",
+    "ecl": "((< 19829001 |Disorder of lung| ) . < 47429007 |Associated with| ) . 363698007 |Finding site|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-19"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Any Attribute Name and Value",
+    "ecl": "< 404684003 |Clinical finding| : * = 79654002 |Edema|",
+    "eclLong": "descendantOf 404684003 |Clinical finding| : ANY = 79654002 |Edema|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-20"
+  },
+  {
+    "section": "6.2 Refinements",
+    "heading": "Any Attribute Name and Value",
+    "ecl": "< 404684003 |Clinical finding| : 116676008 |Associated morphology| = *",
+    "eclLong": "descendantOf 404684003 |Clinical finding| : 116676008 |Associated morphology| = ANY",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.2-refinements",
+    "id": "6.2-21"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute cardinality",
+    "ecl": "< 373873005 |Pharmaceutical / biologic product| :\n  [1..3] 127489000 |Has active ingredient| = < 105590001 |Substance|",
+    "eclLong": "descendantOf 373873005 |Pharmaceutical / biologic product| :\n  [1 to 3] 127489000 |Has active ingredient| = descendantOf 105590001 |Substance|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-01"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute cardinality",
+    "ecl": "< 373873005 |Pharmaceutical / biologic product| :\n  [1..1] 127489000 |Has active ingredient| = < 105590001 |Substance|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-02"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute cardinality / Unconstrained Cardinalities",
+    "ecl": "< 373873005 |Pharmaceutical / biologic product| :\n  [0..1] 127489000 |Has active ingredient| = < 105590001 |Substance|",
+    "eclLong": "descendantOf 373873005 |Pharmaceutical / biologic product| :\n  [0 to 1] 127489000 |Has active ingredient| = descendantOf 105590001 |Substance|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-03"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute cardinality / Unconstrained Cardinalities",
+    "ecl": "< 373873005 |Pharmaceutical / biologic product| :\n  [1..*] 127489000 |Has active ingredient| = < 105590001 |Substance|",
+    "eclLong": "descendantOf 373873005 |Pharmaceutical / biologic product| :\n  [1 to many] 127489000 |Has active ingredient| = descendantOf 105590001 |Substance|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-04"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute cardinality / Default Cardinalities",
+    "ecl": "< 373873005 |Pharmaceutical / biologic product| :\n[1..*] 127489000 |Has active ingredient| = < 105590001 |Substance|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-05"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute cardinality / Default Cardinalities",
+    "ecl": "< 373873005 |Pharmaceutical / biologic product| :\n127489000 |Has active ingredient| = < 105590001 |Substance|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-06"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute cardinality / Non-redundant Attributes",
+    "ecl": "404684003 |Clinical finding| :\n  { 116676008 |Associated morphology| = 72704001 |Fracture|,\n    363698007 |Finding site| = 299701004 |Bone of forearm|,\n    363698007 |Finding site| = 62413002 |Bone structure of radius| }",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-07"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute cardinality / Non-redundant Attributes",
+    "ecl": "< 404684003 |Clinical finding| :\n  [1..1] 363698007 |Finding site| = < 91723000 |Anatomical structure|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-08"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute cardinality / Attribute Cardinality in Groups",
+    "ecl": "< 404684003 |Clinical finding| :\n  [2..*] 363698007 |Finding site| = < 91723000 |Anatomical structure|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-09"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute cardinality / Attribute Cardinality in Groups",
+    "ecl": "< 404684003 |Clinical finding| :\n  { [2..*] 363698007 |Finding site| = < 91723000 |Anatomical structure| }",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-10"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute Group Cardinality",
+    "ecl": "< 373873005 |Pharmaceutical / biologic product| :\n  [1..3] { [1..*] 127489000 |Has active ingredient| = < 105590001 |Substance| }",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-11"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute Group Cardinality",
+    "ecl": "< 373873005 |Pharmaceutical / biologic product| :\n  [1..3] { 127489000 |Has active ingredient| = < 105590001 |Substance| }",
+    "eclLong": "descendantOf 373873005 |Pharmaceutical / biologic product| :\n  [1 to 3] { [1 to many] 127489000 |Has active ingredient| =\ndescendantOf 105590001 |Substance| }",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-12"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute Group Cardinality / Unconstrained Cardinalities",
+    "ecl": "< 373873005 |Pharmaceutical / biologic product| :\n  [0..1] { 127489000 |Has active ingredient| = < 105590001 |Substance| }",
+    "eclLong": "descendantOf 373873005 |Pharmaceutical / biologic product| :\n  [0 to 1] { 127489000 |Has active ingredient| = descendantOf 105590001 |Substance| }",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-13"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute Group Cardinality / Unconstrained Cardinalities",
+    "ecl": "< 373873005 |Pharmaceutical / biologic product| :\n  [1..*] { 127489000 |Has active ingredient| = < 105590001 |Substance| }",
+    "eclLong": "descendantOf 373873005 |Pharmaceutical / biologic product| :\n  [1 to *] { 127489000 |Has active ingredient| = descendantOf 105590001 |Substance| }",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-14"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute Group Cardinality / Default Cardinalities",
+    "ecl": "< 373873005 |Pharmaceutical / biologic product| :\n  { 127489000 |Has active ingredient| = < 105590001 |Substance| }",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-15"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute Group Cardinality / Default Cardinalities",
+    "ecl": "< 373873005 |Pharmaceutical / biologic product| :\n  { [1..*] 127489000 |Has active ingredient| = < 105590001 |Substance| }",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-16"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute Group Cardinality / Default Cardinalities",
+    "ecl": "< 373873005 |Pharmaceutical / biologic product| :\n  [1..*] { 127489000 |Has active ingredient| = < 105590001 |Substance| }",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-17"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute Group Cardinality / Default Cardinalities",
+    "ecl": "< 373873005 |Pharmaceutical / biologic product| :\n  [1..] { [1..] 127489000 |Has active ingredient| = < 105590001 |Substance| }",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-18"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute Group Cardinality / Non-redundant Attribute Groups",
+    "ecl": "< 404684003 |Clinical finding| :\n  { 363698007 |Finding site| = 299701004 |Bone of forearm| },\n  { 363698007 |Finding site| = 62413002 |Bone structure of radius| }",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-19"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute Group Cardinality / Non-redundant Attribute Groups",
+    "ecl": "< 404684003 |Clinical finding| :\n  [1..1] { 363698007 |Finding site| = < 91723000 |Anatomical structure| }",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-20"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Attribute Group Cardinality / Attribute and Attribute Group Cardinalities",
+    "ecl": "< 404684003 |Clinical finding| :\n  [0..0] { [2..*] 363698007 |Finding site| = < 91723000 |Anatomical structure| }",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-21"
+  },
+  {
+    "section": "6.3 Cardinality",
+    "heading": "Reverse Cardinalities",
+    "ecl": "< 105590001 |Substance| : [3..3] R 127489000 |Has active ingredient| = *",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.3-cardinality",
+    "id": "6.3-22"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Compound Expression Constraints",
+    "ecl": "< 19829001 |Disorder of lung| AND < 301867009 |Edema of trunk|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-01"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Compound Expression Constraints",
+    "ecl": "< 19829001 |Disorder of lung| and < 301867009 |Edema of trunk|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-02"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Compound Expression Constraints",
+    "ecl": "< 19829001 |Disorder of lung| And < 301867009 |Edema of trunk|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-03"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Compound Expression Constraints",
+    "ecl": "< 19829001 |Disorder of lung| OR < 301867009 |Edema of trunk|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-04"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Compound Expression Constraints",
+    "ecl": "< 19829001 |Disorder of lung| AND ^ 700043003 |Example problem list concepts reference set|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-05"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Compound Expression Constraints",
+    "ecl": "< 19829001 |Disorder of lung| AND < 301867009 |Edema of trunk| AND\n^ 700043003 |Example problem list concepts reference set|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-06"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Compound Expression Constraints",
+    "ecl": "(< 19829001 |Disorder of lung| AND < 301867009 |Edema of trunk| ) AND\n^ 700043003 |Example problem list concepts reference set|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-07"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Compound Expression Constraints",
+    "ecl": "< 19829001 |Disorder of lung| AND (< 301867009 |Edema of trunk| AND\n^ 700043003 |Example problem list concepts reference set| )",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-08"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Compound Expression Constraints",
+    "ecl": "< 19829001 |Disorder of lung| AND < 301867009 |Edema of trunk| OR\n^ 700043003 |Example problem list concepts reference set|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-09"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Compound Expression Constraints",
+    "ecl": "(< 19829001 |Disorder of lung| AND < 301867009 |Edema of trunk| ) OR\n^ 700043003 |Example problem list concepts reference set|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-10"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Compound Expression Constraints",
+    "ecl": "< 19829001 |Disorder of lung| AND (< 301867009 |Edema of trunk| OR\n^ 700043003 |Example problem list concepts reference set| )",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-11"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Attribute Conjunction and Disjunction",
+    "ecl": "< 404684003 |Clinical finding| :\n  363698007 |Finding site| = << 39057004 |Pulmonary valve structure|,\n  116676008 |Associated morphology| = << 415582006 |Stenosis|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-12"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Attribute Conjunction and Disjunction",
+    "ecl": "< 404684003 |Clinical finding| :\n  363698007 |Finding site| = << 39057004 |Pulmonary valve structure| AND\n  116676008 |Associated morphology| = << 415582006 |Stenosis|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-13"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Attribute Conjunction and Disjunction",
+    "ecl": "< 404684003 |Clinical finding| :\n  116676008 |Associated morphology| = << 55641003 |Infarct| OR\n  42752001 |Due to| = << 22298006 |Myocardial infarction|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-14"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Attribute Conjunction and Disjunction",
+    "ecl": "< 404684003 |Clinical finding| :\n  363698007 |Finding site| = << 39057004 |Pulmonary valve structure| AND\n  116676008 |Associated morphology| = << 415582006 |Stenosis| AND\n  42752001 |Due to| = << 445238008 |Malignant carcinoid tumor|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-15"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Attribute Conjunction and Disjunction",
+    "ecl": "< 404684003 |Clinical finding| :\n  ( 363698007 |Finding site| = << 39057004 |Pulmonary valve structure| AND\n  116676008 |Associated morphology| = << 415582006 |Stenosis| ) AND\n  42752001 |Due to| = << 445238008 |Malignant carcinoid tumor|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-16"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Attribute Conjunction and Disjunction",
+    "ecl": "< 404684003 |Clinical finding| :\n  363698007 |Finding site| = << 39057004 |Pulmonary valve structure| AND\n  ( 116676008 |Associated morphology| = << 415582006 |Stenosis| AND\n  42752001 |Due to| = << 445238008 |Malignant carcinoid tumor| )",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-17"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Attribute Conjunction and Disjunction",
+    "ecl": "< 404684003 |Clinical finding| :\n  363698007 |Finding site| = << 39057004 |Pulmonary valve structure| AND\n  116676008 |Associated morphology| = << 415582006 |Stenosis| OR\n  42752001 |Due to| = << 445238008 |Malignant carcinoid tumor|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-18"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Attribute Conjunction and Disjunction",
+    "ecl": "< 404684003 |Clinical finding| :\n  ( 363698007 |Finding site| = << 39057004 |Pulmonary valve structure| AND\n  116676008 |Associated morphology| = << 415582006 |Stenosis| ) OR\n  42752001 |Due to| = << 445238008 |Malignant carcinoid tumor|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-19"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Attribute Conjunction and Disjunction",
+    "ecl": "< 404684003 |Clinical finding| :\n  363698007 |Finding site| = << 39057004 |Pulmonary valve structure| AND\n  ( 116676008 |Associated morphology| = << 415582006 |Stenosis| OR\n  42752001 |Due to| = << 445238008 |Malignant carcinoid tumor| )",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-20"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Attribute Group Conjunction and Disjunction",
+    "ecl": "< 404684003 |Clinical finding| :\n  { 363698007 |Finding site| = << 39057004 |Pulmonary valve structure|,\n  116676008 |Associated morphology| = << 415582006 |Stenosis| } OR\n  { 363698007 |Finding site| = << 53085002 |Right ventricular structure|,\n  116676008 |Associated morphology| = << 56246009 |Hypertrophy| }",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-21"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Attribute Value Conjunction and Disjunction",
+    "ecl": "^ 450990004 |Adverse drug reactions reference set for GP/FP health issue| :\n  246075003 |Causative agent| = (< 373873005 |Pharmaceutical / biologic product| OR < 105590001 |Substance| )",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-22"
+  },
+  {
+    "section": "6.4 Conjunction and Disjunction",
+    "heading": "Attribute Value Conjunction and Disjunction",
+    "ecl": "< 404684003 |Clinical finding| : 116676008 |Associated morphology| =\n  (<< 56208002 |Ulcer| AND << 50960005 |Hemorrhage| )",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction",
+    "id": "6.4-23"
+  },
+  {
+    "section": "6.5 Exclusion and Not Equals",
+    "heading": "Exclusion of Simple Expressions",
+    "ecl": "<< 19829001 |Disorder of lung| MINUS << 301867009 |Edema of trunk|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.5-exclusion-and-not-equals",
+    "id": "6.5-01"
+  },
+  {
+    "section": "6.5 Exclusion and Not Equals",
+    "heading": "Exclusion of Simple Expressions",
+    "ecl": "<< 19829001 |Disorder of lung| MINUS ^ 700043003 |Example problem list concepts reference set|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.5-exclusion-and-not-equals",
+    "id": "6.5-02"
+  },
+  {
+    "section": "6.5 Exclusion and Not Equals",
+    "heading": "Exclusion of Attribute Values",
+    "ecl": "< 404684003 |Clinical finding| : \n  116676008 |Associated morphology| =\n  ((<< 56208002 |Ulcer| AND << 50960005 |Hemorrhage| ) MINUS << 26036001 |Obstruction| )",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.5-exclusion-and-not-equals",
+    "id": "6.5-03"
+  },
+  {
+    "section": "6.5 Exclusion and Not Equals",
+    "heading": "Not Equal to Attribute Value",
+    "ecl": "< 404684003 |Clinical finding| :\n  116676008 |Associated morphology| != << 26036001 |Obstruction|",
+    "eclLong": "descendantOf 404684003 |Clinical finding| :\n  116676008 |Associated morphology| NOT = descendantOrSelfOf 26036001 |Obstruction|",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.5-exclusion-and-not-equals",
+    "id": "6.5-04"
+  },
+  {
+    "section": "6.5 Exclusion and Not Equals",
+    "heading": "Exclusion using Attribute Cardinality",
+    "ecl": "< 404684003 |Clinical finding| :\n  [0..0] 116676008 |Associated morphology| = << 26036001 |Obstruction|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.5-exclusion-and-not-equals",
+    "id": "6.5-05"
+  },
+  {
+    "section": "6.5 Exclusion and Not Equals",
+    "heading": "Exclusion using Attribute Cardinality",
+    "ecl": "< 404684003 |Clinical finding| :\n  [0..0] 116676008 |Associated morphology| != << 26036001 |Obstruction|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.5-exclusion-and-not-equals",
+    "id": "6.5-06"
+  },
+  {
+    "section": "6.5 Exclusion and Not Equals",
+    "heading": "Exclusion using Attribute Cardinality",
+    "ecl": "< 404684003 |Clinical finding| :\n  [0..0] 116676008 |Associated morphology| != << 26036001 |Obstruction| and\n  [1..*] 116676008 |Associated morphology| = << 26036001 |Obstruction|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.5-exclusion-and-not-equals",
+    "id": "6.5-07"
+  },
+  {
+    "section": "6.6 Constraint Comments",
+    "heading": "Comments",
+    "ecl": "/* Disorders of lung with edema /\n< 19829001 |Disorder of lung| : / Descendants of disorder of lung /\n  116676008 |Associated morphology| = << 79654002 |Edema|\n  / Where the associated morphology is edema or a subtype */",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.6-constraint-comments",
+    "id": "6.6-01"
+  },
+  {
+    "section": "6.6 Constraint Comments",
+    "heading": "Comments",
+    "ecl": "< 19829001 |Disorder of lung| :\n  116676008 |Associated morphology| = << 79654002 |Edema|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.6-constraint-comments",
+    "id": "6.6-02"
+  },
+  {
+    "section": "6.7 Nested Expression Constraints",
+    "heading": "Constraint Operators",
+    "ecl": "<< (^ 700043003 |Example problem list concepts reference set| )",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.7-nested-expression-constraints",
+    "id": "6.7-01"
+  },
+  {
+    "section": "6.7 Nested Expression Constraints",
+    "heading": "Constraint Operators",
+    "ecl": "< ( 125605004 |Fracture of bone| . 363698007 |Finding site| )",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.7-nested-expression-constraints",
+    "id": "6.7-02"
+  },
+  {
+    "section": "6.7 Nested Expression Constraints",
+    "heading": "Constraint Operators",
+    "ecl": "< 272673000 |Bone structure|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.7-nested-expression-constraints",
+    "id": "6.7-03"
+  },
+  {
+    "section": "6.7 Nested Expression Constraints",
+    "heading": "Constraint Operators",
+    "ecl": "< 125605004 |Fracture of bone| . 363698007 |Finding site|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.7-nested-expression-constraints",
+    "id": "6.7-04"
+  },
+  {
+    "section": "6.7 Nested Expression Constraints",
+    "heading": "Constraint Operators",
+    "ecl": "(< 125605004 |Fracture of bone| ). 363698007 |Finding site|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.7-nested-expression-constraints",
+    "id": "6.7-05"
+  },
+  {
+    "section": "6.7 Nested Expression Constraints",
+    "heading": "MemberOf Function",
+    "ecl": "^ (< 450973005 |GP/FP health issue reference set| )",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.7-nested-expression-constraints",
+    "id": "6.7-06"
+  },
+  {
+    "section": "6.7 Nested Expression Constraints",
+    "heading": "MemberOf Function",
+    "ecl": "^ 450990004 |Adverse drug reactions reference set for GP/FP health issue|\nOR ^ 450989008 |Allergies reference set for GP/FP health issue|\nOR ^ 450985002 |Disorders and diseases reference set for GP/FP health issue|\nOR ^ 450988000 |Family history reference set for GP/FP health issue|\nOR ^ 450991000 |Processes and procedures reference set for GP/FP health issue|\nOR ^ 450986001 |Results reference set for GP/FP health issue|\nOR ^ 450992007 |Social history reference set for GP/FP health issue|\nOR ^ 450984003 |Symptoms and signs reference set for GP/FP health issue|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.7-nested-expression-constraints",
+    "id": "6.7-07"
+  },
+  {
+    "section": "6.7 Nested Expression Constraints",
+    "heading": "Compound Expression Constraints",
+    "ecl": "(< 404684003 |Clinical finding| :\n  363698007 |Finding site| = << 39057004 |Pulmonary valve structure| )\nAND ^ 700043003 |Example problem list concepts reference set|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.7-nested-expression-constraints",
+    "id": "6.7-08"
+  },
+  {
+    "section": "6.7 Nested Expression Constraints",
+    "heading": "Compound Expression Constraints",
+    "ecl": "^ 700043003 |Example problem list concepts reference set|\nAND (< 404684003 |Clinical finding| :\n  363698007 |Finding site| = << 39057004 |Pulmonary valve structure| )",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.7-nested-expression-constraints",
+    "id": "6.7-09"
+  },
+  {
+    "section": "6.7 Nested Expression Constraints",
+    "heading": "Compound Expression Constraints",
+    "ecl": "(< 404684003 |Clinical finding| : 363698007 |Finding site| = << 39057004 |Pulmonary valve structure| )\nAND (< 64572001 |Disease| : 116676008 |Associated morphology| = << 415582006 |Stenosis| )",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.7-nested-expression-constraints",
+    "id": "6.7-10"
+  },
+  {
+    "section": "6.7 Nested Expression Constraints",
+    "heading": "Dotted Attributes",
+    "ecl": "(<< 17636008 |Specimen collection| : 424226004 |Using device| = << 19923001 |Catheter| ) . 363701004 |Direct substance|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.7-nested-expression-constraints",
+    "id": "6.7-11"
+  },
+  {
+    "section": "6.7 Nested Expression Constraints",
+    "heading": "Refinement",
+    "ecl": "(<< 404684003 |Clinical finding (finding)| OR << 272379006 |Event (event)| ):\n  255234002 |After| = << 71388002 |Procedure|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.7-nested-expression-constraints",
+    "id": "6.7-12"
+  },
+  {
+    "section": "6.7 Nested Expression Constraints",
+    "heading": "Refinement / Attribute Names",
+    "ecl": "<< 125605004 |Fracture of bone| :\n  [0..0] ((<< 410662002 |Concept model attribute| MINUS 363698007 |Finding site| )\nMINUS 116676008 |Associated morphology| ) = *",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.7-nested-expression-constraints",
+    "id": "6.7-13"
+  },
+  {
+    "section": "6.7 Nested Expression Constraints",
+    "heading": "Refinement / Attribute Names",
+    "ecl": "(<< 410662002 |Concept model attribute| MINUS 363698007 |Finding site| ) MINUS 116676008 |Associated morphology|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.7-nested-expression-constraints",
+    "id": "6.7-14"
+  },
+  {
+    "section": "6.7 Nested Expression Constraints",
+    "heading": "Refinement / Attribute Values",
+    "ecl": "< 404684003 |Clinical finding| :\n  47429007 |Associated with| = (< 404684003 |Clinical finding| :\n    116676008 |Associated morphology| = << 55641003 |Infarct| )",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.7-nested-expression-constraints",
+    "id": "6.7-15"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Term Filter",
+    "ecl": "{{ D term = \"heart att\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-01"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Term Filter / Match Term Filter",
+    "ecl": "< 64572001 |Disease| {{ term = \"heart att\"}}\n< 64572001 |Disease| {{ term = \"heart\", term = \"att\"}}\n< 64572001 |Disease| {{ term = match:\"heart att\"}}\n< 64572001 |Disease| {{ term = \"att heart\"}}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-02"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Term Filter / Match Term Filter",
+    "ecl": "< 64572001 |Disease| {{ term = (\"heart\" \"card\")}}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-03"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Term Filter / Wildcard Term Filter",
+    "ecl": "< 64572001 |Disease| {{ term = wild:\"cardi*opathy\"}}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-04"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Term Filter / Wildcard Term Filter",
+    "ecl": "< 64572001 |Disease| {{ term = wild:\"cardiopathy\"}}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-05"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Term Filter / Wildcard Term Filter",
+    "ecl": "< 64572001 |Disease| {{ term = (match:\"gas\" wild:\"*itis\")}}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-06"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Term Filter / Wildcard Term Filter",
+    "ecl": "< 64572001 |Disease| {{ term = \"eye\"}} {{ term = wild:\"*itis\"}}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-07"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Term Filter / Wildcard Term Filter",
+    "ecl": "< 64572001 |Disease| {{ D term = wild:\"*pancrea*\"}}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-08"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Term Filter / Wildcard Term Filter",
+    "ecl": "< 64572001 |Disease| {{ D term = wild:\"*esoph*\"}}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-09"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Language Filter",
+    "ecl": "< 64572001 |Disease| {{ term = \"hjärt\", language = sv }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-10"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Language Filter",
+    "ecl": "< 64572001 |Disease| {{ term = \"hjärt\", language = sv }} {{ term = \"heart\", language = en }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-11"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Description Type Filter",
+    "ecl": "< 56265001 |Heart disease| {{ term = \"heart\", type = fsn }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-12"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Description Type Filter",
+    "ecl": "< 56265001 |Heart disease| {{ term = \"hjärt\", language = SV, type = syn }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-13"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Description Type Filter",
+    "ecl": "< 56265001 |Heart disease| {{ term = \"hjärta\", language = sv, typeId = 900000000000013009 |synonym| }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-14"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Description Type Filter",
+    "ecl": "< 56265001 |Heart disease| {{ term = \"heart\", type = (syn fsn) }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-15"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Description Type Filter",
+    "ecl": "< 56265001 |Heart disease| {{ term = \"heart\", typeId = ( 900000000000013009 |Synonym| 900000000000003001 |Fully specified name| ) }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-16"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Dialect Filter",
+    "ecl": "< 64572001 |Disease| {{ dialect = en-au }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-17"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Dialect Filter",
+    "ecl": "< 64572001 |Disease| {{ dialectId = 32570271000036106 |Australian English language reference set| }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-18"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Dialect Filter",
+    "ecl": "< 64572001 |Disease| {{ term = \"cardio\", dialect = en-nz }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-19"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Dialect Filter",
+    "ecl": "< 64572001 |Disease| {{ term = \"card\", dialect = ( en-nhs-clinical en-nhs-pharmacy ) }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-20"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Acceptability Filter",
+    "ecl": "< 64572001 |Disease| {{ term = \"box\", type = syn, dialect = en-us (prefer) }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-21"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Acceptability Filter",
+    "ecl": "< 64572001 |Disease| {{ term = \"box\", typeId = 900000000000013009 |Synonym| , dialect = en-us ( 900000000000548007 |Preferred| ) }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-22"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Acceptability Filter",
+    "ecl": "< 64572001 |Disease| {{ term = \"box\", type = syn, dialect = en-nhs-clinical (prefer), dialect = en-gb (accept) }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-23"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Acceptability Filter",
+    "ecl": "< 64572001 |Disease| {{ term = \"box\", type = syn, dialect = ( en-gb (prefer) en-nhs-clinical (prefer) ) }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-24"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Acceptability Filter",
+    "ecl": "< 64572001 |Disease| {{ term = \"box\", type = syn, dialect = ( en-gb en-nhs-clinical ) (prefer) }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-25"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Filters with Negation",
+    "ecl": "< 125605004 |Fracture of bone| {{ term != \"fracture\", type = syn, dialect = en-us (prefer)}}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-26"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Filters with Negation",
+    "ecl": "< 125605004 |Fracture of bone| {{ term != \"fracture\", dialect = en-us}}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-27"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Filters with Negation",
+    "ecl": "< 125605004 |Fracture of bone| MINUS < 125605004 |Fracture of bone| {{ term != \"fracture\"}}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-28"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Filters with Negation",
+    "ecl": "< 125605004 |Fracture of bone| MINUS * {{ term != \"fracture\"}}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-29"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Filters with Negation",
+    "ecl": "* MINUS * {{ type = syn, dialect = en-nz (prefer) }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-30"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Module Filter",
+    "ecl": "< 195967001 |Asthma| {{ D moduleId = 731000124108 |US National Library of Medicine maintained module| }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-31"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Module Filter",
+    "ecl": "< 404684003 |Clinical finding| {{ D type = def, moduleId = 900000000000207008 |SNOMED CT core module| }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-32"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Effective Time Filter",
+    "ecl": "< 125605004 |Fracture of bone| {{ D effectiveTime = \"20210131\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-33"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Effective Time Filter",
+    "ecl": "< 125605004 |Fracture of bone| {{ D effectiveTime != \"20210131\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-34"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Effective Time Filter",
+    "ecl": "< 125605004 |Fracture of bone| {{ D effectiveTime >= \"20190731\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-35"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Effective Time Filter",
+    "ecl": "< 125605004 |Fracture of bone| {{ D effectiveTime <= \"20190731\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-36"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Effective Time Filter",
+    "ecl": "< 125605004 |Fracture of bone| {{ D effectiveTime = (\"20190131\" \"20190731\" \"20200131\" \"20200731\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-37"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Effective Time Filter",
+    "ecl": "< 125605004 |Fracture of bone| {{ D effectiveTime != (\"20190131\" \"20190731\" \"20200131\" \"20200731\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-38"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Effective Time Filter",
+    "ecl": "< 125605004 |Fracture of bone| {{ D effectiveTime = \"\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-39"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Active Filter",
+    "ecl": "^ 816080008 |International Patient Summary| {{ D active = 1 }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-40"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Active Filter",
+    "ecl": "^ 816080008 |International Patient Summary| {{ D active = true }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-41"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Active Filter",
+    "ecl": "^ 816080008 |International Patient Summary| {{ D active = 0 }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-42"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Active Filter",
+    "ecl": "^ 816080008 |International Patient Summary| {{ D active = false }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-43"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Active Filter",
+    "ecl": "^ 816080008 |International Patient Summary| {{ D active = \"*\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-44"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Description Id Filter",
+    "ecl": "*{{ D id = 3032638017 }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-45"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Description Id Filter",
+    "ecl": "< 195967001 |Asthma (disorder)| {{ D id = 3032638017 }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-46"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Description Id Filter",
+    "ecl": "< 195967001 |Asthma (disorder)| {{ D id = (1208972017 2674140012 3043971012) }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-47"
+  },
+  {
+    "section": "6.8 Description Filters",
+    "heading": "Description Id Filter",
+    "ecl": "(< 195967001 |Asthma (disorder)| {{+HISTORY}}) {{ D id = 264553015 }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.8-description-filters",
+    "id": "6.8-48"
+  },
+  {
+    "section": "6.9 Concept Filters",
+    "heading": "Definition Status Filter",
+    "ecl": "< 56265001 |Heart disease| {{ C definitionStatus = primitive }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.9-concept-filters",
+    "id": "6.9-01"
+  },
+  {
+    "section": "6.9 Concept Filters",
+    "heading": "Definition Status Filter",
+    "ecl": "< 56265001 |Heart disease| {{ C definitionStatusId = 900000000000074008 |Primitive| }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.9-concept-filters",
+    "id": "6.9-02"
+  },
+  {
+    "section": "6.9 Concept Filters",
+    "heading": "Definition Status Filter",
+    "ecl": "< 56265001 |Heart disease| {{ C definitionStatus = defined }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.9-concept-filters",
+    "id": "6.9-03"
+  },
+  {
+    "section": "6.9 Concept Filters",
+    "heading": "Definition Status Filter",
+    "ecl": "< 56265001 |Heart disease| {{ C definitionStatusId = 900000000000073002 |Defined| }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.9-concept-filters",
+    "id": "6.9-04"
+  },
+  {
+    "section": "6.9 Concept Filters",
+    "heading": "Definition Status Filter",
+    "ecl": "< 64572001 |Disease| {{ C definitionStatus = primitive }} {{ D term = \"heart\"}}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.9-concept-filters",
+    "id": "6.9-05"
+  },
+  {
+    "section": "6.9 Concept Filters",
+    "heading": "Module Filter",
+    "ecl": "< 195967001 |Asthma| {{ C moduleId = 731000124108 |US National Library of Medicine maintained module| }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.9-concept-filters",
+    "id": "6.9-06"
+  },
+  {
+    "section": "6.9 Concept Filters",
+    "heading": "Module Filter",
+    "ecl": "< 195967001 |Asthma| {{ C definitionStatus = primitive, moduleId = 900000000000207008 |SNOMED CT core module| }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.9-concept-filters",
+    "id": "6.9-07"
+  },
+  {
+    "section": "6.9 Concept Filters",
+    "heading": "Effective Time Filter",
+    "ecl": "< 125605004 |Fracture of bone| {{ C effectiveTime = \"20210131\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.9-concept-filters",
+    "id": "6.9-08"
+  },
+  {
+    "section": "6.9 Concept Filters",
+    "heading": "Effective Time Filter",
+    "ecl": "< 125605004 |Fracture of bone| {{ C effectiveTime != \"20210131\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.9-concept-filters",
+    "id": "6.9-09"
+  },
+  {
+    "section": "6.9 Concept Filters",
+    "heading": "Effective Time Filter",
+    "ecl": "< 125605004 |Fracture of bone| {{ C effectiveTime >= \"20190731\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.9-concept-filters",
+    "id": "6.9-10"
+  },
+  {
+    "section": "6.9 Concept Filters",
+    "heading": "Effective Time Filter",
+    "ecl": "< 125605004 |Fracture of bone| {{ C effectiveTime <= \"20190731\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.9-concept-filters",
+    "id": "6.9-11"
+  },
+  {
+    "section": "6.9 Concept Filters",
+    "heading": "Effective Time Filter",
+    "ecl": "< 125605004 |Fracture of bone| {{ C effectiveTime = (\"20190131\" \"20190731\" \"20200131\" \"20200731\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.9-concept-filters",
+    "id": "6.9-12"
+  },
+  {
+    "section": "6.9 Concept Filters",
+    "heading": "Effective Time Filter",
+    "ecl": "< 125605004 |Fracture of bone| {{ C effectiveTime != (\"20190131\" \"20190731\" \"20200131\" \"20200731\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.9-concept-filters",
+    "id": "6.9-13"
+  },
+  {
+    "section": "6.9 Concept Filters",
+    "heading": "Effective Time Filter",
+    "ecl": "< 125605004 |Fracture of bone| {{ C effectiveTime = \"\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.9-concept-filters",
+    "id": "6.9-14"
+  },
+  {
+    "section": "6.9 Concept Filters",
+    "heading": "Active Filter",
+    "ecl": "^ 816080008 |International Patient Summary| {{ C active = 1 }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.9-concept-filters",
+    "id": "6.9-15"
+  },
+  {
+    "section": "6.9 Concept Filters",
+    "heading": "Active Filter",
+    "ecl": "^ 816080008 |International Patient Summary| {{ C active = true }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.9-concept-filters",
+    "id": "6.9-16"
+  },
+  {
+    "section": "6.9 Concept Filters",
+    "heading": "Active Filter",
+    "ecl": "^ 816080008 |International Patient Summary| {{ C active = 0 }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.9-concept-filters",
+    "id": "6.9-17"
+  },
+  {
+    "section": "6.9 Concept Filters",
+    "heading": "Active Filter",
+    "ecl": "^ 816080008 |International Patient Summary| {{ C active = false }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.9-concept-filters",
+    "id": "6.9-18"
+  },
+  {
+    "section": "6.10 Member Filters",
+    "heading": "Member Field Filters",
+    "ecl": "^ 447562003 |ICD-10 complex map reference set| {{ M mapTarget = \"J45.9\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.10-member-filters",
+    "id": "6.10-01"
+  },
+  {
+    "section": "6.10 Member Filters",
+    "heading": "Member Field Filters",
+    "ecl": "^ 447562003 |ICD-10 complex map reference set| {{ M mapTarget = \"J45\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.10-member-filters",
+    "id": "6.10-02"
+  },
+  {
+    "section": "6.10 Member Filters",
+    "heading": "Member Field Filters",
+    "ecl": "^ 447562003 |ICD-10 complex map reference set| {{ M mapTarget = wild:\"J45*\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.10-member-filters",
+    "id": "6.10-03"
+  },
+  {
+    "section": "6.10 Member Filters",
+    "heading": "Member Field Filters",
+    "ecl": "^ 447562003 |ICD-10 complex map reference set| {{ M mapTarget = wild:\"J45.9\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.10-member-filters",
+    "id": "6.10-04"
+  },
+  {
+    "section": "6.10 Member Filters",
+    "heading": "Member Field Filters",
+    "ecl": "^ 447562003 |ICD-10 complex map reference set| {{ M mapGroup = #2, mapPriority = #1, mapTarget = \"J45.9\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.10-member-filters",
+    "id": "6.10-05"
+  },
+  {
+    "section": "6.10 Member Filters",
+    "heading": "Member Field Filters",
+    "ecl": "^ 447562003 |ICD-10 complex map reference set| {{ M mapGroup != #2, mapPriority < #2, mapTarget = wild:\"J*\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.10-member-filters",
+    "id": "6.10-06"
+  },
+  {
+    "section": "6.10 Member Filters",
+    "heading": "Member Field Filters",
+    "ecl": "^ [targetComponentId] 900000000000527005 |SAME AS association reference set| {{ M referencedComponentId = 67415000 |Hay asthma| }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.10-member-filters",
+    "id": "6.10-07"
+  },
+  {
+    "section": "6.10 Member Filters",
+    "heading": "Module Filter",
+    "ecl": "^ 900000000000534007 |Module dependency reference set| {{ M moduleId = << 32570231000036109 |Australian maintained module| }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.10-member-filters",
+    "id": "6.10-08"
+  },
+  {
+    "section": "6.10 Member Filters",
+    "heading": "Effective Time Filter",
+    "ecl": "^ 816080008 |International Patient Summary| {{ M effectiveTime >= \"20210731\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.10-member-filters",
+    "id": "6.10-09"
+  },
+  {
+    "section": "6.10 Member Filters",
+    "heading": "Active Filter",
+    "ecl": "^ 816080008 |International Patient Summary| {{ M active = 0 }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.10-member-filters",
+    "id": "6.10-10"
+  },
+  {
+    "section": "6.10 Member Filters",
+    "heading": "Active Filter",
+    "ecl": "^ 816080008 |International Patient Summary| {{ M active = \"*\" }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.10-member-filters",
+    "id": "6.10-11"
+  },
+  {
+    "section": "6.11 History Supplements",
+    "heading": "History Supplements / Overview",
+    "ecl": "<< 195967001 |Asthma| OR\n^ 900000000000527005 |SAME AS association reference set| {{ M targetComponentId = << 195967001 |Asthma| }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.11-history-supplements",
+    "id": "6.11-01"
+  },
+  {
+    "section": "6.11 History Supplements",
+    "heading": "History Supplements / Overview",
+    "ecl": "<< 195967001 |Asthma| {{ + HISTORY ( 900000000000527005 |SAME AS association reference set| ) }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.11-history-supplements",
+    "id": "6.11-02"
+  },
+  {
+    "section": "6.11 History Supplements",
+    "heading": "History Supplements / Template",
+    "ecl": "[[+ecl @ecl_query]] {{ + HISTORY ( [[+ecl @history_refset_query]] ) }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.11-history-supplements",
+    "id": "6.11-03"
+  },
+  {
+    "section": "6.11 History Supplements",
+    "heading": "History Supplements / Template",
+    "ecl": "[[+ecl @ecl_query]] OR ^ [[+ecl @history_refset_query]] {{ M targetComponentId = [[+ecl @ecl_query]] }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.11-history-supplements",
+    "id": "6.11-04"
+  },
+  {
+    "section": "6.11 History Supplements",
+    "heading": "History Supplements / Profiles",
+    "ecl": "<< 195967001 |Asthma| {{ + HISTORY-MIN }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.11-history-supplements",
+    "id": "6.11-05"
+  },
+  {
+    "section": "6.11 History Supplements",
+    "heading": "History Supplements / Profiles",
+    "ecl": "<< 195967001 |Asthma| {{ + HISTORY ( 900000000000527005 |SAME AS association reference set| ) }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.11-history-supplements",
+    "id": "6.11-06"
+  },
+  {
+    "section": "6.11 History Supplements",
+    "heading": "History Supplements / Profiles",
+    "ecl": "<< 195967001 |Asthma| {{ + HISTORY-MOD }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.11-history-supplements",
+    "id": "6.11-07"
+  },
+  {
+    "section": "6.11 History Supplements",
+    "heading": "History Supplements / Profiles",
+    "ecl": "<< 195967001 |Asthma| {{ + HISTORY ( 900000000000527005 |SAME AS association reference set| OR 900000000000526001 |REPLACED BY association reference set| OR 900000000000528000 |WAS A association reference set| OR 1186924009 |PARTIALLY EQUIVALENT TO association reference set| ) }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.11-history-supplements",
+    "id": "6.11-08"
+  },
+  {
+    "section": "6.11 History Supplements",
+    "heading": "History Supplements / Profiles",
+    "ecl": "<< 195967001 |Asthma| {{ + HISTORY-MAX }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.11-history-supplements",
+    "id": "6.11-09"
+  },
+  {
+    "section": "6.11 History Supplements",
+    "heading": "History Supplements / Profiles",
+    "ecl": "<< 195967001 |Asthma| {{ + HISTORY (< 900000000000522004 |Historical association reference set| ) }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.11-history-supplements",
+    "id": "6.11-10"
+  },
+  {
+    "section": "6.11 History Supplements",
+    "heading": "History Supplements / Profiles",
+    "ecl": "<< 195967001 |Asthma| {{ + HISTORY (*) }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.11-history-supplements",
+    "id": "6.11-11"
+  },
+  {
+    "section": "6.11 History Supplements",
+    "heading": "History Supplements / Profiles",
+    "ecl": "<< 195967001 |Asthma| {{ + HISTORY }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.11-history-supplements",
+    "id": "6.11-12"
+  },
+  {
+    "section": "6.11 History Supplements",
+    "heading": "Use Case Examples / Use Case 1",
+    "ecl": "<< 306206005 |Referral to service (procedure)|",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.11-history-supplements",
+    "id": "6.11-13"
+  },
+  {
+    "section": "6.11 History Supplements",
+    "heading": "Use Case Examples / Use Case 1",
+    "ecl": "<< 306206005 |Referral to service (procedure)| {{ + HISTORY-MIN }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.11-history-supplements",
+    "id": "6.11-14"
+  },
+  {
+    "section": "6.11 History Supplements",
+    "heading": "Use Case Examples / Use Case 2",
+    "ecl": "<< 53430007 |Pain of breast (finding)| {{ + HISTORY-MAX }}",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.11-history-supplements",
+    "id": "6.11-15"
+  },
+  {
+    "section": "6.12 Top and Bottom",
+    "heading": "Top of set",
+    "ecl": "!!> ( < 386617003 |Digestive system finding| . 363698007 |Finding site| )",
+    "eclLong": "top ( < 386617003 |Digestive system finding| . 363698007 |Finding site| )",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.12-top-and-bottom",
+    "id": "6.12-01"
+  },
+  {
+    "section": "6.12 Top and Bottom",
+    "heading": "Top of set",
+    "ecl": "( < 386617003 |Digestive system finding| . 363698007 |Finding site| )\nMINUS < ( < 386617003 |Digestive system finding| . 363698007 |Finding site| )",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.12-top-and-bottom",
+    "id": "6.12-02"
+  },
+  {
+    "section": "6.12 Top and Bottom",
+    "heading": "Bottom of set",
+    "ecl": "!!< ( >> 427089005 |Diabetes mellitus due to cystic fibrosis| AND ^ 816080008 |International Patient Summary| )",
+    "eclLong": "bottom ( >> 427089005 |Diabetes mellitus due to cystic fibrosis| AND ^ 816080008 |International Patient Summary| )",
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.12-top-and-bottom",
+    "id": "6.12-03"
+  },
+  {
+    "section": "6.12 Top and Bottom",
+    "heading": "Bottom of set",
+    "ecl": "( >> 427089005 |Diabetes mellitus due to cystic fibrosis| AND ^ 816080008 |International Patient Summary| ) MINUS > ( >> 427089005 |Diabetes mellitus due to cystic fibrosis| AND ^ 816080008 |International Patient Summary| )",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.12-top-and-bottom",
+    "id": "6.12-04"
+  },
+  {
+    "section": "6.12 Top and Bottom",
+    "heading": "Use Case Examples / Use Cases for Bottom",
+    "ecl": "!!< ( >> 45133009 |Neurotoxic shellfish poisoning| AND ^ 991411000000109 |Emergency care diagnosis simple reference set| )",
+    "eclLong": null,
+    "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.12-top-and-bottom",
+    "id": "6.12-05"
+  }
+]

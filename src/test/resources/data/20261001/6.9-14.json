@@ -1,0 +1,8 @@
+{
+  "id" : "6.9-14",
+  "ecl" : "< 125605004 |Fracture of bone| {{ C effectiveTime = \"\" }}",
+  "status" : 400,
+  "total" : null,
+  "ids" : null,
+  "error" : "For input string: \"\""
+}

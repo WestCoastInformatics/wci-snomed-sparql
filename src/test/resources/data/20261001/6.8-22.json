@@ -1,0 +1,8 @@
+{
+  "id" : "6.8-22",
+  "ecl" : "< 64572001 |Disease| {{ term = \"box\", typeId = 900000000000013009 |Synonym| , dialect = en-us ( 900000000000548007 |Preferred| ) }}",
+  "status" : 200,
+  "total" : 1,
+  "ids" : [ "241833002" ],
+  "error" : null
+}

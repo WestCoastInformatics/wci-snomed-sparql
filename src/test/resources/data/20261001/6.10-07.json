@@ -1,0 +1,8 @@
+{
+  "id" : "6.10-07",
+  "ecl" : "^ [targetComponentId] 900000000000527005 |SAME AS association reference set| {{ M referencedComponentId = 67415000 |Hay asthma| }}",
+  "status" : 400,
+  "total" : null,
+  "ids" : null,
+  "error" : "Concepts in the ECL request do not exist or are inactive on branch MAIN/2026-10-01: 67415000."
+}

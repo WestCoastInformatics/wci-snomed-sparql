@@ -1,0 +1,8 @@
+{
+  "id" : "6.12-05",
+  "ecl" : "!!< ( >> 45133009 |Neurotoxic shellfish poisoning| AND ^ 991411000000109 |Emergency care diagnosis simple reference set| )",
+  "status" : 400,
+  "total" : null,
+  "ids" : null,
+  "error" : "Syntax error at line 1, character 0: mismatched input '!' expecting {'\\u0009', '\\u000A', '\\u000D', ' ', '(', '*', '/', '1', '2', '3', '4', '5', '6', '7', '8', '9', '<', '>', '^'}"
+}

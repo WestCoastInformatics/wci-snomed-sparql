@@ -1,0 +1,8 @@
+{
+  "id" : "6.12-04",
+  "ecl" : "( >> 427089005 |Diabetes mellitus due to cystic fibrosis| AND ^ 816080008 |International Patient Summary| ) MINUS > ( >> 427089005 |Diabetes mellitus due to cystic fibrosis| AND ^ 816080008 |International Patient Summary| )",
+  "status" : 200,
+  "total" : 0,
+  "ids" : [ ],
+  "error" : null
+}

@@ -1,0 +1,8 @@
+{
+  "id" : "6.10-05",
+  "ecl" : "^ 447562003 |ICD-10 complex map reference set| {{ M mapGroup = #2, mapPriority = #1, mapTarget = \"J45.9\" }}",
+  "status" : 200,
+  "total" : 2,
+  "ids" : [ "10742121000119104", "72301000119103" ],
+  "error" : null
+}

@@ -1,0 +1,8 @@
+{
+  "id" : "6.2-09",
+  "ecl" : "< 763158003 |Medicinal product (product)| :\n  411116001 |Has manufactured dose form (attribute)| = << 385268001 |Oral dose form (dose form)|,\n  {\n    << 127489000 |Has active ingredient (attribute)| = << 372687004 |Amoxicillin (substance)| ,\n    1142135004 |Has presentation strength numerator value (attribute)| >= #250,\n    1142135004 |Has presentation strength numerator value (attribute)| <= #800,\n    732945000 |Has presentation strength numerator unit (attribute)| = 258684004 |milligram (qualifier value)|\n  }",
+  "status" : 200,
+  "total" : 12,
+  "ids" : [ "1193898009", "1196802005", "1197139000", "1197141004", "1231362003", "323509004", "323510009", "323539009", "323563001", "370408008", "374645000", "374646004" ],
+  "error" : null
+}

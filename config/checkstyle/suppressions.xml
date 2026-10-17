@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suppressions PUBLIC
+        "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+        "http://www.puppycrawl.com/dtd/suppressions_1_1.dtd">
+<suppressions>
+
+	<!-- Spring needs a non-private constructor on the @SpringBootApplication class -->
+	<suppress checks="HideUtilityClassConstructor" files="Application.java" />
+
+</suppressions>

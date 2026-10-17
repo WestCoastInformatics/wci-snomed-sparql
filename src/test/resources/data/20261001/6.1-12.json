@@ -1,0 +1,8 @@
+{
+  "id" : "6.1-12",
+  "ecl" : "^ [targetComponentId] 734138000 |Anatomy structure and entire association reference set|",
+  "status" : 500,
+  "total" : null,
+  "ids" : null,
+  "error" : "ECL requesting specific refset member fields, can not return concept ids."
+}

@@ -1,0 +1,8 @@
+{
+  "id" : "6.2-17",
+  "ecl" : "< 27658006 |Product containing amoxicillin| . << 127489000 |Has active ingredient|",
+  "status" : 200,
+  "total" : 6,
+  "ids" : [ "372687004", "386893001", "387137007", "395938000", "395939008", "427483001" ],
+  "error" : null
+}

@@ -1,0 +1,8 @@
+{
+  "id" : "6.8-23",
+  "ecl" : "< 64572001 |Disease| {{ term = \"box\", type = syn, dialect = en-nhs-clinical (prefer), dialect = en-gb (accept) }}",
+  "status" : 200,
+  "total" : 0,
+  "ids" : [ ],
+  "error" : null
+}

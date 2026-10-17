@@ -1,0 +1,8 @@
+{
+  "id" : "6.8-48",
+  "ecl" : "(< 195967001 |Asthma (disorder)| {{+HISTORY}}) {{ D id = 264553015 }}",
+  "status" : 400,
+  "total" : null,
+  "ids" : null,
+  "error" : "Syntax error at line 1, character 52: unexpected character 'i' expecting {'\\u0009', '\\u000A', '\\u000D', ' ', '/', 'A', 'D', 'E', 'L', 'M', 'T', 'a', 'd', 'e', 'l', 'm', 't'}"
+}
