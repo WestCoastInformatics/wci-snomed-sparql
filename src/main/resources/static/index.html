@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SNOMED ECL to SPARQL</title>
+<style>
+  :root {
+    --bg: #f7f7f5; --panel: #ffffff; --text: #1d1d1b; --muted: #6b6b66; --border: #dcdcd6;
+    --accent: #1f6feb; --accent-text: #ffffff; --code-bg: #f0f0ec; --error: #b42318; --row: #fafaf8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161615; --panel: #1f1f1d; --text: #ecece8; --muted: #a3a39c; --border: #3a3a36;
+      --accent: #4c8dff; --accent-text: #0b0b0a; --code-bg: #262624; --error: #ff7b72; --row: #232321;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+    font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 1100px; margin: 0 auto; padding: 20px 16px 48px; }
+  h1 { font-size: 20px; margin: 0 0 2px; }
+  .sub { color: var(--muted); margin: 0 0 16px; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 14px; }
+  label { display: block; font-weight: 600; margin: 0 0 6px; }
+  select, textarea, button { font: inherit; color: var(--text); }
+  select, textarea { width: 100%; background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 7px 8px; }
+  textarea { min-height: 110px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; resize: vertical; }
+  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+  .row .grow { flex: 1; }
+  button { border: 1px solid var(--border); background: var(--panel); border-radius: 6px; padding: 7px 14px; cursor: pointer; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); font-weight: 600; }
+  button:disabled { opacity: .45; cursor: default; }
+  .inline { display: flex; gap: 6px; align-items: center; }
+  .inline select { width: auto; }
+  .muted { color: var(--muted); }
+  .error { color: var(--error); white-space: pre-wrap; }
+  pre { background: var(--code-bg); border-radius: 6px; padding: 10px; overflow: auto; max-height: 360px; margin: 0;
+    font-size: 12.5px; line-height: 1.4; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-weight: 600; color: var(--muted); }
+  tbody tr:nth-child(even) { background: var(--row); }
+  td.code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; white-space: nowrap; width: 1%; }
+  h2 { font-size: 15px; margin: 0 0 8px; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .note { color: var(--muted); font-size: 12.5px; margin-top: 6px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>SNOMED CT ECL to SPARQL</h1>
+  <p class="sub" id="status">Loading…</p>
+
+  <section class="panel">
+    <label for="example">Example</label>
+    <select id="example"><option value="">Choose an example from the ECL specification…</option></select>
+    <div class="note" id="exampleNote"></div>
+
+    <label for="ecl" style="margin-top: 12px">ECL expression</label>
+    <textarea id="ecl" spellcheck="false" placeholder="< 404684003 |Clinical finding|"></textarea>
+
+    <div class="row">
+      <button class="primary" id="go">Go</button>
+      <span class="muted grow">Ctrl/⌘ + Enter</span>
+      <span class="inline">
+        <label for="pageSize" style="margin: 0; font-weight: 400">Page size</label>
+        <select id="pageSize">
+          <option>10</option><option selected>50</option><option>100</option>
+          <option>500</option><option>1000</option><option>10000</option>
+        </select>
+      </span>
+    </div>
+  </section>
+
+  <section class="panel" id="sparqlPanel" hidden>
+    <h2>SPARQL query</h2>
+    <pre id="sparql"></pre>
+  </section>
+
+  <section class="panel" id="resultsPanel" hidden>
+    <h2>
+      <span id="summary"></span>
+      <span class="inline">
+        <button id="prev">‹ Previous</button>
+        <button id="next">Next ›</button>
+      </span>
+    </h2>
+    <div class="error" id="error"></div>
+    <table id="results">
+      <thead><tr><th>Code</th><th>Name (FSN)</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+</main>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  let offset = 0;
+  let total = 0;
+  let examples = [];
+
+  function pageSize() { return parseInt($('pageSize').value, 10); }
+
+  async function post(path, body) {
+    const response = await fetch(path, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body });
+    const type = response.headers.get('Content-Type') || '';
+    const data = type.includes('json') ? await response.json() : await response.text();
+    if (!response.ok) {
+      const detail = typeof data === 'object' ? (data.detail || data.title) : data;
+      throw new Error(`${response.status} ${detail || response.statusText}`);
+    }
+    return data;
+  }
+
+  async function run(newOffset) {
+    const ecl = $('ecl').value.trim();
+    if (!ecl) { return; }
+    offset = newOffset;
+    $('go').disabled = true;
+    $('error').textContent = '';
+    $('sparqlPanel').hidden = false;
+    $('resultsPanel').hidden = false;
+    $('summary').textContent = 'Running…';
+    try {
+      $('sparql').textContent = await post('ecl/sparql', ecl);
+    } catch (e) {
+      $('sparql').textContent = '';
+      showError(e);
+      return;
+    }
+    try {
+      const started = performance.now();
+      const page = await post(`ecl?limit=${pageSize()}&offset=${offset}`, ecl);
+      const seconds = ((performance.now() - started) / 1000).toFixed(1);
+      total = page.total;
+      const tbody = $('results').querySelector('tbody');
+      tbody.replaceChildren(...page.items.map((item) => {
+        const tr = document.createElement('tr');
+        const code = document.createElement('td');
+        code.className = 'code';
+        code.textContent = item.code;
+        const name = document.createElement('td');
+        name.textContent = item.name ?? '';
+        tr.append(code, name);
+        return tr;
+      }));
+      const from = total === 0 ? 0 : offset + 1;
+      const to = offset + page.items.length;
+      $('summary').textContent =
+        `${total.toLocaleString()} concepts — showing ${from.toLocaleString()}–${to.toLocaleString()} (${seconds}s)`;
+    } catch (e) {
+      showError(e);
+    } finally {
+      $('go').disabled = false;
+      updatePaging();
+    }
+  }
+
+  function showError(e) {
+    total = 0;
+    $('summary').textContent = 'Error';
+    $('error').textContent = e.message;
+    $('results').querySelector('tbody').replaceChildren();
+    $('go').disabled = false;
+    updatePaging();
+  }
+
+  function updatePaging() {
+    $('prev').disabled = offset <= 0;
+    $('next').disabled = offset + pageSize() >= total;
+  }
+
+  async function init() {
+    try {
+      const status = await (await fetch('status')).json();
+      $('status').textContent = `SNOMED CT ${status.version} — ${status.concepts.toLocaleString()} concepts, `
+        + `${status.triples.toLocaleString()} triples loaded`;
+    } catch (e) {
+      $('status').textContent = 'Could not reach the server.';
+    }
+    try {
+      examples = await (await fetch('examples')).json();
+      const select = $('example');
+      let group = null;
+      let section = null;
+      for (const example of examples) {
+        if (example.section !== section) {
+          section = example.section;
+          group = document.createElement('optgroup');
+          group.label = section;
+          select.append(group);
+        }
+        const option = document.createElement('option');
+        option.value = example.id;
+        const ecl = example.ecl.replace(/\s+/g, ' ');
+        option.textContent = `${example.id}  ${ecl.length > 110 ? ecl.slice(0, 110) + '…' : ecl}`;
+        group.append(option);
+      }
+    } catch (e) {
+      // the examples are optional
+    }
+  }
+
+  $('example').addEventListener('change', () => {
+    const example = examples.find((e) => e.id === $('example').value);
+    $('ecl').value = example ? example.ecl : '';
+    $('exampleNote').textContent = example ? [example.heading, example.note].filter(Boolean).join(' — ') : '';
+  });
+  $('go').addEventListener('click', () => run(0));
+  $('prev').addEventListener('click', () => run(Math.max(0, offset - pageSize())));
+  $('next').addEventListener('click', () => run(offset + pageSize()));
+  $('pageSize').addEventListener('change', () => { if (total > 0) { run(0); } });
+  $('ecl').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); run(0); }
+  });
+  init();
+</script>
+</body>
+</html>

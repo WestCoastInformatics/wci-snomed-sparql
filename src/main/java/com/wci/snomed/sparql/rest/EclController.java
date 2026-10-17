@@ -15,6 +15,9 @@
  */
 package com.wci.snomed.sparql.rest;
 
+import com.wci.snomed.sparql.examples.EclExample;
+import com.wci.snomed.sparql.examples.EclExampleCatalog;
+import java.util.List;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +34,8 @@ import org.springframework.web.bind.annotation.RestController;
  *   POST /ecl/sparql               returns the SPARQL generated for the ECL (for debugging)
  *   POST /sparql?limit=&amp;offset=   evaluate a SPARQL SELECT binding ?concept (for debugging)
  *   GET  /status                   release version and store size
+ *   GET  /examples                 the ECL examples (catalog) for the UI
+ *   GET  /index.html               the UI
  * </pre>
  */
 @RestController
@@ -106,6 +111,16 @@ public class EclController {
   @GetMapping(path = "/status", produces = MediaType.APPLICATION_JSON_VALUE)
   public StoreStatus status() {
     return service.getStatus();
+  }
+
+  /**
+   * Returns the executable ECL examples (the test catalog), for the UI.
+   *
+   * @return the examples
+   */
+  @GetMapping(path = "/examples", produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<EclExample> examples() {
+    return EclExampleCatalog.loadExecutable();
   }
 
   /**

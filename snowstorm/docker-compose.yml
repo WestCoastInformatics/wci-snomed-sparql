@@ -1,13 +1,13 @@
 # Local Snowstorm (the terminology server behind the SNOMED browser) used to generate the expected ECL results
 # for the unit tests (mode 3). See snowstorm/README.md.
-name: snomed-sparql-snowstorm
+name: wci-snomed-sparql-snowstorm
 
 services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.19.8
     # native image: under amd64 emulation Elasticsearch fails (no seccomp); overrides DOCKER_DEFAULT_PLATFORM
     platform: linux/arm64
-    container_name: snomed-sparql-es
+    container_name: wci-snomed-sparql-es
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
@@ -31,7 +31,7 @@ services:
   snowstorm:
     image: snomedinternational/snowstorm:11.0.0
     platform: linux/arm64
-    container_name: snomed-sparql-snowstorm
+    container_name: wci-snomed-sparql-snowstorm
     depends_on:
       elasticsearch:
         condition: service_healthy

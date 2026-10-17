@@ -39,9 +39,8 @@ for e in out:
         e["executable"] = False
         e["note"] = "Fragment showing a description filter on its own (no focus concept); not an expression."
     if e["id"] == "6.1-24":
-        e["executable"] = False
-        e["note"] = ("Skipped for now as a degenerate case: '^*' (members of any reference set) is too expensive to "
-                     "evaluate on Snowstorm (timed out). To be revisited at the end (see PLAN.md).")
+        e["note"] = ("'^*' (members of any reference set) is too expensive to evaluate on Snowstorm (times out); "
+                     "tested against a baseline checked against the RF2 release (539,490 for 20261001).")
     if "[[+ecl" in (e["ecl"] or ""):
         e["executable"] = False
         e["note"] = "Template showing how HISTORY expands; not an executable expression."

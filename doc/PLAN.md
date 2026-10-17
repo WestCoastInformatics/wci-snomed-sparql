@@ -1,6 +1,6 @@
-# snomed-sparql Implementation Plan
+# wci-snomed-sparql Implementation Plan
 
-Source of requirements: `TODO.md`. This file tracks progress; update the status
+Source of requirements: `doc/TODO.md`. This file tracks progress; update the status
 column and the notes as each step completes.
 
 | # | Step | Status |
@@ -19,7 +19,7 @@ column and the notes as each step completes.
 ## Step details
 
 ### 1. Project scaffold
-- `snomed-sparql/build.gradle`, `settings.gradle`, Gradle wrapper (8.x as in `wci-common-java`).
+- `build.gradle`, `settings.gradle`, Gradle wrapper (8.x as in `wci-common-java`).
 - Spring Boot / Java versions aligned with `snomed-owl-toolkit` develop (Spring Boot 4.1.1, Java 25 — see decisions).
 - Dependencies: `snomed-owl-toolkit` (from local maven / built from `../snomed-owl-toolkit`),
   `snomed-ecl-parser` (ANTLR-based, `../snomed-ecl-parser`), OWL API, Apache Jena (SPARQL engine).

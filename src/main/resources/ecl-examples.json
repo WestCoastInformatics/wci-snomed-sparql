@@ -318,8 +318,8 @@
       "memberOf",
       "wildcard"
     ],
-    "executable": false,
-    "note": "Skipped for now as a degenerate case: '^*' (members of any reference set) is too expensive to evaluate on Snowstorm (timed out). To be revisited at the end (see PLAN.md).",
+    "executable": true,
+    "note": "'^*' (members of any reference set) is too expensive to evaluate on Snowstorm (times out); tested against a baseline checked against the RF2 release (539,490 for 20261001).",
     "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.1-simple-expression-constraints"
   },
   {

@@ -123,6 +123,8 @@ public class EclControllerTest {
         .andExpect(jsonPath("$.total").value(2)).andExpect(jsonPath("$.items[0].code").value("362969004"));
     mvc.perform(get("/status")).andExpect(status().isOk()).andExpect(jsonPath("$.version").value("20190131"))
         .andExpect(jsonPath("$.concepts").value(14));
+    mvc.perform(get("/examples")).andExpect(status().isOk()).andExpect(jsonPath("$[0].id").value("6.1-01"))
+        .andExpect(jsonPath("$[0].ecl").value("404684003 |Clinical finding|"));
   }
 
 }

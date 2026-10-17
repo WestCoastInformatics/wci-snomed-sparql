@@ -1,7 +1,182 @@
-# wci-snomed-sparql
+# wci-snomed-sparql: SNOMED CT ECL to SPARQL
 
-A SPARQL-based implementation of the SNOMED CT Expression Constraint Language (ECL). Work in progress: see
-`PLAN.md` for status. (The full README is written at the end of the project.)
+A SPARQL-based implementation of the SNOMED CT [Expression Constraint Language
+(ECL)](https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language).
+
+An RF2 release is converted to an OWL ontology of the inferred view (using
+[snomed-owl-toolkit](https://github.com/IHTSDO/snomed-owl-toolkit) and the ELK reasoner), extended with reference set
+memberships, historical associations and annotated descriptions. The OWL file is loaded into an in-memory
+[Apache Jena](https://jena.apache.org/) store, and a REST service (with a small web UI) parses ECL with
+[snomed-ecl-parser](https://github.com/IHTSDO/snomed-ecl-parser), translates it to SPARQL, and returns the matching
+concepts with paging.
+
+Every example from the ECL specification's "Behaviour specification with examples", plus examples from the
+snomed-ecl-parser tests and International edition adaptations, is a unit test checked against the results of
+[Snowstorm](https://github.com/IHTSDO/snowstorm) for the same release: 192 of them return exactly the same concepts
+(see [ECL to SPARQL: not yet supported](#ecl-to-sparql-not-yet-supported) for the rest).
+
+## Quick start
+
+Requires Java 25 and ~24 GB of RAM (the conversion and the server each use up to 20 GB of heap).
+
+1. **Download the SNOMED CT 20261001 International release** (RF2, from the
+   [SNOMED International MLDS](https://mlds.ihtsdotools.org/) — a license is required) and unpack it at the top level of
+   this project, so that `SnomedCT_InternationalRF2_PRODUCTION_20261001T120000Z/Snapshot` exists.
+2. **Generate the OWL file** (~2 min; writes `snomed-inferred-20261001.owl`, ~920 MB):
+
+   ```bash
+   make owl
+   # i.e. java -Xmx20g -jar build/libs/wci-snomed-sparql-1.0.0-SNAPSHOT-exec.jar \
+   #        --release=SnomedCT_InternationalRF2_PRODUCTION_20261001T120000Z --output=snomed-inferred-20261001.owl
+   ```
+
+3. **Run the server** to load the OWL file and expose the API on port 8080 (~70 s to load):
+
+   ```bash
+   make serve
+   # i.e. java -Xmx20g -jar build/libs/wci-snomed-sparql-1.0.0-SNAPSHOT-exec.jar --owl=snomed-inferred-20261001.owl
+   ```
+
+4. **Try it** in the UI at http://localhost:8080/index.html — choose an example (or type ECL), press **Go**, and see
+   the generated SPARQL and a page of results — or with curl (see [REST API](#rest-api)).
+
+For another release, set `VERSION` and `RELEASE_DIR`, e.g.
+`make owl serve VERSION=20260601 RELEASE_DIR=path/to/SnomedCT_InternationalRF2_PRODUCTION_20260601T120000Z`.
+
+## Running
+
+The executable jar (`build/libs/wci-snomed-sparql-<version>-exec.jar`, built by `make build`) has three modes, chosen by
+the command line:
+
+| Mode | Command line | Make |
+|---|---|---|
+| Convert an RF2 release to OWL | `--release=<release dir> [--output=<owl file>]` | `make owl` |
+| Serve the ECL REST API and UI | `--owl=<owl file> [--server.port=8080] [--query.timeout-sec=300]` | `make serve [OWL=...]` |
+| Fetch expected test results from Snowstorm | `--fetch-examples=<version> [--snowstorm-url=...] [--skip-existing] [--timeout-sec=600]` | `make expected-results` |
+
+- `--release` accepts the release folder or its `Snapshot` folder. The output defaults to
+  `snomed-inferred-<version>.owl`. Use `-Xmx20g`.
+- `--fetch-examples` evaluates every executable catalog example on a local Snowstorm and saves the results to
+  `src/test/resources/data/<version>/` (see [Tests](#tests)).
+
+## REST API
+
+| Request | Description |
+|---|---|
+| `POST /ecl?limit=50&offset=0` | Evaluate ECL (request body, `text/plain`); returns `{total, limit, offset, items: [{code, name}]}` in numeric code order. `limit` 0–10000 (0 = count only) |
+| `POST /ecl/sparql` | The SPARQL generated for the ECL (`text/plain`) |
+| `POST /sparql?limit=&offset=` | Run a SPARQL `SELECT` that binds `?concept` (for debugging) |
+| `GET /status` | Release version, concept and triple counts |
+| `GET /examples` | The ECL example catalog (used by the UI) |
+| `GET /index.html` | The UI |
+
+`name` is the fully specified name. Errors are [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457) problem details:
+400 for invalid ECL, SPARQL or paging, 501 for valid ECL the translation does not support, 503 for a query timeout.
+Recent results are cached, so paging through a result does not re-run the query.
+
+### Examples
+
+Descendants of diabetes mellitus, first page of 3, then the next page:
+
+```bash
+curl -X POST -H 'Content-Type: text/plain' --data '< 73211009 |Diabetes mellitus|' \
+  'http://localhost:8080/ecl?limit=3&offset=0'
+```
+```json
+{"total":117,"limit":3,"offset":0,"items":[{"code":"2751001","name":"Fibrocalculous pancreatic diabetes (disorder)"},{"code":"5368009","name":"Drug-induced diabetes mellitus (disorder)"},{"code":"5969009","name":"Diabetes mellitus associated with genetic syndrome (disorder)"}]}
+```
+```bash
+curl -X POST -H 'Content-Type: text/plain' --data '< 73211009 |Diabetes mellitus|' \
+  'http://localhost:8080/ecl?limit=3&offset=3'
+```
+```json
+{"total":117,"limit":3,"offset":3,"items":[{"code":"8801005","name":"Secondary diabetes mellitus (disorder)"},{"code":"11530004","name":"Brittle diabetes mellitus (disorder)"},{"code":"11687002","name":"Gestational diabetes mellitus (disorder)"}]}
+```
+
+The SPARQL for the same expression:
+
+```bash
+curl -X POST -H 'Content-Type: text/plain' --data '< 73211009 |Diabetes mellitus|' http://localhost:8080/ecl/sparql
+```
+```sparql
+PREFIX sct: <http://snomed.info/id/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT DISTINCT ?concept WHERE {
+  ?concept rdfs:subClassOf+ sct:73211009 .
+}
+```
+
+A refinement — disorders of the lung with edema as associated morphology:
+
+```bash
+curl -X POST -H 'Content-Type: text/plain' \
+  --data '< 19829001 |Disorder of lung| : 116676008 |Associated morphology| = 79654002 |Edema|' \
+  'http://localhost:8080/ecl?limit=2'
+```
+```json
+{"total":25,"limit":2,"offset":0,"items":[{"code":"11468004","name":"Postoperative pulmonary edema (disorder)"},{"code":"19242006","name":"Pulmonary edema (disorder)"}]}
+```
+```bash
+curl -X POST -H 'Content-Type: text/plain' \
+  --data '< 19829001 |Disorder of lung| : 116676008 |Associated morphology| = 79654002 |Edema|' \
+  http://localhost:8080/ecl/sparql
+```
+```sparql
+PREFIX sct: <http://snomed.info/id/>
+...
+SELECT DISTINCT ?concept WHERE {
+  ?concept rdfs:subClassOf+ sct:19829001 .
+  FILTER(
+    EXISTS {
+      ?concept sct:hasRestriction ?r1 .
+      ?r1 owl:onProperty sct:116676008 .
+      ?r1 owl:someValuesFrom ?val2 .
+      FILTER(?val2 = sct:79654002)
+      ?val2 a owl:Class .
+    }
+  )
+}
+```
+
+Reference set membership, a history supplement, and an invalid expression:
+
+```bash
+curl -X POST -H 'Content-Type: text/plain' \
+  --data '^ 447562003 |ICD-10 complex map reference set| AND < 195967001 |Asthma|' 'http://localhost:8080/ecl?limit=2'
+# {"total":127,"limit":2,"offset":0,"items":[{"code":"11641008","name":"Millers' asthma (disorder)"},...]}
+
+curl -X POST -H 'Content-Type: text/plain' --data '<< 195967001 {{ + HISTORY-MIN }}' 'http://localhost:8080/ecl?limit=0'
+# {"total":156,"limit":0,"offset":0,"items":[]}
+
+curl -X POST -H 'Content-Type: text/plain' --data '< 404684003 :' http://localhost:8080/ecl
+# {"detail":"ECL is incomplete.","instance":"/ecl","status":400,"title":"Bad Request"}
+```
+
+## Web UI
+
+http://localhost:8080/index.html (a single page, `src/main/resources/static/index.html`): a drop-down of the catalog
+examples fills the ECL box; **Go** (or Ctrl/⌘+Enter) shows the generated SPARQL and a page of results (code and
+FSN), with Previous / Next and a page size of 10, 50, 100, 500, 1000 or 10000.
+
+## How ECL maps to SPARQL
+
+Each expression constraint becomes a SPARQL graph pattern binding `?concept`
+(`src/main/java/com/wci/snomed/sparql/ecl/SparqlGenerator.java`):
+
+| ECL | SPARQL |
+|---|---|
+| `C`, `*` | `VALUES ?concept { sct:C }` / `?concept a owl:Class` (active concepts only) |
+| `<`, `<<`, `<!`, `<<!` | `?concept rdfs:subClassOf+` / `*` / (one step) / `?` `sct:C` (named parent index, see below) |
+| `>`, `>>`, `>!`, `>>!` | `sct:C rdfs:subClassOf+ ?concept` (etc.), IRIs only |
+| `^ R` | `?concept sct:isMemberOf sct:R` (includes inactive members, as Snowstorm) |
+| `A AND B`, `A OR B`, `A MINUS B` | join, `UNION`, `MINUS` (`FILTER NOT EXISTS` when checking a bound concept) |
+| `X . attr` | `?x sct:hasRestriction ?r . ?r owl:onProperty attr ; owl:someValuesFrom ?concept` |
+| `X : refinement` | `X` then `FILTER(...)`: each attribute is an `EXISTS` over the concept's restrictions (`[min..max]` by distinct restriction nodes), `{ }` within one `sct:hasRoleGroup` node, `R` from the value side, `!=` as "value not in", concrete values via `owl:hasValue` |
+| `{{ + HISTORY... }}` | `{ X } UNION { X(?x) . ?concept ?refset ?x }` over the historical association refsets of the profile |
+| `{{ C ... }}`, `{{ D ... }}`, `{{ M ... }}` | `FILTER EXISTS` over the concept's annotations, its described labels (`owl:annotatedSource`), or its association annotations |
 
 ## How the OWL file differs from the stock snomed-owl-toolkit OWL
 
@@ -178,13 +353,12 @@ gap, equal to an equivalent example's result, or a baseline count reviewed again
 "content not in the International edition" examples also have International adaptations (A-01..A-21) with
 Snowstorm results.
 
-### Not executable (catalog) (6)
+### Not executable (catalog) (5)
 
 Marked `executable: false` in `ecl-examples.json`; never sent to Snowstorm or tested.
 
 | Example | ECL | Reason |
 |---|---|---|
-| 6.1-24 | `^*` | Skipped for now as a degenerate case: '^*' (members of any reference set) is too expensive to evaluate on Snowstorm (timed out). To be revisited at the end (see PLAN.md). |
 | 6.4-09 | `< 19829001 \|Disorder of lung\| AND < 301867009 \|Edema of trunk\| OR ^ 700043003 \|Examp…` | The spec presents this as NOT valid: AND and OR mixed without brackets. |
 | 6.4-18 | `< 404684003 \|Clinical finding\| : 363698007 \|Finding site\| = << 39057004 \|Pulmonary v…` | The spec presents this as NOT valid: AND and OR mixed in a refinement without brackets (snomed-ecl-parser and Snowstorm accept it anyway, with different meanings). |
 | 6.8-01 | `{{ D term = "heart att" }}` | Fragment showing a description filter on its own (no focus concept); not an expression. |
@@ -258,12 +432,13 @@ Syntax errors for `^R` (refsetContaining), alternate identifiers (`LOINC#...`), 
 | 6.8-39 | `< 125605004 \|Fracture of bone\| {{ D effectiveTime = "" }}` |
 | 6.9-14 | `< 125605004 \|Fracture of bone\| {{ C effectiveTime = "" }}` |
 
-### Unsupported or failing query (2)
+### Unsupported or failing query (3)
 
-Snowstorm: *Returning the attribute values of all concepts is not supported* (`R ... = *` with cardinality), and an Elasticsearch query error for `* MINUS * {{ ... dialect = en-nz ... }}`.
+Snowstorm: *Returning the attribute values of all concepts is not supported* (`R ... = *` with cardinality), an Elasticsearch query error for `* MINUS * {{ ... dialect = en-nz ... }}`, and a timeout for `^*` (here: 539,490 concepts, checked against the RF2 release).
 
 | Example | ECL |
 |---|---|
+| 6.1-24 | `^*` |
 | 6.3-22 | `< 105590001 \|Substance\| : [3..3] R 127489000 \|Has active ingredient\| = *` |
 | 6.8-30 | `* MINUS * {{ type = syn, dialect = en-nz (prefer) }}` |
 
@@ -277,3 +452,56 @@ fail so we notice when it improves. All five are also rejected by Snowstorm (abo
 
 Some spec examples have typos that were corrected in the catalog (each has a `note`): 6.3-18 `[1..]` → `[1..*]`,
 6.6-01 comment asterisks, 6.8-37 / 6.8-38 / 6.9-12 / 6.9-13 missing `)`.
+
+## Tests
+
+```bash
+make test        # unit tests + checkstyle + spotbugs (~5 min; loads the 20261001 test OWL once, ~25 GB heap)
+make test-data   # regenerate the test OWL src/test/data/snomed-inferred-20261001.owl from the RF2 release
+```
+
+- `src/test/resources/rf2/SnomedCT_MiniRF2_20190131`: a tiny RF2 release for the converter, store, translator and
+  REST tests.
+- `src/test/data/snomed-inferred-20261001.owl`: the converted 20261001 release (not in version control: `*owl` is
+  ignored; generate it with `make test-data`).
+- `src/main/resources/ecl-examples.json`: the ECL example catalog (generated by `tools/extract_ecl.py` and
+  `tools/curate_ecl.py`, see `tools/README.md`).
+- `src/test/resources/data/20261001/<id>.json`: the expected result of each example from a local Snowstorm 11.0.0
+  loaded with the same release (concept ids, or Snowstorm's error). To regenerate them, see `snowstorm/README.md`:
+  `make snowstorm-up snowstorm-import expected-results`.
+- `EclExamplesTest` gives every executable example exactly one expected outcome: the Snowstorm result (count, then
+  concept ids), a known parser gap, "unsupported" with its reason, or — where Snowstorm has no result — an
+  equivalent example's result or a count reviewed against the RF2 release.
+
+## Building
+
+```bash
+make clean build test install run
+```
+
+| Target | Description |
+|---|---|
+| `make build` | Compile and package (no tests) |
+| `make test` | Unit tests, checkstyle, spotbugs |
+| `make install` | Publish to the local Maven repository |
+| `make run ARGS="--owl=..."` | Run with Gradle (`bootRun`) |
+| `make owl` / `make serve` | Generate the OWL file / serve it (see Quick start) |
+| `make test-data` / `make expected-results` | Regenerate the test OWL / the expected results from Snowstorm |
+| `make snowstorm-up` / `snowstorm-import` / `snowstorm-down` | Local Snowstorm for expected results |
+
+The build uses Gradle 9.1 (wrapper), Java 25, Spring Boot 4.1, Apache Jena 5.5 and OWL API 4.1 (versions from
+`org.snomed:snomed-parent-bom`). It depends on the `develop` (Spring Boot 4) branches of snomed-owl-toolkit
+(7.0.0-SNAPSHOT) and snomed-ecl-parser (5.0.0-SNAPSHOT), which must be installed to the local Maven repository first
+(`mvn install -DskipTests -Ddependency-check.skip=true` in each). License headers are applied by Spotless
+(`config/license-header.txt`); checkstyle and spotbugs configuration is in `config/`.
+
+## Documents
+
+- `doc/TODO.md`: the original project requirements.
+- `doc/PLAN.md`: the implementation plan, decisions and progress log.
+- `doc/ECL as SPARQL.docx`: the draft mapping of ECL to SPARQL that this project started from.
+- `AGENTS.md`: notes for maintaining the project with AI coding agents.
+
+## License
+
+Apache License 2.0 — see `LICENSE.txt`. SNOMED CT content is subject to the SNOMED CT Affiliate License.

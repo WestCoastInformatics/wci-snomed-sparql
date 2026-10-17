@@ -83,6 +83,8 @@ public class EclExamplesTest {
    * the International edition matches nothing (0); the others were checked against the RF2 release.
    */
   public static final Map<String, Integer> BASELINE = Map.ofEntries(
+      // ^* : every concept (active or inactive) that is an active member of any refset (Snowstorm times out)
+      entry("6.1-24", 539490),
       entry("6.1-10", 0), entry("6.2-10", 0), entry("6.2-11", 0),
       entry("6.4-05", 0), entry("6.4-06", 0), entry("6.4-07", 0), entry("6.4-08", 0),
       entry("6.4-15", 0), entry("6.4-16", 0), entry("6.4-17", 0),
