@@ -1,0 +1,8 @@
+{
+  "id" : "P-14",
+  "ecl" : "< 404684003 |Clinical finding| : 363698007 |Finding site| = << 39057004 |Pulmonary valve structure| , 116676008 |Associated morphology| = << 415582006 |Stenosis| {{ term = \"insufficiency\" }}",
+  "status" : 200,
+  "total" : 3,
+  "ids" : [ "195000004", "703178004", "85971001" ],
+  "error" : null
+}

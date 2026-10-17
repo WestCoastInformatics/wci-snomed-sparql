@@ -95,6 +95,9 @@ final class SparqlGenerator {
   /** Path from a role group's filler to its attribute restrictions. */
   private static final String GROUP_MEMBER_PATH = "(owl:intersectionOf/rdf:rest*/rdf:first)?";
 
+  /** The language type reference set (parent of the language refsets). */
+  private static final String LANGUAGE_REFSET = "sct:900000000000506000";
+
   /** Language refsets by dialect alias (as known to Snowstorm). */
   private static final Map<String, String> DIALECTS = Map.ofEntries(Map.entry("en-us", "900000000000509007"),
       Map.entry("en-gb", "900000000000508004"), Map.entry("en-au", "32570271000036106"),
@@ -644,7 +647,8 @@ final class SparqlGenerator {
 
   /**
    * Dialect filter: the description is in one of the language refsets (by alias or id), with one of the given
-   * acceptabilities if any. Language refsets are annotation properties of the description axiom:
+   * acceptabilities if any; for != (as Snowstorm), it is in some other language refset (with one of the given
+   * acceptabilities, if any). Language refsets are annotation properties of the description axiom:
    * {@code :<languageRefset> :<acceptability>}.
    *
    * @param dialect the dialect filter
@@ -652,7 +656,10 @@ final class SparqlGenerator {
    * @param indent the indent level
    */
   private void dialectFilter(final DialectFilter dialect, final String d, final int indent) {
+    final boolean equals = "=".equals(dialect.getBooleanComparisonOperator());
     final List<String> alternatives = new ArrayList<>();
+    final List<String> excluded = new ArrayList<>();
+    final List<String> excludedAcceptability = new ArrayList<>();
     for (final DialectAcceptability acceptability : dialect.getDialectAcceptabilities()) {
       final String refset;
       if (acceptability.getDialectAlias() != null) {
@@ -681,9 +688,27 @@ final class SparqlGenerator {
       final String a = var("acc");
       alternatives.add("EXISTS { " + d + " " + refset + " " + a + " ."
           + (accept.isEmpty() ? "" : " FILTER(" + a + " IN (" + String.join(", ", accept) + "))") + " }");
+      excluded.add(refset);
+      excludedAcceptability.addAll(accept);
     }
-    final String any = alternatives.isEmpty() ? "false" : "(" + String.join(" || ", alternatives) + ")";
-    line(indent, "FILTER(" + ("=".equals(dialect.getBooleanComparisonOperator()) ? any : "!" + any) + ")");
+    if (equals) {
+      line(indent, "FILTER(" + (alternatives.isEmpty() ? "false" : String.join(" || ", alternatives)) + ")");
+      return;
+    }
+    // != (as Snowstorm): the description is in some other language refset (with the given acceptability, if any)
+    final String r = var("lang");
+    final String a = var("acc");
+    line(indent, "FILTER EXISTS {");
+    line(indent + 1, d + " " + r + " " + a + " .");
+    line(indent + 1, r + " rdfs:subClassOf+ " + LANGUAGE_REFSET + " .");
+    if (!excluded.isEmpty()) {
+      line(indent + 1, "FILTER(" + r + " NOT IN (" + String.join(", ", excluded) + "))");
+    }
+    if (!excludedAcceptability.isEmpty()) {
+      line(indent + 1, "FILTER(" + a + " IN (" + String.join(", ", excludedAcceptability.stream().distinct()
+          .toList()) + "))");
+    }
+    line(indent, "}");
   }
 
   /**
@@ -729,13 +754,8 @@ final class SparqlGenerator {
         target = var("t");
         line(indent + 1, v + " " + refset + " " + target + " .");
       }
-      if (equals) {
-        constraint(field.getSubExpressionConstraint(), target, indent + 1, true);
-      } else {
-        line(indent + 1, "FILTER NOT EXISTS {");
-        constraint(field.getSubExpressionConstraint(), target, indent + 2, true);
-        line(indent + 1, "}");
-      }
+      // a constant is compared directly: members may be inactive concepts (not classes)
+      conceptIn(target, null, field.getSubExpressionConstraint(), equals, indent + 1);
       line(indent, "}");
     }
   }

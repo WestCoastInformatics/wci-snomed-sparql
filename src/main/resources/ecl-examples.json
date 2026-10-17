@@ -1276,8 +1276,8 @@
       "hierarchy",
       "refinement"
     ],
-    "executable": true,
-    "note": null,
+    "executable": false,
+    "note": "The spec presents this as NOT valid: AND and OR mixed in a refinement without brackets (snomed-ecl-parser and Snowstorm accept it anyway, with different meanings).",
     "source": "https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language/behaviour-specification-with-examples/6.4-conjunction-and-disjunction"
   },
   {
@@ -3140,7 +3140,7 @@
     ],
     "executable": true,
     "note": "From the 'ECL as SPARQL' draft document (Refinements #3); not in the current spec behaviour pages.",
-    "source": "ECL as SPARQL.docx"
+    "source": "doc/ECL as SPARQL.docx"
   },
   {
     "id": "P-01",
@@ -3519,8 +3519,8 @@
       "hierarchy",
       "refinement"
     ],
-    "executable": true,
-    "note": "Adapted from 6.4-18 to content in the International edition.",
+    "executable": false,
+    "note": "Adapted from 6.4-18 to content in the International edition. Not valid ECL (see 6.4-18).",
     "source": "Adapted from 6.4-18"
   },
   {

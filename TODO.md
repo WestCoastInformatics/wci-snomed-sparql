@@ -9,7 +9,7 @@ and other related information
 
 # Resources
 
-* Draft ECL as SPARLQL document: `ECL as SPARQL.docx` (this provides prior work with examples
+* Draft ECL as SPARLQL document: `doc/ECL as SPARQL.docx` (this provides prior work with examples
    of certain ECL queries and how they resolve to sparql queries)
 * SNOMED owl toolkit: `https://github.com/IHTSDO/snomed-owl-toolkit` (also ../snomed-owl-toolkit)
 * SNOMED ecl parser: `https://github.com/IHTSDO/snomed-ecl-parser` (also ../snomed-ecl-parser)

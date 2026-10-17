@@ -31,6 +31,10 @@ for e in out:
     if e["id"] == "6.4-09":
         e["executable"] = False
         e["note"] = "The spec presents this as NOT valid: AND and OR mixed without brackets."
+    if e["id"] == "6.4-18":
+        e["executable"] = False
+        e["note"] = ("The spec presents this as NOT valid: AND and OR mixed in a refinement without brackets "
+                     "(snomed-ecl-parser and Snowstorm accept it anyway, with different meanings).")
     if e["id"] == "6.8-01":
         e["executable"] = False
         e["note"] = "Fragment showing a description filter on its own (no focus concept); not an expression."
@@ -80,7 +84,7 @@ out.append({
     "ecl": "19829001 |Disorder of lung| : 116676008 |Associated morphology| = 40829002 |Acute edema|",
     "eclLong": None, "executable": True,
     "note": "From the 'ECL as SPARQL' draft document (Refinements #3); not in the current spec behaviour pages.",
-    "source": "ECL as SPARQL.docx"})
+    "source": "doc/ECL as SPARQL.docx"})
 
 # Supplementary examples from the snomed-ecl-parser unit tests (develop branch: ECLQueryBuilderTest,
 # ECLQueryBuilderWithFiltersTest) that add something beyond the spec examples
@@ -149,9 +153,11 @@ adapted.append(("6.10-07", by_id["6.10-07"]["heading"],
                 "^ 900000000000527005 |SAME AS association reference set| {{ M targetComponentId = "
                 "<< 195967001 |Asthma| }}"))
 for k, (spec_id, heading, ecl) in enumerate(adapted, 1):
+    executable = by_id[spec_id]["executable"]
     out.append({"id": f"A-{k:02d}", "section": "A International adaptations", "heading": heading, "ecl": ecl,
-                "eclLong": None, "executable": True,
-                "note": f"Adapted from {spec_id} to content in the International edition.",
+                "eclLong": None, "executable": executable,
+                "note": f"Adapted from {spec_id} to content in the International edition."
+                + ("" if executable else f" Not valid ECL (see {spec_id})."),
                 "source": f"Adapted from {spec_id}"})
 
 for e in out:

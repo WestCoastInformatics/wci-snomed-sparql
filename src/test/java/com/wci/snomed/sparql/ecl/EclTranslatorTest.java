@@ -240,6 +240,11 @@ public class EclTranslatorTest {
         999993001L
     }, eval("^ 900000000000527005 {{ M targetComponentId = << 404684003 }}"));
     assertArrayEquals(new long[0], eval("^ 900000000000527005 {{ M targetComponentId = 113331007 }}"));
+    // the member is an inactive concept
+    assertArrayEquals(new long[] {
+        999993001L
+    }, eval("^ 900000000000527005 {{ M referencedComponentId = 999993001 }}"));
+    assertArrayEquals(new long[0], eval("^ 900000000000527005 {{ M referencedComponentId != 999993001 }}"));
     assertArrayEquals(new long[] {
         999990008L, 999993001L
     }, eval("999990008 {{ + HISTORY-MIN }}"));

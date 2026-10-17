@@ -13,8 +13,8 @@ column and the notes as each step completes.
 | 6 | Mode 2a: load OWL into an in-memory SPARQL store; REST endpoint skeleton with paging | ✅ done |
 | 7 | ECL → SPARQL translator, core (constraint operators, refsets, wildcard, compound AND/OR/MINUS, dot notation) | ✅ done |
 | 8 | ECL → SPARQL translator, advanced (refinements, groups, cardinality, reverse, concrete values, filters, etc.) | ✅ done |
-| 9 | Unit test suite driven by saved expected results; iterate until all examples pass | ⬜ todo |
-| 10 | Finish: README.md, AGENTS.md, Makefile clean/build/test/install/run, final checks | ⬜ todo |
+| 9 | Unit test suite driven by saved expected results; iterate until all examples pass | ✅ done |
+| 10 | Finish: web UI, README.md, AGENTS.md, Makefile clean/build/test/install/run, final checks | ⬜ todo |
 
 ## Step details
 
@@ -70,7 +70,7 @@ column and the notes as each step completes.
 - `EclExampleCatalogTest` parses every executable example with snomed-ecl-parser. Long syntax is reference-only
   (parser and browser support brief syntax only). Known parser gaps (asserted to still fail): 6.1-25 `^R`,
   6.1-27 `LOINC#"..."`, 6.8-44 `active = "*"`, 6.8-39 / 6.9-14 `effectiveTime = ""` (NumberFormatException).
-- Cross-check with `ECL as SPARQL.docx`: 53/56 of its examples are in the catalog; added `S-01` (precoordinated
+- Cross-check with `doc/ECL as SPARQL.docx`: 53/56 of its examples are in the catalog; added `S-01` (precoordinated
   focus + refinement); its two concrete-value examples used placeholder ids and are superseded by 6.2-08/09/10.
 
 ### 5. Mode 3: expected results
@@ -181,11 +181,41 @@ column and the notes as each step completes.
   association, root, declarations) — user request.
 
 ### 9. Test suite
-- Parameterized JUnit test: for each catalog example, translate, execute against the test OWL,
-  compare to saved browser results. Track known-unsupported features explicitly.
+- `EclExamplesTest`: every executable catalog example has exactly one expected outcome, so behaviour changes fail:
+  known parser gap (translation fails) / `UNSUPPORTED` (UnsupportedEclException with a reason) / Snowstorm result
+  (count, then ids) / no Snowstorm result → `EQUIVALENT` (= another example's expected ids, e.g. "X OR ^ 700043003"
+  = X) or reviewed `BASELINE` count (verified against RF2: 6.3-22 = 81, description ids 6.8-45..48, ...).
+  `CONCEPT_IDS_ONLY` for the Snowstorm HISTORY description-id quirk. `testOutcomeLists` checks the lists against
+  the catalog and expected results.
+- Fixed while making outcomes explicit: alternate identifiers (6.1-26 `LOINC#...`) gave HTTP 500 (null focus) →
+  501; `{{ M referencedComponentId = <inactive concept> }}` matched nothing (constant check required a class).
+- Additional examples (user request): P-01..P-15 from the snomed-ecl-parser unit tests (develop) that add
+  something beyond the spec; A-01..A-21 International adaptations of spec examples whose content is not in the
+  International edition (700043003 → 447562003 ICD-10 map, 445238008 → 55342001, AU dialect → GB, US module →
+  core, Hay asthma → SAME AS member). Added in `tools/curate_ecl.py`; expected results fetched with
+  `--skip-existing --timeout-sec=120` (Snowstorm is slow on some dialect filters). A-20 is rejected by Snowstorm
+  (inactive concept in the ECL) → baseline 1.
+- 6.4-18 (and its adaptation A-11) marked not executable: the spec says AND/OR mixed in a refinement without
+  brackets is not valid (parser and Snowstorm accept it with different meanings).
+- `dialect != X` now follows Snowstorm: the description is in some *other* language refset (descendant of
+  900000000000506000) with the given acceptability (P-13: 1 → 2,839).
+- Results: catalog 254 examples (247 executable): 192 match Snowstorm, 4 match concept-only (HISTORY quirk),
+  others explicit (unsupported 19, parser gaps 5, equivalent 5, baseline 22). `make test`: 530 tests, 0 skipped.
+- `doc/ECL as SPARQL.docx` (moved from the project root at the user's request; references updated).
 
 ### 10. Finish
 - `README.md` (style of other SNOMED projects), `AGENTS.md`, Makefile targets, checkstyle/spotbugs clean.
+- **Web UI** (step 10) served by the same Spring Boot server/port (mode `--owl`): one simple page with
+  - a drop-down of the ECL examples (catalog) above a text box; choosing an example populates the box;
+  - a "Go" button that runs the ECL and shows below: (1) the SPARQL query used to produce the result
+    (`POST /ecl/sparql`), and (2) the code/name results for the current page (`POST /ecl`), with the total;
+  - Previous / Next page buttons, and a page size control: 10, 50, 100, 500, 1000, 10000.
+  (requested 2026-10-16)
+- README.md must start (near the top) with numbered usage instructions: (1) download the SNOMED CT 20261001
+  International release and unpack it at the top level of the project; (2) generate the OWL file (give the command,
+  e.g. `make test-data` / `java -jar ... --release=<dir> --output=<owl>`); (3) run the server to load the OWL and
+  expose the API (give the command, e.g. `make serve`); (4) test via the UI at http://localhost:8080/index.html
+  (the UI is built in step 10). (requested 2026-10-16)
 - README.md must include curl examples for the ECL endpoint: a few simple expressions run with `POST /ecl`
   (with limit/offset paging), and the same expressions resolved to SPARQL with `POST /ecl/sparql`. (requested 2026-10-16)
 - AGENTS.md must describe regenerating the test data: `make test-data` (OWL) and the local Snowstorm workflow
@@ -197,14 +227,6 @@ column and the notes as each step completes.
 
 - **Top/bottom of set (`!!>`, `!!<`)**: snomed-ecl-parser drops the operator (not in its `Operator` enum), so the
   translator rejects them (501). Equivalent: `!!> E` = `E MINUS < E`, `!!< E` = `E MINUS > E` (cf. 6.12-02/04).
-
-## Planned additions (at the end)
-- **Web UI** served by the same Spring Boot server/port (mode `--owl`): one simple page with
-  - a drop-down of the ECL examples (catalog) above a text box; choosing an example populates the box;
-  - a "Go" button that runs the ECL and shows below: (1) the SPARQL query used to produce the result
-    (`POST /ecl/sparql`), and (2) the code/name results for the current page (`POST /ecl`), with the total;
-  - Previous / Next page buttons, and a page size control: 10, 50, 100, 500, 1000, 10000.
-  (requested 2026-10-16)
 
 ## Open questions / decisions
 - **Inferred view**: classify the stated OWL with ELK during mode 1 and materialize the inferred
@@ -262,3 +284,6 @@ column and the notes as each step completes.
 - 2026-10-16: Step 8 done. Descriptions as annotated labels + concept module/effectiveTime in the OWL (919 MB);
   description, concept module/effectiveTime and description id filters. 162/162 supported evaluated examples
   match Snowstorm; 9 member-field examples deferred.
+- 2026-10-16: Step 9 done. Explicit outcome per example (no skips), P-01..P-15 (parser tests) and A-01..A-21
+  (International adaptations) with Snowstorm results; fixes for alt identifiers (500), inactive member
+  referencedComponentId, dialect !=. 530 tests pass. Docx moved to doc/. README quick-start + UI added to step 10.

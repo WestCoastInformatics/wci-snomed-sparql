@@ -150,14 +150,35 @@ Every supported example runs in under 10 s on the 20261001 data (Apple silicon, 
 | 6.2-06 | 2.6 | 18 | `<< 404684003 : << 47429007 = << 267038008` |
 | 6.8-29 | 2.1 | 2,832 | `< 125605004 MINUS * {{ term != "fracture" }}` |
 
+## Additional ECL examples
+
+Besides the specification examples (6.x) and `S-01` (from the "ECL as SPARQL" draft, `doc/ECL as SPARQL.docx`), the catalog has:
+
+- **P-01..P-15**: expressions from the snomed-ecl-parser unit tests (develop branch: `ECLQueryBuilderTest`,
+  `ECLQueryBuilderWithFiltersTest`) that add something beyond the specification examples: groups joined by OR,
+  no-whitespace refinements, description filters with language/type/dialect combinations and negations, and a
+  description filter on a refinement value. (The parser has ~30 test expressions; the others repeat spec examples.)
+- **A-01..A-21**: International edition adaptations of specification examples whose content is not in the
+  International release (so Snowstorm rejects them): 700043003 |Example problem list concepts reference set| →
+  447562003 |ICD-10 complex map reference set|, 445238008 |Malignant carcinoid tumor| (inactive) → 55342001
+  |Neoplastic disease|, the AU dialect → GB English, the US module → the core module, Hay asthma (inactive) → a
+  SAME AS member. Each records the example it was adapted from.
+
+Expected results for them come from the same local Snowstorm (`make expected-results`, which skips nothing; use
+`--skip-existing` to fetch only new examples).
+
 ## ECL examples set aside
 
 The test catalog (`src/main/resources/ecl-examples.json`) holds every example from the ECL specification's
 "Behaviour specification with examples" (sections 6.1–6.12). Expected results come from a local Snowstorm 11.0.0
 loaded with the 20261001 International release (`src/test/resources/data/20261001/`). The examples below have no
-usable expected result and are set aside for now; each result file records Snowstorm's status and error message.
+usable expected result from Snowstorm; each result file records Snowstorm's status and error message. They are
+still tested (`EclExamplesTest`): each has an explicit outcome — unsupported (with the reason), a known parser
+gap, equal to an equivalent example's result, or a baseline count reviewed against the RF2 release. Most of the
+"content not in the International edition" examples also have International adaptations (A-01..A-21) with
+Snowstorm results.
 
-### Not executable (catalog) (5)
+### Not executable (catalog) (6)
 
 Marked `executable: false` in `ecl-examples.json`; never sent to Snowstorm or tested.
 
@@ -165,11 +186,12 @@ Marked `executable: false` in `ecl-examples.json`; never sent to Snowstorm or te
 |---|---|---|
 | 6.1-24 | `^*` | Skipped for now as a degenerate case: '^*' (members of any reference set) is too expensive to evaluate on Snowstorm (timed out). To be revisited at the end (see PLAN.md). |
 | 6.4-09 | `< 19829001 \|Disorder of lung\| AND < 301867009 \|Edema of trunk\| OR ^ 700043003 \|Examp…` | The spec presents this as NOT valid: AND and OR mixed without brackets. |
+| 6.4-18 | `< 404684003 \|Clinical finding\| : 363698007 \|Finding site\| = << 39057004 \|Pulmonary v…` | The spec presents this as NOT valid: AND and OR mixed in a refinement without brackets (snomed-ecl-parser and Snowstorm accept it anyway, with different meanings). |
 | 6.8-01 | `{{ D term = "heart att" }}` | Fragment showing a description filter on its own (no focus concept); not an expression. |
 | 6.11-03 | `[[+ecl @ecl_query]] {{ + HISTORY ( [[+ecl @history_refset_query]] ) }}` | Template showing how HISTORY expands; not an executable expression. |
 | 6.11-04 | `[[+ecl @ecl_query]] OR ^ [[+ecl @history_refset_query]] {{ M targetComponentId = [[+ecl @…` | Template showing how HISTORY expands; not an executable expression. |
 
-### Content not in the International edition (24)
+### Content not in the International edition (23)
 
 Snowstorm: *Concepts in the ECL request do not exist or are inactive* — the examples use concepts that are not in, or are inactive in, the 20261001 International release: content from other editions (700043003 Example problem list refset, US/AU modules, AU dialect refset, product name / national benefit scheme attributes) and concepts since inactivated (e.g. 445238008 Malignant carcinoid tumor, 67415000 Hay asthma).
 
@@ -188,7 +210,6 @@ Snowstorm: *Concepts in the ECL request do not exist or are inactive* — the ex
 | 6.4-15 | `< 404684003 \|Clinical finding\| : 363698007 \|Finding site\| = << 39057004 \|Pulmonary v…` |
 | 6.4-16 | `< 404684003 \|Clinical finding\| : ( 363698007 \|Finding site\| = << 39057004 \|Pulmonary…` |
 | 6.4-17 | `< 404684003 \|Clinical finding\| : 363698007 \|Finding site\| = << 39057004 \|Pulmonary v…` |
-| 6.4-18 | `< 404684003 \|Clinical finding\| : 363698007 \|Finding site\| = << 39057004 \|Pulmonary v…` |
 | 6.4-19 | `< 404684003 \|Clinical finding\| : ( 363698007 \|Finding site\| = << 39057004 \|Pulmonary…` |
 | 6.4-20 | `< 404684003 \|Clinical finding\| : 363698007 \|Finding site\| = << 39057004 \|Pulmonary v…` |
 | 6.5-02 | `<< 19829001 \|Disorder of lung\| MINUS ^ 700043003 \|Example problem list concepts refere…` |
