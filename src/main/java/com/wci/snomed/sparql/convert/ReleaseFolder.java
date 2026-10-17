@@ -118,7 +118,8 @@ public final class ReleaseFolder {
   }
 
   /**
-   * Returns the description snapshot files (sct2_Description_Snapshot*.txt, one per language).
+   * Returns the description and text definition snapshot files (sct2_Description_Snapshot*.txt and
+   * sct2_TextDefinition_Snapshot*.txt, one per language).
    *
    * @return the description files
    */
@@ -126,11 +127,22 @@ public final class ReleaseFolder {
     try (Stream<Path> files = Files.walk(snapshotDir)) {
       return files.filter(p -> {
         final String name = p.getFileName().toString();
-        return name.startsWith("sct2_Description_Snapshot") && name.endsWith(".txt");
+        return (name.startsWith("sct2_Description_Snapshot") || name.startsWith("sct2_TextDefinition_Snapshot"))
+            && name.endsWith(".txt");
       }).sorted().toList();
     } catch (final IOException e) {
       throw new UncheckedIOException(e);
     }
+  }
+
+  /**
+   * Returns the language refset snapshot files (der2_cRefset_Language*Snapshot*.txt).
+   *
+   * @return the language refset files
+   */
+  public List<Path> getLanguageFiles() {
+    return getRefsetFiles().stream().filter(p -> p.getFileName().toString().contains("cRefset_Language"))
+        .toList();
   }
 
   /**

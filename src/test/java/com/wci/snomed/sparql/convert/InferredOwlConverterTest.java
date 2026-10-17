@@ -139,7 +139,8 @@ public class InferredOwlConverterTest {
     // association members are also refset members
     assertTrue(lines.contains("AnnotationAssertion(:isMemberOf :999993001 :900000000000527005)"));
     assertTrue(lines.contains("AnnotationAssertion(owl:deprecated :999993001 \"true\"^^xsd:boolean)"));
-    assertTrue(lines.contains("AnnotationAssertion(rdfs:label :999993001 \"Old thyroid disorder (disorder)\"@en)"));
+    assertTrue(lines.stream().anyMatch(
+        l -> l.endsWith(" rdfs:label :999993001 \"Old thyroid disorder (disorder)\"@en)")));
     assertFalse(lines.stream().anyMatch(l -> l.startsWith("Declaration(Class(:999993001))")));
     assertFalse(lines.stream().anyMatch(l -> l.startsWith("SubClassOf(:999993001 ")));
     assertEquals(1, stats.getAssociations());
@@ -153,8 +154,21 @@ public class InferredOwlConverterTest {
    */
   @Test
   public void testLabelsAndParse() throws Exception {
-    assertTrue(lines.stream().anyMatch(l -> l.startsWith("AnnotationAssertion(rdfs:label :999990008 ")
-        && l.contains("Thyroid disorder (disorder)")));
+    // FSN and preferred synonym, with their RF2 fields as axiom annotations
+    assertTrue(lines.contains("AnnotationAssertion(Annotation(:caseSignificanceId :900000000000448009) "
+        + "Annotation(:descriptionId \"999990018\"^^xsd:string) Annotation(:effectiveTime \"20190131\"^^xsd:string) "
+        + "Annotation(:moduleId :900000000000207008) Annotation(:typeId :900000000000003001) "
+        + "rdfs:label :999990008 \"Thyroid disorder (disorder)\"@en)"));
+    assertTrue(lines.contains("AnnotationAssertion(Annotation(:caseSignificanceId :900000000000448009) "
+        + "Annotation(:descriptionId \"999990028\"^^xsd:string) Annotation(:effectiveTime \"20190131\"^^xsd:string) "
+        + "Annotation(:moduleId :900000000000207008) Annotation(:typeId :900000000000013009) "
+        + "Annotation(:900000000000509007 :900000000000548007) skos:prefLabel :999990008 \"Thyroid disorder\"@en)"));
+    assertTrue(lines.contains("Declaration(AnnotationProperty(:900000000000509007))"));
+    // concept metadata
+    assertTrue(lines.contains("AnnotationAssertion(:moduleId :999990008 :900000000000207008)"));
+    assertTrue(lines.contains("AnnotationAssertion(:effectiveTime :999990008 \"20190131\"^^xsd:string)"));
+    assertTrue(lines.contains("AnnotationAssertion(:effectiveTime :999993001 \"20190131\"^^xsd:string)"));
+    assertEquals(14, stats.getDescriptions());
     assertTrue(lines.stream().anyMatch(l -> l.startsWith("Ontology(<http://snomed.info/sct/900000000000207008>")));
     assertTrue(lines.stream().anyMatch(l -> l.contains("/version/20190131")));
     final OWLOntology ontology =

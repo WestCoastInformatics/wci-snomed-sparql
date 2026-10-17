@@ -12,7 +12,7 @@ column and the notes as each step completes.
 | 5 | Mode 3: fetch expected results from the SNOMED browser and save to `src/test/resources/data` | ✅ done |
 | 6 | Mode 2a: load OWL into an in-memory SPARQL store; REST endpoint skeleton with paging | ✅ done |
 | 7 | ECL → SPARQL translator, core (constraint operators, refsets, wildcard, compound AND/OR/MINUS, dot notation) | ✅ done |
-| 8 | ECL → SPARQL translator, advanced (refinements, groups, cardinality, reverse, concrete values, filters, etc.) | ⬜ todo |
+| 8 | ECL → SPARQL translator, advanced (refinements, groups, cardinality, reverse, concrete values, filters, etc.) | ✅ done |
 | 9 | Unit test suite driven by saved expected results; iterate until all examples pass | ⬜ todo |
 | 10 | Finish: README.md, AGENTS.md, Makefile clean/build/test/install/run, final checks | ⬜ todo |
 
@@ -42,7 +42,7 @@ column and the notes as each step completes.
   4. `isMemberOf` annotations for active members of every `der2_*Refset_*Snapshot*` / `sct2_*Refset_*Snapshot*` file whose
      referencedComponentId is a concept (partition 00/10), active or inactive.
   5. Association refsets (`der2_cRefset_Association*`) as annotation properties: `AnnotationAssertion(:refset :source
-     :target)` per active member; inactive concepts referenced by 4–5 get `owl:deprecated` + FSN label (not classes).
+     :target)` per active member whose referenced component and target are concepts (concept history only); inactive concepts referenced by 4–5 get `owl:deprecated` + FSN label (not classes).
   6. Save in SNOMED functional syntax with the toolkit's copyright header.
 - Test fixture `src/test/resources/rf2/SnomedCT_MiniRF2_20190131` (toolkit's mini RF2 + a primitive concept whose
   stale RF2 inferred row ELK must correct, + a simple refset, + an inactive concept with a SAME AS association). `InferredOwlConverterTest`.
@@ -140,8 +140,45 @@ column and the notes as each step completes.
   expected result → skipped; 39 pass / 174 skipped).
 
 ### 8. ECL → SPARQL translator, advanced
-- Refinements (attribute sets/groups, cardinality, reverse, `!=`, wildcard attributes), concrete values, filters
-  (concept/description/member), history supplements. Tune against the expected results.
+- Generation moved to `ecl.SparqlGenerator` with two modes: **set** (enumerate matches) and **bound** (the variable
+  is already bound — inside FILTER EXISTS or as a refinement value — so navigate from it: cheap per-row checks).
+  Bound-mode MINUS is FILTER NOT EXISTS (MINUS shares no variable once substituted).
+- Refinements: focus, then `FILTER(<condition>)` on each focus concept. Attribute = (NOT) EXISTS over
+  `?c sct:hasRestriction ?r . ?r owl:onProperty A ; owl:someValuesFrom ?val` (+ value check in bound mode);
+  `!=` = value NOT in the set; `*` attribute excludes the role group. Cardinality [min..max]: EXISTS min pairwise
+  distinct restriction nodes && NOT EXISTS max+1 (≤5). Groups `{ }`: `?c sct:hasRoleGroup ?g` and the attribute set
+  evaluated within `?g` (members via `(owl:intersectionOf/rdf:rest*/rdf:first)?`), group cardinality on distinct
+  `?g`. Group 0 (ungrouped) attributes are not a group. Reverse `R`: `?r owl:someValuesFrom ?c`, `?s
+  sct:hasRestriction ?r`, value check on `?s`. Concrete values: `owl:hasValue` + numeric/string/boolean FILTER.
+  AND/OR of refinements and attribute sets as `&&`/`||` (parser quirk: empty conjunction list next to a disjunction).
+- History supplements: `{ X } UNION { X(?x) . ?c ?assoc ?x }` with `?assoc` = SAME AS (MIN), + REPLACED BY, WAS A,
+  PARTIALLY EQUIVALENT TO (MOD), or `< 900000000000522004` (MAX / none / `(ecl)` ∩ that).
+- Concept filters: definitionStatus(Id) (`owl:equivalentClass` = defined), active (class vs `owl:deprecated`).
+  Member filters: `referencedComponentId`, and `targetComponentId` on association refsets (`?c R ?t`).
+- Store index (in memory, `SnomedStore.addRestrictionIndex`): `sct:hasRestriction` / `sct:hasRoleGroup` (1.1M
+  triples, 1s). Reverse navigation of the blank-node structures by property path was pathological in Jena (a single
+  value → concepts lookup timed out at 60s); with the index, reverse attributes 6.2-12/15 run in ~2s.
+- Descriptions & concept metadata (user decision 2026-10-16: "annotated labels" + "concept metadata only"):
+  the converter no longer uses the toolkit's description annotations; `convert.DescriptionAnnotator` writes each
+  active description (and text definition) as the toolkit does (FSN `rdfs:label`, preferred-in-any-dialect synonym
+  `skos:prefLabel`, other synonyms `skos:altLabel`, definitions `skos:definition`; language tag = language code)
+  with axiom annotations `:descriptionId`, `:typeId`, `:moduleId`, `:effectiveTime`, `:caseSignificanceId`,
+  `:<languageRefset> :<acceptability>`; and concept `:moduleId` / `:effectiveTime`. Inactive referenced concepts
+  get the same. 20261001: 1,437,997 descriptions, OWL 919 MB / 5.0M axioms, 93s, 5.7 GB; store 28.0M triples,
+  70s load; heap for tests/serve raised to 20 GB.
+- Description filters: `FILTER EXISTS { ?d owl:annotatedSource ?c ; sct:descriptionId ?id ; owl:annotatedTarget
+  ?term ; sct:typeId ?type ... }` with term match (each search word = case-insensitive word prefix, any order),
+  wild (whole-term regex), type / typeId, language (`lang()`), dialect alias (fixed alias→refset map) / dialectId
+  with acceptability, moduleId, effectiveTime, id; active = 0 matches nothing (active descriptions only). Concept
+  moduleId / effectiveTime filters from the concept annotations.
+- Results: 162 / 162 supported evaluated examples match Snowstorm (concept ids; Snowstorm's HISTORY-MAX also
+  returns description 492714018, compared concept-only). All < 10s; ≥2s listed in README "Slow examples"
+  (user: slow is OK for now if < 2 min).
+- Not supported (README): member field filters other than referencedComponentId / association targetComponentId,
+  member moduleId/effectiveTime/active (9 examples; refset member fields not in the OWL — deferred by the user);
+  top/bottom of set.
+- README "How the OWL file differs" now has diff-highlighted examples (active concept, inactive concept with
+  association, root, declarations) — user request.
 
 ### 9. Test suite
 - Parameterized JUnit test: for each catalog example, translate, execute against the test OWL,
@@ -218,3 +255,10 @@ column and the notes as each step completes.
   Test OWL regenerated: 340 MB, 96s; store 10.96M triples, 38s load. README documents the changes vs. the stock OWL.
 - 2026-10-16: Step 7 done. Core ECL → SPARQL (hierarchy, wildcard, member of, AND/OR/MINUS, nesting, dot notation):
   39/39 evaluated examples in scope match Snowstorm; join-order fix for Jena subquery substitution.
+- 2026-10-16: Step 8 (part 1): refinements, groups, cardinality, reverse, concrete values, history supplements,
+  concept definitionStatus/active filters, association targetComponentId member filters; restriction index.
+  112/112 supported evaluated examples match. Description/module/effectiveTime/member-field filters pending a data
+  decision. Associations confirmed concept-only (4,456 REFERS TO description members skipped).
+- 2026-10-16: Step 8 done. Descriptions as annotated labels + concept module/effectiveTime in the OWL (919 MB);
+  description, concept module/effectiveTime and description id filters. 162/162 supported evaluated examples
+  match Snowstorm; 9 member-field examples deferred.

@@ -1,29 +1,154 @@
-# snomed-sparql
+# wci-snomed-sparql
 
 A SPARQL-based implementation of the SNOMED CT Expression Constraint Language (ECL). Work in progress: see
 `PLAN.md` for status. (The full README is written at the end of the project.)
 
 ## How the OWL file differs from the stock snomed-owl-toolkit OWL
 
-The `--release` mode starts from the ontology snomed-owl-toolkit builds from RF2 (with descriptions), then
-changes it so ECL can be answered with SPARQL:
+The `--release` mode starts from the ontology snomed-owl-toolkit builds from RF2, then changes it so ECL can be
+answered with SPARQL:
 
 | Change | Stock toolkit OWL | This project | Why |
 |---|---|---|---|
 | Class axioms | Stated axioms (from the OWL axiom refset) | **Inferred** axioms: the stated ontology is classified with ELK and the toolkit's normal form generator produces each concept's inferred relationships, written back as one `SubClassOf` (primitive) or `EquivalentClasses` (fully defined) axiom per concept, in the toolkit's OWL shape | ECL is evaluated against the inferred view (proximal parents and inferred attributes). For 20261001 this reproduces the release's inferred relationship file exactly (0 added, 0 removed) |
 | Root concept | `SubClassOf(:138875005 owl:Thing)` | Declaration only | Has no relationships; avoids an `owl:Thing` parent |
 | Refset membership | Not represented | `AnnotationAssertion(:isMemberOf :member :refset)` for every active member of every refset (`der2_*Refset_*` and the `sct2_` OWL refsets) whose referenced component is a concept | `^ refset` |
-| Historical associations | Not represented | Each association refset (e.g. 900000000000527005 SAME AS) is declared as an annotation property, with `AnnotationAssertion(:refset :source :target)` for each active member | `{{ + HISTORY }}` supplements and member filters on `targetComponentId` |
-| Inactive concepts | Not represented | Inactive concepts referenced by a membership or association get `AnnotationAssertion(owl:deprecated :id "true"^^xsd:boolean)` and their FSN as `rdfs:label`, but are **not** declared as classes | Snowstorm's `^ refset` returns inactive members (e.g. all SAME AS members), while `*` and the hierarchy only match active concepts |
-| Labels | `rdfs:label` (FSN) and `skos:prefLabel` (preferred term) | Unchanged | Names in results |
+| Historical associations | Not represented | Each association refset (e.g. 900000000000527005 SAME AS) is declared as an annotation property, with `AnnotationAssertion(:refset :source :target)` for each active member whose referenced component and target are both concepts (description members, e.g. the 4,456 of REFERS TO concept 900000000000531004, are skipped) | `{{ + HISTORY }}` supplements and member filters on `targetComponentId` |
+| Inactive concepts | Not represented | Inactive concepts referenced by a membership or association get `AnnotationAssertion(owl:deprecated :id "true"^^xsd:boolean)`, plus their descriptions and metadata like active concepts, but are **not** declared as classes | Snowstorm's `^ refset` returns inactive members (e.g. all SAME AS members), while `*` and the hierarchy only match active concepts |
+| Concept metadata | Not represented | `AnnotationAssertion(:moduleId :c :module)` and `AnnotationAssertion(:effectiveTime :c "yyyymmdd")` | `{{ C moduleId = ... }}`, `{{ C effectiveTime ... }}` |
+| Descriptions | Term only: FSN as `rdfs:label`, synonyms preferred in any dialect as `skos:prefLabel`, other synonyms as `skos:altLabel` (language tag with dialect, e.g. `@en-us`, when only preferred in one) | Same properties (plus text definitions as `skos:definition`), language tag = language code, and every active description carries its RF2 fields as **axiom annotations**: `:descriptionId`, `:typeId`, `:moduleId`, `:effectiveTime`, `:caseSignificanceId`, and `:<languageRefset> :<acceptability>` per language refset member | Description filters `{{ D term/type/language/dialect/moduleId/effectiveTime/id ... }}` |
 
-The ontology is classified without the description annotations (the toolkit's taxonomy walker cannot handle
-them), then the descriptions are added for output.
+The ontology is classified without descriptions (the toolkit's taxonomy walker cannot handle them). The 20261001
+file is 919 MB (5.0M axioms); converting takes ~95s and ~6 GB.
 
-When the file is loaded for querying (`--owl`), one more thing is added in memory only: the class axioms map to
-blank nodes in RDF (`:c rdfs:subClassOf [ owl:intersectionOf (:p1 :p2 ...) ]`), so each concept's named
-(proximal) parents are also asserted directly as `:c rdfs:subClassOf :p`. These triples are entailed by the
-axioms and let the hierarchy be queried with `rdfs:subClassOf+`.
+### Example: an active concept
+
+All the axioms for 195967001 |Asthma|. Lines starting with `+` are added by this project, the `-` line is the stock
+(stated) axiom that the inferred one replaces; other lines are as in the stock file. (The stock file has the same
+labels, without the `Annotation(...)` parts.)
+
+```diff
+ Declaration(Class(:195967001))
+-SubClassOf(:195967001 ObjectIntersectionOf(:64572001 ObjectSomeValuesFrom(:609096000 ObjectSomeValuesFrom(:363698007 :89187006))))
++SubClassOf(:195967001 ObjectIntersectionOf(:50043002 ObjectSomeValuesFrom(:609096000 ObjectSomeValuesFrom(:363698007 :89187006))))
++AnnotationAssertion(:moduleId :195967001 :900000000000207008)
++AnnotationAssertion(:effectiveTime :195967001 "20040731"^^xsd:string)
++AnnotationAssertion(:isMemberOf :195967001 :447562003)
++AnnotationAssertion(:isMemberOf :195967001 :733073007)
++AnnotationAssertion(:isMemberOf :195967001 :900000000000497000)
++AnnotationAssertion(Annotation(:caseSignificanceId :900000000000448009) Annotation(:descriptionId "580135014"^^xsd:string) Annotation(:effectiveTime "20170731"^^xsd:string) Annotation(:moduleId :900000000000207008) Annotation(:typeId :900000000000003001) Annotation(:900000000000508004 :900000000000548007) Annotation(:900000000000509007 :900000000000548007) rdfs:label :195967001 "Asthma (disorder)"@en)
++AnnotationAssertion(Annotation(:caseSignificanceId :900000000000448009) Annotation(:descriptionId "301485011"^^xsd:string) Annotation(:effectiveTime "20170731"^^xsd:string) Annotation(:moduleId :900000000000207008) Annotation(:typeId :900000000000013009) Annotation(:900000000000508004 :900000000000548007) Annotation(:900000000000509007 :900000000000548007) skos:prefLabel :195967001 "Asthma"@en)
++AnnotationAssertion(Annotation(:caseSignificanceId :900000000000448009) Annotation(:descriptionId "301480018"^^xsd:string) Annotation(:effectiveTime "20170731"^^xsd:string) Annotation(:moduleId :900000000000207008) Annotation(:typeId :900000000000013009) Annotation(:900000000000508004 :900000000000549004) Annotation(:900000000000509007 :900000000000549004) skos:altLabel :195967001 "Bronchial asthma"@en)
+ ... (6 more skos:altLabel synonyms, annotated the same way)
+```
+
+- The stated parent 64572001 |Disease| is replaced by the inferred proximal parent 50043002 |Disorder of
+  respiratory system|.
+- `:900000000000508004` / `:900000000000509007` are the GB / US English language refsets, used as annotation
+  properties; `:900000000000548007` = preferred, `:900000000000549004` = acceptable.
+- In RDF (as loaded for SPARQL), each annotated label is the triple `:195967001 skos:prefLabel "Asthma"@en` plus a
+  reified `owl:Axiom` node: `[ a owl:Axiom ; owl:annotatedSource :195967001 ; owl:annotatedProperty skos:prefLabel ;
+  owl:annotatedTarget "Asthma"@en ; :descriptionId "301485011" ; :typeId :900000000000013009 ; ... ]`, which is
+  what description filters query.
+
+### Example: an inactive concept with a historical association
+
+155574008 |Asthma| (inactive, SAME AS 195967001). The stock file has nothing for it; everything is added:
+
+```diff
++AnnotationAssertion(owl:deprecated :155574008 "true"^^xsd:boolean)
++AnnotationAssertion(:moduleId :155574008 :900000000000207008)
++AnnotationAssertion(:effectiveTime :155574008 "20020131"^^xsd:string)
++AnnotationAssertion(:900000000000527005 :155574008 :195967001)
++AnnotationAssertion(:isMemberOf :155574008 :900000000000527005)
++AnnotationAssertion(:isMemberOf :155574008 :900000000000489007)
++AnnotationAssertion(:isMemberOf :155574008 :900000000000497000)
++AnnotationAssertion(Annotation(:caseSignificanceId :900000000000448009) Annotation(:descriptionId "2724893013"^^xsd:string) Annotation(:effectiveTime "20170731"^^xsd:string) Annotation(:moduleId :900000000000207008) Annotation(:typeId :900000000000003001) Annotation(:900000000000508004 :900000000000548007) Annotation(:900000000000509007 :900000000000548007) rdfs:label :155574008 "Asthma (disorder)"@en)
++AnnotationAssertion(Annotation(:caseSignificanceId :900000000000448009) Annotation(:descriptionId "242335016"^^xsd:string) Annotation(:effectiveTime "20170731"^^xsd:string) Annotation(:moduleId :900000000000207008) Annotation(:typeId :900000000000013009) Annotation(:900000000000508004 :900000000000548007) Annotation(:900000000000509007 :900000000000548007) skos:prefLabel :155574008 "Asthma"@en)
+```
+
+- No `Declaration(Class(...))` and no class axiom: inactive concepts are not in the hierarchy and never match `*`.
+- `AnnotationAssertion(:900000000000527005 :155574008 :195967001)`: the SAME AS association refset is the
+  annotation property (declared once: `Declaration(AnnotationProperty(:900000000000527005))`), so
+  `<< 195967001 {{ + HISTORY-MIN }}` finds 155574008.
+- 900000000000489007 is the concept inactivation indicator refset, 900000000000497000 the CTV3 simple map.
+
+### Example: the root concept
+
+```diff
+ Declaration(Class(:138875005))
+-SubClassOf(:138875005 owl:Thing)
++AnnotationAssertion(:moduleId :138875005 :900000000000207008)
++AnnotationAssertion(:effectiveTime :138875005 "20020131"^^xsd:string)
++AnnotationAssertion(:isMemberOf :138875005 :900000000000497000)
+ ... (descriptions, annotated as above)
+```
+
+### Declarations added
+
+```diff
++Declaration(AnnotationProperty(:isMemberOf))
++Declaration(AnnotationProperty(:900000000000527005))   (one per association refset: 10 for 20261001)
++Declaration(AnnotationProperty(:900000000000509007))   (one per language refset: 2 for 20261001)
++Declaration(AnnotationProperty(:moduleId))
++Declaration(AnnotationProperty(:effectiveTime))
++Declaration(AnnotationProperty(:descriptionId))
++Declaration(AnnotationProperty(:typeId))
++Declaration(AnnotationProperty(:caseSignificanceId))
++Declaration(AnnotationProperty(skos:definition))
+```
+
+### Index triples added when loading
+
+When the file is loaded for querying (`--owl`), index triples are added in memory only (the file is unchanged).
+For 20261001 the store holds 28.0M triples (+1.6M index) and loads in ~70s (run with `-Xmx20g`).
+The class axioms map to blank nodes in RDF (`:c rdfs:subClassOf [ owl:intersectionOf (:p1 :p2 ...) ]`), which
+are slow to navigate, especially backwards from a value to the concept:
+
+| Index triple | Meaning | Used for |
+|---|---|---|
+| `:c rdfs:subClassOf :p` | each named (proximal) parent of the concept (entailed by the axiom) | hierarchy operators (`rdfs:subClassOf+`) |
+| `:c sct:hasRestriction _:r` | each attribute restriction node of the concept's axiom, ungrouped or inside a role group (`_:r owl:onProperty :attr ; owl:someValuesFrom :value` or `owl:hasValue literal`) | refinements, dot notation, reverse attributes; restriction nodes are kept so relationships can be counted |
+| `:c sct:hasRoleGroup _:g` | the filler of each role group (`ObjectSomeValuesFrom(:609096000 _:g)`) | attribute groups `{ }` |
+
+## ECL to SPARQL: not yet supported
+
+Valid ECL the translation rejects (HTTP 501), with an expected result available:
+
+| Examples | Feature | Why |
+|---|---|---|
+| 6.10-01..6.10-06, 6.10-09..6.10-11 (9) | Member filters on fields other than `referencedComponentId` and association `targetComponentId` (e.g. `mapTarget`, `mapGroup`), member `effectiveTime` / `moduleId` / `active` | Refset member fields are not in the OWL file (decided 2026-10-16: concept metadata only for now) |
+| 6.12-01, 6.12-03, 6.12-05 | Top/bottom of set `!!>` `!!<` | Dropped by snomed-ecl-parser (no expected result either: Snowstorm 11 rejects them) |
+
+Description filters only see **active** descriptions (`{{ D active = 0 }}` matches nothing), and dialect aliases
+map to a fixed list of language refsets (an alias without a language refset in the release matches nothing).
+
+Known difference: for `{{ + HISTORY }}`, `HISTORY-MAX`, `HISTORY (*)` and `HISTORY (< 900000000000522004)`
+(6.11-09..12), Snowstorm also returns 492714018, a *description* id (a member of the REFERS TO concept
+association refset). Results here are concepts only; the tests compare concept ids.
+
+## Slow examples
+
+Every supported example runs in under 10 s on the 20261001 data (Apple silicon, query only, no paging). These take
+2 s or more, to be optimized later. Most refine a large focus (e.g. the 129,411 descendants of 404684003
+|Clinical finding|): each focus concept is checked with a FILTER EXISTS over its attribute restrictions.
+
+| Example | Seconds | Total | ECL |
+|---|---|---|---|
+| 6.4-21 | 8.4 | 38 | `< 404684003 : { 363698007 = << 39057004, 116676008 = << 415582006 } OR { ... }` |
+| 6.3-20 | 5.9 | 74,424 | `< 404684003 : [1..1] { 363698007 = < 91723000 }` |
+| 6.3-08 | 5.8 | 74,424 | `< 404684003 : [1..1] 363698007 = < 91723000` |
+| 6.3-21 | 4.8 | 129,411 | `< 404684003 : [0..0] { [2..*] 363698007 = < 91723000 }` |
+| 6.3-10 | 4.7 | 0 | `< 404684003 : { [2..*] 363698007 = < 91723000 }` |
+| 6.7-10 | 4.4 | 33 | `(< 404684003 : 363698007 = << 39057004) AND (< 404684003 : 116676008 = << 415582006)` |
+| 6.2-05 | 4.3 | 11 | `< 404684003 : { 363698007 = << 39057004, 116676008 = << 415582006 }` |
+| 6.3-09 | 3.6 | 15,220 | `< 404684003 : [2..*] 363698007 = < 91723000` |
+| 6.4-12 | 3.4 | 33 | `< 404684003 : 363698007 = << 39057004, 116676008 = << 415582006` |
+| 6.2-03 | 3.4 | 33 | `< 404684003 : 363698007 = << 39057004, 116676008 = << 415582006` |
+| 6.2-12 | 2.7 | 1,055 | `< 91723000 : R 363698007 = < 125605004` |
+| 6.2-07 | 2.6 | 17 | `<< 404684003 : >> 42752001 = << 267038008` |
+| 6.2-06 | 2.6 | 18 | `<< 404684003 : << 47429007 = << 267038008` |
+| 6.8-29 | 2.1 | 2,832 | `< 125605004 MINUS * {{ term != "fracture" }}` |
 
 ## ECL examples set aside
 

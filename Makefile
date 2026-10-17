@@ -39,7 +39,7 @@ run:
 # Serve the ECL REST endpoint on port 8080 for an OWL file (default: the unit test OWL)
 serve:
 	./gradlew bootJar
-	java -Xmx16g -jar build/libs/$(SERVICE)-$(APP_VERSION)-exec.jar --owl=$(OWL)
+	java -Xmx20g -jar build/libs/$(SERVICE)-$(APP_VERSION)-exec.jar --owl=$(OWL)
 
 # Regenerate the inferred OWL file used by the unit tests from the RF2 release
 test-data:

@@ -36,6 +36,7 @@ import org.ihtsdo.otf.snomedboot.ReleaseImporter;
 import org.ihtsdo.otf.snomedboot.factory.LoadingProfile;
 import org.semanticweb.elk.owlapi.ElkReasonerFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -71,8 +72,10 @@ import org.snomed.otf.owltoolkit.taxonomy.SnomedTaxonomyLoader;
  * <li>Add {@code AnnotationAssertion(:isMemberOf :member :refset)} for each active concept refset membership.</li>
  * <li>Add {@code AnnotationAssertion(:refset :source :target)} for each active association refset member (e.g.
  * historical associations), with each association refset declared as an annotation property.</li>
- * <li>Inactive concepts referenced by the above are annotated {@code owl:deprecated} with their FSN as
- * {@code rdfs:label}, but are not declared as classes.</li>
+ * <li>Inactive concepts referenced by the above are annotated {@code owl:deprecated}, but are not declared as
+ * classes.</li>
+ * <li>Concept moduleId / effectiveTime, and descriptions with their RF2 fields as axiom annotations (see
+ * {@link DescriptionAnnotator}), replacing the toolkit's term-only description annotations.</li>
  * </ol>
  */
 public class InferredOwlConverter {
@@ -87,14 +90,12 @@ public class InferredOwlConverter {
   private static final LoadingProfile LOADING_PROFILE = new LoadingProfile()
       .withConcepts()
       .withRelationships()
-      .withDescriptions()
       .withInactiveConcepts()
       .withStatedRelationships()
       .withInactiveRelationships()
       .withAllRefsets()
       .withIncludedReferenceSetFilenamePattern(".*_sRefset_.*OWL.*")
-      .withIncludedReferenceSetFilenamePattern(".*_cissccRefset_.*MRCMAttributeDomain.*")
-      .withIncludedReferenceSetFilenamePattern("der2_cRefset_.*Language.*");
+      .withIncludedReferenceSetFilenamePattern(".*_cissccRefset_.*MRCMAttributeDomain.*");
 
   /**
    * Convert the release to an inferred OWL file.
@@ -120,10 +121,10 @@ public class InferredOwlConverter {
     // inferred normal form
     final InferredRelationshipCollector collector = classify(taxonomy, ungroupedRoles, stats);
 
-    // Build the output ontology: the stock (stated) ontology with descriptions as annotations
+    // Build the output ontology: the stock (stated) ontology, without descriptions (added in step 5, annotated)
     final OntologyService ontologyService = new OntologyService(ungroupedRoles);
     final OWLOntology ontology =
-        ontologyService.createOntology(taxonomy, ontologyUri, release.getVersionDate(), true);
+        ontologyService.createOntology(taxonomy, ontologyUri, release.getVersionDate(), false);
     LOGGER.info("Stated ontology built: {} concepts, {} axioms", stats.concepts, ontology.getAxiomCount());
 
     // 3. Replace stated class axioms with inferred ones
@@ -152,11 +153,12 @@ public class InferredOwlConverter {
         stats.inferredClassAxioms);
 
     // 4. Add refset memberships and historical associations (members may be inactive concepts)
-    final Map<Long, Boolean> conceptStatus = RefsetMembershipReader.readConcepts(release.getConceptFile());
+    final Map<Long, RefsetMembershipReader.Rf2Concept> rf2Concepts =
+        RefsetMembershipReader.readConcepts(release.getConceptFile());
     final Map<Long, Set<Long>> memberships =
-        RefsetMembershipReader.read(release.getRefsetFiles(), conceptStatus.keySet());
+        RefsetMembershipReader.read(release.getRefsetFiles(), rf2Concepts.keySet());
     final Map<Long, Set<RefsetMembershipReader.Association>> associations =
-        RefsetMembershipReader.readAssociations(release.getAssociationFiles(), conceptStatus.keySet());
+        RefsetMembershipReader.readAssociations(release.getAssociationFiles(), rf2Concepts.keySet());
     final OWLAnnotationProperty isMemberOf = factory.getOWLAnnotationProperty(IRI.create(IS_MEMBER_OF_IRI));
     final Set<OWLAxiom> membershipAxioms = new HashSet<>();
     final Set<Long> referenced = new HashSet<>();
@@ -183,16 +185,11 @@ public class InferredOwlConverter {
       }
     }
     // Inactive concepts are not declared as classes (so they are not matched by "*" or the hierarchy); they are
-    // marked owl:deprecated and labelled with their FSN
-    final Set<Long> inactive = referenced.stream().filter(id -> !conceptStatus.get(id))
+    // marked owl:deprecated (and get descriptions and metadata like active concepts, below)
+    final Set<Long> inactive = referenced.stream().filter(id -> !rf2Concepts.get(id).active())
         .collect(Collectors.toCollection(TreeSet::new));
-    final Map<Long, String> fsns = RefsetMembershipReader.readFsns(release.getDescriptionFiles(), inactive);
     for (final Long id : inactive) {
       membershipAxioms.add(factory.getDeprecatedOWLAnnotationAssertionAxiom(conceptIri(id)));
-      if (fsns.containsKey(id)) {
-        membershipAxioms.add(factory.getOWLAnnotationAssertionAxiom(factory.getRDFSLabel(), conceptIri(id),
-            factory.getOWLLiteral(fsns.get(id), "en")));
-      }
     }
     stats.inactiveConcepts = inactive.size();
     ontology.getOWLOntologyManager().addAxioms(ontology, membershipAxioms);
@@ -200,7 +197,20 @@ public class InferredOwlConverter {
         + "{} inactive concepts", stats.memberships, stats.refsets, stats.associations, associations.size(),
         stats.inactiveConcepts);
 
-    // 5. Save
+    // 5. Concept metadata and descriptions, with their RF2 fields as axiom annotations
+    final Set<Long> conceptIds = new HashSet<>(taxonomy.getAllConceptIds());
+    conceptIds.addAll(inactive);
+    final DescriptionAnnotator annotator = new DescriptionAnnotator(factory);
+    final Set<OWLAxiom> metadataAxioms = annotator.conceptAxioms(rf2Concepts, conceptIds);
+    ontology.getOWLOntologyManager().addAxioms(ontology, metadataAxioms);
+    final Set<OWLAxiom> descriptionAxioms =
+        annotator.descriptionAxioms(release.getDescriptionFiles(), release.getLanguageFiles(), conceptIds);
+    ontology.getOWLOntologyManager().addAxioms(ontology, descriptionAxioms);
+    stats.descriptions = descriptionAxioms.stream().filter(a -> a.isOfType(AxiomType.ANNOTATION_ASSERTION)).count();
+    LOGGER.info("Added module/effectiveTime for {} concepts and {} descriptions", conceptIds.size(),
+        stats.descriptions);
+
+    // 6. Save
     save(taxonomy, ontology, ontologyService, outputFile);
     LOGGER.info("Wrote {} ({} axioms)", outputFile, ontology.getAxiomCount());
     return stats;
@@ -391,6 +401,9 @@ public class InferredOwlConverter {
     /** Number of inactive concepts referenced by memberships or associations. */
     private long inactiveConcepts;
 
+    /** Number of description annotations. */
+    private long descriptions;
+
     /**
      * Returns the concepts.
      *
@@ -488,6 +501,15 @@ public class InferredOwlConverter {
      */
     public long getInactiveConcepts() {
       return inactiveConcepts;
+    }
+
+    /**
+     * Returns the descriptions.
+     *
+     * @return the descriptions
+     */
+    public long getDescriptions() {
+      return descriptions;
     }
 
   }

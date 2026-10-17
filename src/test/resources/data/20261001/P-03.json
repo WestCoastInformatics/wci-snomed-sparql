@@ -1,0 +1,8 @@
+{
+  "id" : "P-03",
+  "ecl" : "< 64572001 |Disease| {{ term = (match:\"gas\" wild:\"*itis\") }} {{ term = \"heart att\" }}",
+  "status" : 200,
+  "total" : 0,
+  "ids" : [ ],
+  "error" : null
+}

@@ -16,8 +16,11 @@
 package com.wci.snomed.sparql.ecl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.regex.Pattern;
 import org.snomed.langauges.ecl.domain.ConceptReference;
@@ -29,11 +32,20 @@ import org.snomed.langauges.ecl.domain.expressionconstraint.RefinedExpressionCon
 import org.snomed.langauges.ecl.domain.expressionconstraint.SubExpressionConstraint;
 import org.snomed.langauges.ecl.domain.filter.ActiveFilter;
 import org.snomed.langauges.ecl.domain.filter.ConceptFilterConstraint;
+import org.snomed.langauges.ecl.domain.filter.DescriptionFilterConstraint;
+import org.snomed.langauges.ecl.domain.filter.DescriptionIdFilter;
+import org.snomed.langauges.ecl.domain.filter.DescriptionTypeFilter;
+import org.snomed.langauges.ecl.domain.filter.DialectAcceptability;
+import org.snomed.langauges.ecl.domain.filter.DialectFilter;
+import org.snomed.langauges.ecl.domain.filter.EffectiveTimeFilter;
 import org.snomed.langauges.ecl.domain.filter.FieldFilter;
 import org.snomed.langauges.ecl.domain.filter.HistoryProfile;
 import org.snomed.langauges.ecl.domain.filter.HistorySupplement;
+import org.snomed.langauges.ecl.domain.filter.LanguageFilter;
 import org.snomed.langauges.ecl.domain.filter.MemberFieldFilter;
 import org.snomed.langauges.ecl.domain.filter.MemberFilterConstraint;
+import org.snomed.langauges.ecl.domain.filter.SearchType;
+import org.snomed.langauges.ecl.domain.filter.TermFilter;
 import org.snomed.langauges.ecl.domain.filter.TypedSearchTerm;
 import org.snomed.langauges.ecl.domain.refinement.EclAttribute;
 import org.snomed.langauges.ecl.domain.refinement.EclAttributeGroup;
@@ -82,6 +94,16 @@ final class SparqlGenerator {
 
   /** Path from a role group's filler to its attribute restrictions. */
   private static final String GROUP_MEMBER_PATH = "(owl:intersectionOf/rdf:rest*/rdf:first)?";
+
+  /** Language refsets by dialect alias (as known to Snowstorm). */
+  private static final Map<String, String> DIALECTS = Map.ofEntries(Map.entry("en-us", "900000000000509007"),
+      Map.entry("en-gb", "900000000000508004"), Map.entry("en-au", "32570271000036106"),
+      Map.entry("en-ca", "19491000087109"), Map.entry("en-nz", "271000210107"), Map.entry("en-ie", "21000220103"),
+      Map.entry("en-nhs-clinical", "999001261000000100"), Map.entry("en-nhs-pharmacy", "999000691000001104"),
+      Map.entry("es", "450828004"), Map.entry("es-ar", "450828004"), Map.entry("sv", "46011000052107"),
+      Map.entry("da", "554461000005103"), Map.entry("nl", "31000146106"), Map.entry("nl-be", "31000172101"),
+      Map.entry("fr-be", "21000172104"), Map.entry("de", "722130004"), Map.entry("fr", "722131000"),
+      Map.entry("fr-ca", "20581000087109"), Map.entry("no", "61000202103"), Map.entry("et", "71000181105"));
 
   /** Largest cardinality checked with pairwise distinct patterns (beyond it, an aggregate is used). */
   private static final int MAX_PAIRWISE = 5;
@@ -240,6 +262,11 @@ final class SparqlGenerator {
         conceptFilter(filter, v, indent);
       }
     }
+    if (sub.getDescriptionFilterConstraints() != null) {
+      for (final DescriptionFilterConstraint filter : sub.getDescriptionFilterConstraints()) {
+        descriptionFilter(filter, v, indent);
+      }
+    }
     if (sub.getMemberFilterConstraints() != null) {
       for (final MemberFilterConstraint filter : sub.getMemberFilterConstraints()) {
         memberFilter(filter, focus, v, indent);
@@ -258,6 +285,10 @@ final class SparqlGenerator {
    */
   private String focus(final SubExpressionConstraint sub, final String v, final int indent, final boolean bound) {
     final Operator op = sub.getOperator();
+    if (sub.isAltIdentifier()) {
+      throw new UnsupportedEclException("Alternate identifiers (e.g. LOINC#...) are not supported "
+          + "(not in the OWL file)");
+    }
     if (sub.isWildcard()) {
       return wildcard(op, v, indent);
     }
@@ -386,9 +417,6 @@ final class SparqlGenerator {
     if (sub.getMemberFieldsToReturn() != null || sub.isReturnAllMemberFields()) {
       throw new UnsupportedEclException("Member field selection is not supported (results are concepts)");
     }
-    if (sub.getDescriptionFilterConstraints() != null) {
-      throw new UnsupportedEclException("Description filters are not yet supported");
-    }
   }
 
   //
@@ -396,8 +424,8 @@ final class SparqlGenerator {
   //
 
   /**
-   * Concept filter: definition status (from the class axiom: EquivalentClasses = defined) and active (inactive
-   * concepts are not classes). Module and effective time are not in the OWL file.
+   * Concept filter: definition status (from the class axiom: EquivalentClasses = defined), active (inactive
+   * concepts are not classes), and module and effective time (concept annotations).
    *
    * @param filter the filter
    * @param v the (bound) variable
@@ -405,8 +433,9 @@ final class SparqlGenerator {
    */
   private void conceptFilter(final ConceptFilterConstraint filter, final String v, final int indent) {
     if (filter.getModuleFilters() != null || filter.getEffectiveTimeFilters() != null) {
-      throw new UnsupportedEclException("Concept moduleId and effectiveTime filters are not supported "
-          + "(not in the OWL file)");
+      line(indent, "FILTER EXISTS {");
+      moduleAndEffectiveTime(v, filter.getModuleFilters(), filter.getEffectiveTimeFilters(), indent + 1);
+      line(indent, "}");
     }
     if (filter.getDefinitionStatusFilters() != null) {
       for (final FieldFilter field : filter.getDefinitionStatusFilters()) {
@@ -438,6 +467,223 @@ final class SparqlGenerator {
             : "FILTER EXISTS { " + v + " owl:deprecated true }");
       }
     }
+  }
+
+  /**
+   * Append the patterns checking the moduleId and effectiveTime annotations of a (bound) concept or description.
+   *
+   * @param subject the subject (concept, or description axiom node)
+   * @param modules the module filters (or null)
+   * @param times the effective time filters (or null)
+   * @param indent the indent level
+   */
+  private void moduleAndEffectiveTime(final String subject, final List<FieldFilter> modules,
+    final List<EffectiveTimeFilter> times, final int indent) {
+    if (modules != null) {
+      for (final FieldFilter module : modules) {
+        final String m = var("m");
+        line(indent, subject + " sct:moduleId " + m + " .");
+        conceptIn(m, module.getConceptReferences(), module.getSubExpressionConstraint(), module.isEquals(),
+            indent);
+      }
+    }
+    if (times != null) {
+      for (final EffectiveTimeFilter time : times) {
+        final String et = var("et");
+        line(indent, subject + " sct:effectiveTime " + et + " .");
+        final String value = "xsd:integer(" + et + ")";
+        final List<String> dates = time.getEffectiveTime().stream().map(String::valueOf).toList();
+        final String op = time.getOperator().getText();
+        if (dates.size() == 1) {
+          line(indent, "FILTER(" + value + " " + op + " " + dates.get(0) + ")");
+        } else if ("=".equals(op) || "!=".equals(op)) {
+          line(indent, "FILTER(" + value + ("=".equals(op) ? " IN (" : " NOT IN (") + String.join(", ", dates)
+              + "))");
+        } else {
+          throw new UnsupportedEclException("effectiveTime " + op + " with a set of dates");
+        }
+      }
+    }
+  }
+
+  /**
+   * Append the check that a (bound) concept variable is (or is not) one of the referenced concepts, or matches an
+   * expression.
+   *
+   * @param v the variable
+   * @param references the concept references (or null)
+   * @param expression the expression (or null)
+   * @param equals true for =, false for !=
+   * @param indent the indent level
+   */
+  private void conceptIn(final String v, final List<ConceptReference> references,
+    final SubExpressionConstraint expression, final boolean equals, final int indent) {
+    if (expression != null && constant(expression) != null) {
+      line(indent, "FILTER(" + v + (equals ? " = " : " != ") + constant(expression) + ")");
+      return;
+    }
+    if (expression != null) {
+      if (equals) {
+        constraint(expression, v, indent, true);
+      } else {
+        line(indent, "FILTER NOT EXISTS {");
+        constraint(expression, v, indent + 1, true);
+        line(indent, "}");
+      }
+      return;
+    }
+    final String ids = String.join(", ", references.stream().map(r -> "sct:" + r.getConceptId()).toList());
+    line(indent, "FILTER(" + v + (equals ? " IN (" : " NOT IN (") + ids + "))");
+  }
+
+  /**
+   * Description filter: the (bound) concept has an active description satisfying every condition of the filter.
+   * Descriptions are the concept's label annotations (rdfs:label, skos:prefLabel, skos:altLabel, skos:definition)
+   * with their RF2 fields as axiom annotations, i.e. in RDF an owl:Axiom node with owl:annotatedSource = concept.
+   *
+   * @param filter the filter
+   * @param v the (bound) concept variable
+   * @param indent the indent level
+   */
+  private void descriptionFilter(final DescriptionFilterConstraint filter, final String v, final int indent) {
+    final String d = var("d");
+    final String term = var("term");
+    final String type = var("type");
+    final String id = var("id");
+    final int i = indent + 1;
+    line(indent, "FILTER EXISTS {");
+    line(i, d + " owl:annotatedSource " + v + " ; sct:descriptionId " + id + " ; owl:annotatedTarget " + term
+        + " ; sct:typeId " + type + " .");
+    if (filter.getActiveFilters() != null && filter.getActiveFilters().stream().anyMatch(a -> !a.isActive())) {
+      // only active descriptions are in the OWL file
+      line(i, "FILTER(false)");
+    }
+    if (filter.getTermFilters() != null) {
+      for (final TermFilter termFilter : filter.getTermFilters()) {
+        final List<String> matches = new ArrayList<>();
+        for (final TypedSearchTerm search : termFilter.getTypedSearchTermSet()) {
+          matches.add(termMatch(term, search));
+        }
+        final String any = "(" + String.join(" || ", matches) + ")";
+        line(i, "FILTER(" + ("=".equals(termFilter.getBooleanComparisonOperator()) ? any : "!" + any) + ")");
+      }
+    }
+    if (filter.getDescriptionTypeFilters() != null) {
+      for (final DescriptionTypeFilter typeFilter : filter.getDescriptionTypeFilters()) {
+        final boolean equals = "=".equals(typeFilter.getBooleanComparisonOperator());
+        if (typeFilter.getTypes() != null) {
+          final String ids = String.join(", ", typeFilter.getTypes().stream().map(t -> "sct:" + t.getTypeId())
+              .toList());
+          line(i, "FILTER(" + type + (equals ? " IN (" : " NOT IN (") + ids + "))");
+        } else {
+          conceptIn(type, null, typeFilter.getSubExpressionConstraint(), equals, i);
+        }
+      }
+    }
+    if (filter.getLanguageFilters() != null) {
+      for (final LanguageFilter language : filter.getLanguageFilters()) {
+        final String codes = String.join(", ", language.getLanguageCodes().stream()
+            .map(c -> literal(c.toLowerCase(Locale.ROOT))).toList());
+        line(i, "FILTER(lcase(lang(" + term + "))" + ("=".equals(language.getBooleanComparisonOperator())
+            ? " IN (" : " NOT IN (") + codes + "))");
+      }
+    }
+    if (filter.getDialectFilters() != null) {
+      for (final DialectFilter dialect : filter.getDialectFilters()) {
+        dialectFilter(dialect, d, i);
+      }
+    }
+    moduleAndEffectiveTime(d, filter.getModuleFilters(), filter.getEffectiveTimeFilters(), i);
+    if (filter.getIdFilters() != null) {
+      for (final DescriptionIdFilter idFilter : filter.getIdFilters()) {
+        final String ids = String.join(", ", idFilter.getDescriptionIds().stream().sorted().map(s -> {
+          if (!s.chars().allMatch(Character::isDigit)) {
+            throw new UnsupportedEclException("Invalid description id: " + s);
+          }
+          return literal(s);
+        }).toList());
+        line(i, "FILTER(str(" + id + ")" + ("=".equals(idFilter.getBooleanComparisonOperator()) ? " IN ("
+            : " NOT IN (") + ids + "))");
+      }
+    }
+    line(indent, "}");
+  }
+
+  /**
+   * Returns the SPARQL expression matching a term against a search term. A match search is word-prefix, any order
+   * (each word of the search term must start a word of the term), case-insensitive; a wildcard search matches the
+   * whole term with {@code *} as any characters, case-insensitive.
+   *
+   * @param term the term variable
+   * @param search the search term
+   * @return the expression
+   */
+  private static String termMatch(final String term, final TypedSearchTerm search) {
+    if (search.getType() == SearchType.WILDCARD) {
+      final StringBuilder regex = new StringBuilder("^");
+      for (final char c : search.getTerm().toCharArray()) {
+        if (c == '*') {
+          regex.append(".*");
+        } else if ("\\.[]{}()<>+-?^$|=!:,#&~/\"'".indexOf(c) >= 0) {
+          regex.append('\\').append(c);
+        } else {
+          regex.append(c);
+        }
+      }
+      regex.append('$');
+      return "regex(" + term + ", " + literal(regex.toString()) + ", \"i\")";
+    }
+    final List<String> words = Arrays.stream(search.getTerm().split("[^\\p{L}\\p{N}]+"))
+        .filter(w -> !w.isEmpty()).toList();
+    if (words.isEmpty()) {
+      return "true";
+    }
+    return "(" + String.join(" && ", words.stream()
+        .map(w -> "regex(" + term + ", " + literal("(^|[^\\p{L}\\p{N}])" + w) + ", \"i\")").toList()) + ")";
+  }
+
+  /**
+   * Dialect filter: the description is in one of the language refsets (by alias or id), with one of the given
+   * acceptabilities if any. Language refsets are annotation properties of the description axiom:
+   * {@code :<languageRefset> :<acceptability>}.
+   *
+   * @param dialect the dialect filter
+   * @param d the description axiom node variable
+   * @param indent the indent level
+   */
+  private void dialectFilter(final DialectFilter dialect, final String d, final int indent) {
+    final List<String> alternatives = new ArrayList<>();
+    for (final DialectAcceptability acceptability : dialect.getDialectAcceptabilities()) {
+      final String refset;
+      if (acceptability.getDialectAlias() != null) {
+        final String id = DIALECTS.get(acceptability.getDialectAlias().toLowerCase(Locale.ROOT));
+        if (id == null) {
+          // a dialect without a language refset in this edition matches nothing
+          continue;
+        }
+        refset = "sct:" + id;
+      } else {
+        final String constant = acceptability.getDialectId() != null
+            ? "sct:" + acceptability.getDialectId().getConceptId()
+            : constant(acceptability.getSubExpressionConstraint());
+        if (constant == null) {
+          throw new UnsupportedEclException("dialectId filters with an expression are not supported");
+        }
+        refset = constant;
+      }
+      final List<String> accept = new ArrayList<>();
+      if (acceptability.getAcceptabilityTokenSet() != null) {
+        acceptability.getAcceptabilityTokenSet().forEach(a -> accept.add("sct:" + a.getAcceptabilityId()));
+      }
+      if (acceptability.getAcceptabilityIdSet() != null) {
+        acceptability.getAcceptabilityIdSet().forEach(a -> accept.add("sct:" + a.getConceptId()));
+      }
+      final String a = var("acc");
+      alternatives.add("EXISTS { " + d + " " + refset + " " + a + " ."
+          + (accept.isEmpty() ? "" : " FILTER(" + a + " IN (" + String.join(", ", accept) + "))") + " }");
+    }
+    final String any = alternatives.isEmpty() ? "false" : "(" + String.join(" || ", alternatives) + ")";
+    line(indent, "FILTER(" + ("=".equals(dialect.getBooleanComparisonOperator()) ? any : "!" + any) + ")");
   }
 
   /**

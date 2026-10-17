@@ -139,7 +139,7 @@ def owlApiJvmArgs = ["--add-opens", "java.base/java.lang=ALL-UNNAMED"]
 
 test {
   useJUnitPlatform()
-  jvmArgs(["-Xmx12G"] + owlApiJvmArgs)
+  jvmArgs(["-Xmx20G"] + owlApiJvmArgs)
   testLogging.showStandardStreams = true
 }
 
@@ -156,7 +156,7 @@ jar {
 }
 
 bootRun {
-  jvmArgs = ["-Xmx16G"] + owlApiJvmArgs
+  jvmArgs = ["-Xmx20G"] + owlApiJvmArgs
   // Pass application args, e.g. ./gradlew bootRun --args="--owl=path/to/file.owl"
 }
 

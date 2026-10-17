@@ -253,6 +253,50 @@ public class EclTranslatorTest {
   }
 
   /**
+   * Description filters (term match / wildcard, type, language, dialect, id, module, effective time) and concept
+   * module / effective time filters.
+   */
+  @Test
+  public void testDescriptionFilters() {
+    final long[] thyroid = new long[] {
+        999990008L
+    };
+    assertArrayEquals(thyroid, eval("< 404684003 {{ term = \"thyr dis\" }}"));
+    assertArrayEquals(thyroid, eval("< 404684003 {{ term = \"dis thy\" }}"));
+    assertArrayEquals(new long[0], eval("< 404684003 {{ term = \"hyroid\" }}"));
+    assertArrayEquals(thyroid, eval("< 404684003 {{ term = wild:\"thyroid*\" }}"));
+    assertArrayEquals(new long[0], eval("< 404684003 {{ term = wild:\"thyroid\" }}"));
+    assertArrayEquals(new long[] {
+        362969004L, 999990008L
+    }, eval("< 404684003 {{ D term = (\"thyroid\" \"endocrine\"), type = fsn }}"));
+    // the preferred synonym only exists for 999990008
+    assertArrayEquals(thyroid, eval("< 404684003 {{ type = syn }}"));
+    assertArrayEquals(thyroid, eval("< 404684003 {{ term = \"thyroid\", type = syn, dialect = en-us (prefer) }}"));
+    assertArrayEquals(new long[0], eval("< 404684003 {{ dialect = en-gb }}"));
+    assertArrayEquals(new long[0], eval("< 404684003 {{ dialect = en-au }}"));
+    assertArrayEquals(new long[] {
+        362969004L, 999990008L
+    }, eval("< 404684003 {{ language = EN }}"));
+    assertArrayEquals(new long[0], eval("< 404684003 {{ term = \"thyroid\", language = sv }}"));
+    assertArrayEquals(thyroid, eval("< 404684003 {{ D id = 999990028 }}"));
+    assertArrayEquals(thyroid, eval("< 404684003 {{ term = \"thyroid\" }} {{ term = \"disorder\", type = fsn }}"));
+    assertArrayEquals(new long[] {
+        362969004L
+    }, eval("< 404684003 {{ term != \"thyroid\" }}"));
+    assertArrayEquals(thyroid, eval("< 404684003 {{ D effectiveTime >= \"20190131\" }}"));
+    assertArrayEquals(new long[] {
+        362969004L
+    }, eval("< 404684003 {{ D effectiveTime = (\"20170731\" \"20180131\") }}"));
+    assertArrayEquals(new long[0], eval("< 404684003 {{ D active = 0 }}"));
+    // concept module and effective time
+    assertArrayEquals(thyroid, eval("< 404684003 {{ C effectiveTime > \"20180131\" }}"));
+    assertArrayEquals(new long[] {
+        362969004L, 999990008L
+    }, eval("< 404684003 {{ C moduleId = 900000000000207008 }}"));
+    assertArrayEquals(new long[0], eval("< 404684003 {{ C moduleId != 900000000000207008 }}"));
+  }
+
+  /**
    * Invalid and unsupported expressions.
    */
   @Test
@@ -261,10 +305,9 @@ public class EclTranslatorTest {
     assertThrows(UnsupportedEclException.class, () -> TRANSLATOR.translate("!!> (< 404684003)"));
     assertThrows(UnsupportedEclException.class, () -> TRANSLATOR.translate("!!< 404684003"));
     assertThrows(UnsupportedEclException.class,
-        () -> TRANSLATOR.translate("< 404684003 {{ C moduleId = 900000000000207008 }}"));
+        () -> TRANSLATOR.translate("^ 999991005 {{ M moduleId = 900000000000207008 }}"));
     assertThrows(UnsupportedEclException.class,
         () -> TRANSLATOR.translate("^ 999991005 {{ M mapTarget = \"J45\" }}"));
-    assertThrows(UnsupportedEclException.class, () -> TRANSLATOR.translate("< 404684003 {{ term = \"x\" }}"));
     assertThrows(UnsupportedEclException.class, () -> TRANSLATOR.translate("^ [referencedComponentId] 999991005"));
     // top/bottom inside a term or comment is fine
     assertArrayEquals(new long[] {

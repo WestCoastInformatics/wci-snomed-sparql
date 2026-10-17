@@ -3141,5 +3141,533 @@
     "executable": true,
     "note": "From the 'ECL as SPARQL' draft document (Refinements #3); not in the current spec behaviour pages.",
     "source": "ECL as SPARQL.docx"
+  },
+  {
+    "id": "P-01",
+    "section": "P snomed-ecl-parser tests",
+    "heading": "Attribute groups joined by OR, any value",
+    "ecl": "< 404684003 |Clinical finding| : { 363698007 |Finding site| = * } OR { 116676008 |Associated morphology| = * }",
+    "eclLong": null,
+    "features": [
+      "attributeGroup",
+      "conjunctionDisjunction",
+      "hierarchy",
+      "refinement",
+      "wildcard"
+    ],
+    "executable": true,
+    "note": null,
+    "source": "snomed-ecl-parser develop: src/test/java/org/snomed/langauges/ecl/"
+  },
+  {
+    "id": "P-02",
+    "section": "P snomed-ecl-parser tests",
+    "heading": "Refinement without whitespace",
+    "ecl": "<<404684003:363698007=<<123037004,116676008=<<415582006",
+    "eclLong": null,
+    "features": [
+      "conjunctionDisjunction",
+      "hierarchy",
+      "refinement"
+    ],
+    "executable": true,
+    "note": null,
+    "source": "snomed-ecl-parser develop: src/test/java/org/snomed/langauges/ecl/"
+  },
+  {
+    "id": "P-03",
+    "section": "P snomed-ecl-parser tests",
+    "heading": "Two description filters (match/wild set, then match)",
+    "ecl": "< 64572001 |Disease| {{ term = (match:\"gas\" wild:\"*itis\") }} {{ term = \"heart att\" }}",
+    "eclLong": null,
+    "features": [
+      "descriptionFilter",
+      "hierarchy"
+    ],
+    "executable": true,
+    "note": null,
+    "source": "snomed-ecl-parser develop: src/test/java/org/snomed/langauges/ecl/"
+  },
+  {
+    "id": "P-04",
+    "section": "P snomed-ecl-parser tests",
+    "heading": "Term with a set of languages",
+    "ecl": "< 64572001 |Disease| {{ term = (\"heart\"), language = (en sv) }}",
+    "eclLong": null,
+    "features": [
+      "descriptionFilter",
+      "hierarchy"
+    ],
+    "executable": true,
+    "note": null,
+    "source": "snomed-ecl-parser develop: src/test/java/org/snomed/langauges/ecl/"
+  },
+  {
+    "id": "P-05",
+    "section": "P snomed-ecl-parser tests",
+    "heading": "Term, language and type",
+    "ecl": "< 64572001 |Disease| {{ term = \"box\", language = en, type = syn }}",
+    "eclLong": null,
+    "features": [
+      "descriptionFilter",
+      "hierarchy"
+    ],
+    "executable": true,
+    "note": null,
+    "source": "snomed-ecl-parser develop: src/test/java/org/snomed/langauges/ecl/"
+  },
+  {
+    "id": "P-06",
+    "section": "P snomed-ecl-parser tests",
+    "heading": "Conflicting typeId and type in one filter",
+    "ecl": "< 56265001 |Heart disease| {{ term = \"heart\", language = en, typeId = 900000000000013009 |Synonym|, type = fsn }}",
+    "eclLong": null,
+    "features": [
+      "descriptionFilter",
+      "hierarchy"
+    ],
+    "executable": true,
+    "note": null,
+    "source": "snomed-ecl-parser develop: src/test/java/org/snomed/langauges/ecl/"
+  },
+  {
+    "id": "P-07",
+    "section": "P snomed-ecl-parser tests",
+    "heading": "Dialect alias",
+    "ecl": "< 64572001 |Disease| {{ dialect = en-gb }}",
+    "eclLong": null,
+    "features": [
+      "descriptionFilter",
+      "hierarchy"
+    ],
+    "executable": true,
+    "note": null,
+    "source": "snomed-ecl-parser develop: src/test/java/org/snomed/langauges/ecl/"
+  },
+  {
+    "id": "P-08",
+    "section": "P snomed-ecl-parser tests",
+    "heading": "Dialect id",
+    "ecl": "< 64572001 |Disease| {{ dialectId = 900000000000508004 |Great Britain English language reference set| }}",
+    "eclLong": null,
+    "features": [
+      "descriptionFilter",
+      "hierarchy"
+    ],
+    "executable": true,
+    "note": null,
+    "source": "snomed-ecl-parser develop: src/test/java/org/snomed/langauges/ecl/"
+  },
+  {
+    "id": "P-09",
+    "section": "P snomed-ecl-parser tests",
+    "heading": "Dialect id and a dialect without a language refset in the edition",
+    "ecl": "< 64572001 |Disease| {{ dialectId = 900000000000508004 }} {{ dialect = en-ie }}",
+    "eclLong": null,
+    "features": [
+      "descriptionFilter",
+      "hierarchy"
+    ],
+    "executable": true,
+    "note": null,
+    "source": "snomed-ecl-parser develop: src/test/java/org/snomed/langauges/ecl/"
+  },
+  {
+    "id": "P-10",
+    "section": "P snomed-ecl-parser tests",
+    "heading": "Dialect not in a set",
+    "ecl": "< 64572001 |Disease| {{ term = \"card\", dialect != ( en-nhs-clinical en-nhs-pharmacy ) }}",
+    "eclLong": null,
+    "features": [
+      "descriptionFilter",
+      "hierarchy"
+    ],
+    "executable": true,
+    "note": null,
+    "source": "snomed-ecl-parser develop: src/test/java/org/snomed/langauges/ecl/"
+  },
+  {
+    "id": "P-11",
+    "section": "P snomed-ecl-parser tests",
+    "heading": "Dialects with different acceptabilities",
+    "ecl": "< 64572001 |Disease| {{ term = \"box\", type = syn, dialect = ( en-gb (accept) en-nhs-clinical (prefer) ) }}",
+    "eclLong": null,
+    "features": [
+      "descriptionFilter",
+      "hierarchy"
+    ],
+    "executable": true,
+    "note": null,
+    "source": "snomed-ecl-parser develop: src/test/java/org/snomed/langauges/ecl/"
+  },
+  {
+    "id": "P-12",
+    "section": "P snomed-ecl-parser tests",
+    "heading": "Dialect set with acceptability on one",
+    "ecl": "< 64572001 |Disease| {{ dialect = ( en-us en-gb (prefer) ) }}",
+    "eclLong": null,
+    "features": [
+      "descriptionFilter",
+      "hierarchy"
+    ],
+    "executable": true,
+    "note": null,
+    "source": "snomed-ecl-parser develop: src/test/java/org/snomed/langauges/ecl/"
+  },
+  {
+    "id": "P-13",
+    "section": "P snomed-ecl-parser tests",
+    "heading": "Negated type and dialect",
+    "ecl": "< 125605004 |Fracture of bone| {{ term = \"fracture\", type != syn, dialect != en-us (prefer) }}",
+    "eclLong": null,
+    "features": [
+      "descriptionFilter",
+      "hierarchy"
+    ],
+    "executable": true,
+    "note": null,
+    "source": "snomed-ecl-parser develop: src/test/java/org/snomed/langauges/ecl/"
+  },
+  {
+    "id": "P-14",
+    "section": "P snomed-ecl-parser tests",
+    "heading": "Description filter on a refinement value",
+    "ecl": "< 404684003 |Clinical finding| : 363698007 |Finding site| = << 39057004 |Pulmonary valve structure| , 116676008 |Associated morphology| = << 415582006 |Stenosis| {{ term = \"insufficiency\" }}",
+    "eclLong": null,
+    "features": [
+      "conjunctionDisjunction",
+      "descriptionFilter",
+      "hierarchy",
+      "refinement"
+    ],
+    "executable": true,
+    "note": null,
+    "source": "snomed-ecl-parser develop: src/test/java/org/snomed/langauges/ecl/"
+  },
+  {
+    "id": "P-15",
+    "section": "P snomed-ecl-parser tests",
+    "heading": "Description filter on a bracketed refined expression",
+    "ecl": "( < 404684003 |Clinical finding| : 363698007 |Finding site| = << 39057004 |Pulmonary valve structure| , 116676008 |Associated morphology| = << 415582006 |Stenosis| ) {{ term = \"insufficiency\" }}",
+    "eclLong": null,
+    "features": [
+      "conjunctionDisjunction",
+      "descriptionFilter",
+      "hierarchy",
+      "refinement"
+    ],
+    "executable": true,
+    "note": null,
+    "source": "snomed-ecl-parser develop: src/test/java/org/snomed/langauges/ecl/"
+  },
+  {
+    "id": "A-01",
+    "section": "A International adaptations",
+    "heading": "Member of",
+    "ecl": "^ 447562003 |ICD-10 complex map reference set|",
+    "eclLong": null,
+    "features": [
+      "memberOf"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.1-10 to content in the International edition.",
+    "source": "Adapted from 6.1-10"
+  },
+  {
+    "id": "A-02",
+    "section": "A International adaptations",
+    "heading": "Compound Expression Constraints",
+    "ecl": "< 19829001 |Disorder of lung| AND ^ 447562003 |ICD-10 complex map reference set|",
+    "eclLong": null,
+    "features": [
+      "conjunctionDisjunction",
+      "hierarchy",
+      "memberOf"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.4-05 to content in the International edition.",
+    "source": "Adapted from 6.4-05"
+  },
+  {
+    "id": "A-03",
+    "section": "A International adaptations",
+    "heading": "Compound Expression Constraints",
+    "ecl": "< 19829001 |Disorder of lung| AND < 301867009 |Edema of trunk| AND\n^ 447562003 |ICD-10 complex map reference set|",
+    "eclLong": null,
+    "features": [
+      "conjunctionDisjunction",
+      "hierarchy",
+      "memberOf"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.4-06 to content in the International edition.",
+    "source": "Adapted from 6.4-06"
+  },
+  {
+    "id": "A-04",
+    "section": "A International adaptations",
+    "heading": "Compound Expression Constraints",
+    "ecl": "(< 19829001 |Disorder of lung| AND < 301867009 |Edema of trunk| ) AND\n^ 447562003 |ICD-10 complex map reference set|",
+    "eclLong": null,
+    "features": [
+      "conjunctionDisjunction",
+      "hierarchy",
+      "memberOf"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.4-07 to content in the International edition.",
+    "source": "Adapted from 6.4-07"
+  },
+  {
+    "id": "A-05",
+    "section": "A International adaptations",
+    "heading": "Compound Expression Constraints",
+    "ecl": "< 19829001 |Disorder of lung| AND (< 301867009 |Edema of trunk| AND\n^ 447562003 |ICD-10 complex map reference set| )",
+    "eclLong": null,
+    "features": [
+      "conjunctionDisjunction",
+      "hierarchy",
+      "memberOf"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.4-08 to content in the International edition.",
+    "source": "Adapted from 6.4-08"
+  },
+  {
+    "id": "A-06",
+    "section": "A International adaptations",
+    "heading": "Compound Expression Constraints",
+    "ecl": "(< 19829001 |Disorder of lung| AND < 301867009 |Edema of trunk| ) OR\n^ 447562003 |ICD-10 complex map reference set|",
+    "eclLong": null,
+    "features": [
+      "conjunctionDisjunction",
+      "hierarchy",
+      "memberOf"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.4-10 to content in the International edition.",
+    "source": "Adapted from 6.4-10"
+  },
+  {
+    "id": "A-07",
+    "section": "A International adaptations",
+    "heading": "Compound Expression Constraints",
+    "ecl": "< 19829001 |Disorder of lung| AND (< 301867009 |Edema of trunk| OR\n^ 447562003 |ICD-10 complex map reference set| )",
+    "eclLong": null,
+    "features": [
+      "conjunctionDisjunction",
+      "hierarchy",
+      "memberOf"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.4-11 to content in the International edition.",
+    "source": "Adapted from 6.4-11"
+  },
+  {
+    "id": "A-08",
+    "section": "A International adaptations",
+    "heading": "Attribute Conjunction and Disjunction",
+    "ecl": "< 404684003 |Clinical finding| :\n  363698007 |Finding site| = << 39057004 |Pulmonary valve structure| AND\n  116676008 |Associated morphology| = << 415582006 |Stenosis| AND\n  42752001 |Due to| = << 55342001 |Neoplastic disease|",
+    "eclLong": null,
+    "features": [
+      "conjunctionDisjunction",
+      "hierarchy",
+      "refinement"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.4-15 to content in the International edition.",
+    "source": "Adapted from 6.4-15"
+  },
+  {
+    "id": "A-09",
+    "section": "A International adaptations",
+    "heading": "Attribute Conjunction and Disjunction",
+    "ecl": "< 404684003 |Clinical finding| :\n  ( 363698007 |Finding site| = << 39057004 |Pulmonary valve structure| AND\n  116676008 |Associated morphology| = << 415582006 |Stenosis| ) AND\n  42752001 |Due to| = << 55342001 |Neoplastic disease|",
+    "eclLong": null,
+    "features": [
+      "conjunctionDisjunction",
+      "hierarchy",
+      "refinement"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.4-16 to content in the International edition.",
+    "source": "Adapted from 6.4-16"
+  },
+  {
+    "id": "A-10",
+    "section": "A International adaptations",
+    "heading": "Attribute Conjunction and Disjunction",
+    "ecl": "< 404684003 |Clinical finding| :\n  363698007 |Finding site| = << 39057004 |Pulmonary valve structure| AND\n  ( 116676008 |Associated morphology| = << 415582006 |Stenosis| AND\n  42752001 |Due to| = << 55342001 |Neoplastic disease| )",
+    "eclLong": null,
+    "features": [
+      "conjunctionDisjunction",
+      "hierarchy",
+      "refinement"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.4-17 to content in the International edition.",
+    "source": "Adapted from 6.4-17"
+  },
+  {
+    "id": "A-11",
+    "section": "A International adaptations",
+    "heading": "Attribute Conjunction and Disjunction",
+    "ecl": "< 404684003 |Clinical finding| :\n  363698007 |Finding site| = << 39057004 |Pulmonary valve structure| AND\n  116676008 |Associated morphology| = << 415582006 |Stenosis| OR\n  42752001 |Due to| = << 55342001 |Neoplastic disease|",
+    "eclLong": null,
+    "features": [
+      "conjunctionDisjunction",
+      "hierarchy",
+      "refinement"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.4-18 to content in the International edition.",
+    "source": "Adapted from 6.4-18"
+  },
+  {
+    "id": "A-12",
+    "section": "A International adaptations",
+    "heading": "Attribute Conjunction and Disjunction",
+    "ecl": "< 404684003 |Clinical finding| :\n  ( 363698007 |Finding site| = << 39057004 |Pulmonary valve structure| AND\n  116676008 |Associated morphology| = << 415582006 |Stenosis| ) OR\n  42752001 |Due to| = << 55342001 |Neoplastic disease|",
+    "eclLong": null,
+    "features": [
+      "conjunctionDisjunction",
+      "hierarchy",
+      "refinement"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.4-19 to content in the International edition.",
+    "source": "Adapted from 6.4-19"
+  },
+  {
+    "id": "A-13",
+    "section": "A International adaptations",
+    "heading": "Attribute Conjunction and Disjunction",
+    "ecl": "< 404684003 |Clinical finding| :\n  363698007 |Finding site| = << 39057004 |Pulmonary valve structure| AND\n  ( 116676008 |Associated morphology| = << 415582006 |Stenosis| OR\n  42752001 |Due to| = << 55342001 |Neoplastic disease| )",
+    "eclLong": null,
+    "features": [
+      "conjunctionDisjunction",
+      "hierarchy",
+      "refinement"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.4-20 to content in the International edition.",
+    "source": "Adapted from 6.4-20"
+  },
+  {
+    "id": "A-14",
+    "section": "A International adaptations",
+    "heading": "Exclusion of Simple Expressions",
+    "ecl": "<< 19829001 |Disorder of lung| MINUS ^ 447562003 |ICD-10 complex map reference set|",
+    "eclLong": null,
+    "features": [
+      "hierarchy",
+      "memberOf",
+      "minus"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.5-02 to content in the International edition.",
+    "source": "Adapted from 6.5-02"
+  },
+  {
+    "id": "A-15",
+    "section": "A International adaptations",
+    "heading": "Constraint Operators",
+    "ecl": "<< (^ 447562003 |ICD-10 complex map reference set| )",
+    "eclLong": null,
+    "features": [
+      "hierarchy",
+      "memberOf"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.7-01 to content in the International edition.",
+    "source": "Adapted from 6.7-01"
+  },
+  {
+    "id": "A-16",
+    "section": "A International adaptations",
+    "heading": "Compound Expression Constraints",
+    "ecl": "(< 404684003 |Clinical finding| :\n  363698007 |Finding site| = << 39057004 |Pulmonary valve structure| )\nAND ^ 447562003 |ICD-10 complex map reference set|",
+    "eclLong": null,
+    "features": [
+      "conjunctionDisjunction",
+      "hierarchy",
+      "memberOf",
+      "refinement"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.7-08 to content in the International edition.",
+    "source": "Adapted from 6.7-08"
+  },
+  {
+    "id": "A-17",
+    "section": "A International adaptations",
+    "heading": "Compound Expression Constraints",
+    "ecl": "^ 447562003 |ICD-10 complex map reference set|\nAND (< 404684003 |Clinical finding| :\n  363698007 |Finding site| = << 39057004 |Pulmonary valve structure| )",
+    "eclLong": null,
+    "features": [
+      "conjunctionDisjunction",
+      "hierarchy",
+      "memberOf",
+      "refinement"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.7-09 to content in the International edition.",
+    "source": "Adapted from 6.7-09"
+  },
+  {
+    "id": "A-18",
+    "section": "A International adaptations",
+    "heading": "Dialect Filter",
+    "ecl": "< 64572001 |Disease| {{ dialectId = 900000000000508004 |Great Britain English language reference set| }}",
+    "eclLong": null,
+    "features": [
+      "descriptionFilter",
+      "hierarchy"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.8-18 to content in the International edition.",
+    "source": "Adapted from 6.8-18"
+  },
+  {
+    "id": "A-19",
+    "section": "A International adaptations",
+    "heading": "Module Filter",
+    "ecl": "< 195967001 |Asthma| {{ C moduleId = 900000000000207008 |SNOMED CT core module| }}",
+    "eclLong": null,
+    "features": [
+      "conceptFilter",
+      "hierarchy"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.9-06 to content in the International edition.",
+    "source": "Adapted from 6.9-06"
+  },
+  {
+    "id": "A-20",
+    "section": "A International adaptations",
+    "heading": "Member Field Filters",
+    "ecl": "^ 900000000000527005 |SAME AS association reference set| {{ M referencedComponentId = 155574008 |Asthma| }}",
+    "eclLong": null,
+    "features": [
+      "memberFilter",
+      "memberOf"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.10-07 to content in the International edition.",
+    "source": "Adapted from 6.10-07"
+  },
+  {
+    "id": "A-21",
+    "section": "A International adaptations",
+    "heading": "Member Field Filters",
+    "ecl": "^ 900000000000527005 |SAME AS association reference set| {{ M targetComponentId = << 195967001 |Asthma| }}",
+    "eclLong": null,
+    "features": [
+      "memberFilter",
+      "memberOf"
+    ],
+    "executable": true,
+    "note": "Adapted from 6.10-07 to content in the International edition.",
+    "source": "Adapted from 6.10-07"
   }
 ]

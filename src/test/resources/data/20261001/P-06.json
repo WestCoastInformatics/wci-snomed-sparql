@@ -1,0 +1,8 @@
+{
+  "id" : "P-06",
+  "ecl" : "< 56265001 |Heart disease| {{ term = \"heart\", language = en, typeId = 900000000000013009 |Synonym|, type = fsn }}",
+  "status" : 200,
+  "total" : 0,
+  "ids" : [ ],
+  "error" : null
+}

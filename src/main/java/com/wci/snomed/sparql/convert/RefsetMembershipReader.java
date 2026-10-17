@@ -29,8 +29,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Reads active reference set memberships of concepts from RF2 refset snapshot files, and the concept and
- * description data needed to describe inactive member concepts.
+ * Reads active reference set memberships and associations of concepts from RF2 refset snapshot files, and the
+ * concept file.
  */
 public final class RefsetMembershipReader {
 
@@ -49,17 +49,8 @@ public final class RefsetMembershipReader {
   /** Index of the "targetComponentId" column (association refsets). */
   private static final int TARGET_COMPONENT_COL = 6;
 
-  /** Index of the "conceptId" column (description file). */
-  private static final int CONCEPT_COL = 4;
-
-  /** Index of the "typeId" column (description file). */
-  private static final int TYPE_COL = 6;
-
-  /** Index of the "term" column (description file). */
-  private static final int TERM_COL = 7;
-
-  /** The FSN description type. */
-  private static final String FSN_TYPE = "900000000000003001";
+  /** Index of the "moduleId" column (common to all RF2 files). */
+  private static final int MODULE_COL = 3;
 
   /** Offset from the end of an SCTID to its partition identifier (two digits before the check digit). */
   private static final int PARTITION_OFFSET = 3;
@@ -145,48 +136,30 @@ public final class RefsetMembershipReader {
    * Read the concept snapshot file.
    *
    * @param conceptFile the concept snapshot file
-   * @return map of concept id to active flag
+   * @return map of concept id to concept
    * @throws IOException Signals that an I/O exception has occurred.
    */
-  public static Map<Long, Boolean> readConcepts(final Path conceptFile) throws IOException {
-    final Map<Long, Boolean> concepts = new HashMap<>();
+  public static Map<Long, Rf2Concept> readConcepts(final Path conceptFile) throws IOException {
+    final Map<Long, Rf2Concept> concepts = new HashMap<>();
     try (BufferedReader reader = Files.newBufferedReader(conceptFile, StandardCharsets.UTF_8)) {
       String line = reader.readLine();
       while ((line = reader.readLine()) != null) {
-        final String[] fields = line.split("\t", ACTIVE_COL + 2);
-        concepts.put(Long.valueOf(fields[0]), "1".equals(fields[ACTIVE_COL]));
+        final String[] fields = line.split("\t");
+        concepts.put(Long.valueOf(fields[0]),
+            new Rf2Concept("1".equals(fields[ACTIVE_COL]), fields[1], Long.parseLong(fields[MODULE_COL])));
       }
     }
     return concepts;
   }
 
   /**
-   * Read the fully specified names of the given concepts (active FSN descriptions; the first one found if a
-   * concept has several, e.g. in different languages).
+   * An RF2 concept row.
    *
-   * @param descriptionFiles the description snapshot files
-   * @param conceptIds the concept ids
-   * @return map of concept id to FSN
-   * @throws IOException Signals that an I/O exception has occurred.
+   * @param active whether the concept is active
+   * @param effectiveTime the effective time (yyyyMMdd)
+   * @param moduleId the module id
    */
-  public static Map<Long, String> readFsns(final Iterable<Path> descriptionFiles, final Set<Long> conceptIds)
-    throws IOException {
-    final Map<Long, String> fsns = new HashMap<>();
-    for (final Path file : descriptionFiles) {
-      try (BufferedReader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8)) {
-        String line = reader.readLine();
-        while ((line = reader.readLine()) != null) {
-          final String[] fields = line.split("\t");
-          if (fields.length > TERM_COL && "1".equals(fields[ACTIVE_COL]) && FSN_TYPE.equals(fields[TYPE_COL])) {
-            final Long conceptId = Long.valueOf(fields[CONCEPT_COL]);
-            if (conceptIds.contains(conceptId)) {
-              fsns.putIfAbsent(conceptId, fields[TERM_COL]);
-            }
-          }
-        }
-      }
-    }
-    return fsns;
+  public record Rf2Concept(boolean active, String effectiveTime, long moduleId) {
   }
 
   /**
