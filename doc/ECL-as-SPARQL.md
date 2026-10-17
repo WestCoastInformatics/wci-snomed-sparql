@@ -37,16 +37,6 @@ AnnotationAssertion(owl:deprecated :155574008 "true"^^xsd:boolean)
 
 - Queries select only `?concept` (distinct); the service sorts the codes numerically, pages them, and looks up each page's names (`rdfs:label`) itself.
 
-## Next Steps (status)
-
-1. ~~Identify a SNOMEDCT version where example queries have been executed and counts are known (as well as the concept results)~~ — done: 20261001, expected results from a local Snowstorm 11.0.0 (`src/test/resources/data/20261001`).
-2. ~~Run that version of SNOMEDCT through the SNOMED OWL Toolkit, add in the refset memberships and load into a triple store~~ — done (`--release`, `--owl` modes).
-3. ~~Run each of the queries and compare counts and results and tune queries for situations that don't exactly match~~ — done: every specification example is a unit test comparing the concept ids with Snowstorm's.
-4. ~~Package all of this up into an ecl-sparql toolkit in github that can be publicly shared~~ — done: `wci-snomed-sparql`.
-5. ~~After that, implement a parser to generate SPARQL queries from ECL to be executed~~ — done: ECL is parsed with snomed-ecl-parser and translated by `SparqlGenerator`; a REST service and UI run it.
-
-NOTE: this was based on the "examples of valid expressions" from https://docs.snomed.org/snomed-ct-specifications/snomed-ct-expression-constraint-language. The draft had no examples for history, filters or top/bottom; a few are added in the last section. Where Snowstorm has no result (content not in the International edition), an International adaptation is noted.
-
 ## Simple Expression Constraints
 
 **1. Self**
