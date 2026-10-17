@@ -110,6 +110,8 @@ dependencies {
   implementation platform("org.snomed:snomed-parent-bom:5.0.0-SNAPSHOT")
 
   implementation "org.springframework.boot:spring-boot-starter-webmvc"
+  // OpenAPI docs and Swagger UI (/v3/api-docs, /swagger-ui/index.html); 3.x is the Spring Boot 4 line (BOM version)
+  implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui"
 
   // SNOMED libraries (RF2 -> OWL conversion, ECL grammar)
   implementation "org.snomed.otf:snomed-owl-toolkit:7.0.0-SNAPSHOT"
@@ -146,7 +148,8 @@ test {
 bootJar {
   archiveClassifier = "exec"
   manifest {
-    attributes "Add-Opens": "java.base/java.lang"
+    attributes "Add-Opens": "java.base/java.lang", "Implementation-Title": project.name,
+        "Implementation-Version": project.version
   }
 }
 

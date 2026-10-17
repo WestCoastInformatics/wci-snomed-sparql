@@ -15,11 +15,16 @@
  */
 package com.wci.snomed.sparql.rest;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * A concept in a result page.
  *
  * @param code the SNOMED CT concept id
  * @param name the fully specified name (rdfs:label)
  */
-public record ConceptItem(String code, String name) {
+@Schema(description = "A SNOMED CT concept")
+public record ConceptItem(
+    @Schema(description = "The SNOMED CT concept id", example = "73211009") String code,
+    @Schema(description = "The fully specified name", example = "Diabetes mellitus (disorder)") String name) {
 }

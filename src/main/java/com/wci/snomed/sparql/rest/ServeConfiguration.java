@@ -17,6 +17,9 @@ package com.wci.snomed.sparql.rest;
 
 import com.wci.snomed.sparql.ecl.EclTranslator;
 import com.wci.snomed.sparql.store.SnomedStore;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
 import java.nio.file.Path;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -40,6 +43,22 @@ public class ServeConfiguration {
   @Bean
   public SnomedStore snomedStore(@Value("${owl}") final String owl) throws Exception {
     return SnomedStore.load(Path.of(owl));
+  }
+
+  /**
+   * The OpenAPI description (served at /v3/api-docs and /swagger-ui/index.html).
+   *
+   * @return the OpenAPI description
+   */
+  @Bean
+  public OpenAPI openApi() {
+    final String version = getClass().getPackage().getImplementationVersion();
+    return new OpenAPI().info(new Info().title("SNOMED CT ECL to SPARQL")
+        .version(version == null ? "dev" : version)
+        .description("Evaluates SNOMED CT Expression Constraint Language (ECL) by translating it to SPARQL and "
+            + "running it against an in-memory store of a SNOMED CT release converted to OWL. Request bodies are "
+            + "plain text. Errors are RFC 9457 problem details.")
+        .license(new License().name("Apache 2.0").url("https://www.apache.org/licenses/LICENSE-2.0")));
   }
 
   /**

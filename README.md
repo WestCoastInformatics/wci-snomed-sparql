@@ -39,6 +39,9 @@ Requires Java 25 and ~24 GB of RAM (the conversion and the server each use up to
 
 4. **Try it** in the UI at http://localhost:8080/index.html — choose an example (or type ECL), press **Go**, and see
    the generated SPARQL and a page of results — or with curl (see [REST API](#rest-api)).
+5. **Explore the API** in Swagger UI at http://localhost:8080/swagger-ui/index.html — every endpoint is documented
+   with example ECL expressions, and **Try it out** runs them (the OpenAPI description is at
+   http://localhost:8080/v3/api-docs).
 
 For another release, set `VERSION` and `RELEASE_DIR`, e.g.
 `make owl serve VERSION=20260601 RELEASE_DIR=path/to/SnomedCT_InternationalRF2_PRODUCTION_20260601T120000Z`.
@@ -69,6 +72,8 @@ the command line:
 | `GET /status` | Release version, concept and triple counts |
 | `GET /examples` | The ECL example catalog (used by the UI) |
 | `GET /index.html` | The UI |
+| `GET /swagger-ui/index.html` | Swagger UI: interactive API documentation (springdoc) |
+| `GET /v3/api-docs` | The OpenAPI description (JSON) |
 
 `name` is the fully specified name. Errors are [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457) problem details:
 400 for invalid ECL, SPARQL or paging, 501 for valid ECL the translation does not support, 503 for a query timeout.

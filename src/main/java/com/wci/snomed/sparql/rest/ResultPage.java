@@ -15,6 +15,7 @@
  */
 package com.wci.snomed.sparql.rest;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 
 /**
@@ -25,5 +26,10 @@ import java.util.List;
  * @param offset the offset of the first item
  * @param items the concepts on this page
  */
-public record ResultPage(long total, int limit, long offset, List<ConceptItem> items) {
+@Schema(description = "A page of concepts matching an ECL expression (or SPARQL query), in numeric code order")
+public record ResultPage(
+    @Schema(description = "The total number of matching concepts", example = "117") long total,
+    @Schema(description = "The page size", example = "50") int limit,
+    @Schema(description = "The index of the first item", example = "0") long offset,
+    @Schema(description = "The concepts on this page") List<ConceptItem> items) {
 }

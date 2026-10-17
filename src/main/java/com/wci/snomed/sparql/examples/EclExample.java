@@ -15,6 +15,7 @@
  */
 package com.wci.snomed.sparql.examples;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 
 /**
@@ -30,7 +31,17 @@ import java.util.List;
  * @param note a curation note, if the example was corrected or needs explanation
  * @param source the spec page the example comes from
  */
-public record EclExample(String id, String section, String heading, String ecl, String eclLong,
-  List<String> features, boolean executable, String note, String source) {
+@Schema(description = "An ECL example from the test catalog")
+public record EclExample(
+  @Schema(description = "The id: spec section and sequence (e.g. 6.2-05), P-xx (parser tests), A-xx (adaptations)",
+      example = "6.2-05") String id,
+  @Schema(description = "The section", example = "6.2 Refinements") String section,
+  @Schema(description = "The heading the example appears under", example = "Attribute Groups") String heading,
+  @Schema(description = "The expression (brief syntax)") String ecl,
+  @Schema(description = "The expression in long syntax, if the spec gives one") String eclLong,
+  @Schema(description = "The ECL features the expression uses") List<String> features,
+  @Schema(description = "Whether the example is an executable expression") boolean executable,
+  @Schema(description = "A curation note") String note,
+  @Schema(description = "Where the example comes from") String source) {
 
 }

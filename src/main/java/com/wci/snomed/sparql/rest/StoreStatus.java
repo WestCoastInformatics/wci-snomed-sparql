@@ -15,6 +15,8 @@
  */
 package com.wci.snomed.sparql.rest;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Information about the loaded store.
  *
@@ -22,5 +24,9 @@ package com.wci.snomed.sparql.rest;
  * @param concepts the number of concepts
  * @param triples the number of RDF triples
  */
-public record StoreStatus(String version, long concepts, long triples) {
+@Schema(description = "The loaded SNOMED CT release and store size")
+public record StoreStatus(
+    @Schema(description = "The SNOMED CT release version", example = "20261001") String version,
+    @Schema(description = "The number of active concepts", example = "387630") long concepts,
+    @Schema(description = "The number of RDF triples (including index triples)", example = "29629322") long triples) {
 }

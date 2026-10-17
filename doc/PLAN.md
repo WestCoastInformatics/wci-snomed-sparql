@@ -14,7 +14,7 @@ column and the notes as each step completes.
 | 7 | ECL → SPARQL translator, core (constraint operators, refsets, wildcard, compound AND/OR/MINUS, dot notation) | ✅ done |
 | 8 | ECL → SPARQL translator, advanced (refinements, groups, cardinality, reverse, concrete values, filters, etc.) | ✅ done |
 | 9 | Unit test suite driven by saved expected results; iterate until all examples pass | ✅ done |
-| 10 | Finish: web UI, README.md, AGENTS.md, Makefile clean/build/test/install/run, final checks | ⬜ todo |
+| 10 | Finish: web UI, README.md, AGENTS.md, Makefile clean/build/test/install/run, final checks | ✅ done |
 
 ## Step details
 
@@ -204,29 +204,32 @@ column and the notes as each step completes.
 - `doc/ECL as SPARQL.docx` (moved from the project root at the user's request; references updated).
 
 ### 10. Finish
-- `README.md` (style of other SNOMED projects), `AGENTS.md`, Makefile targets, checkstyle/spotbugs clean.
-- **Web UI** (step 10) served by the same Spring Boot server/port (mode `--owl`): one simple page with
-  - a drop-down of the ECL examples (catalog) above a text box; choosing an example populates the box;
-  - a "Go" button that runs the ECL and shows below: (1) the SPARQL query used to produce the result
-    (`POST /ecl/sparql`), and (2) the code/name results for the current page (`POST /ecl`), with the total;
-  - Previous / Next page buttons, and a page size control: 10, 50, 100, 500, 1000, 10000.
-  (requested 2026-10-16)
-- README.md must start (near the top) with numbered usage instructions: (1) download the SNOMED CT 20261001
-  International release and unpack it at the top level of the project; (2) generate the OWL file (give the command,
-  e.g. `make test-data` / `java -jar ... --release=<dir> --output=<owl>`); (3) run the server to load the OWL and
-  expose the API (give the command, e.g. `make serve`); (4) test via the UI at http://localhost:8080/index.html
-  (the UI is built in step 10). (requested 2026-10-16)
-- README.md must include curl examples for the ECL endpoint: a few simple expressions run with `POST /ecl`
-  (with limit/offset paging), and the same expressions resolved to SPARQL with `POST /ecl/sparql`. (requested 2026-10-16)
-- AGENTS.md must describe regenerating the test data: `make test-data` (OWL) and the local Snowstorm workflow
-  (`make snowstorm-up snowstorm-import expected-results`, see `snowstorm/README.md`). (requested 2026-10-16)
+- Web UI: `src/main/resources/static/index.html` (single self-contained page, as the user prefers): catalog
+  drop-down (`GET /examples`), ECL box, Go (Ctrl/⌘+Enter), generated SPARQL, results table (code, FSN), Previous /
+  Next, page size 10/50/100/500/1000/10000. Checked in Chrome (6.2-05: 11 results, paging).
+- README.md rewritten: quick start (download release → `make owl` → `make serve` → UI), modes, REST API with curl
+  examples (paging, `/ecl/sparql`), UI, ECL→SPARQL mapping table, OWL differences (diff-highlighted examples),
+  unsupported, slow examples, additional examples, set-aside examples, tests, building, documents, license.
+- AGENTS.md: layout, build/test, regenerating the test data (test OWL + local Snowstorm workflow), the test contract,
+  lessons learned (Jena substitution, bound/set modes, reverse paths, parser quirks, Snowstorm semantics), open items.
+- Makefile: `make owl` (OWL at the top level), `make serve` (the generated OWL if present, else the test OWL),
+  `.PHONY`; clean/build/test/install/run checked.
+- 6.1-24 `^*` made executable (baseline 539,490, verified against RF2).
+- Moved `TODO.md`, `PLAN.md` (and earlier the docx) to `doc/`. Repo renamed to `wci-snomed-sparql` (user): Gradle
+  project, jar, Spring app name, Makefile SERVICE, docs, Snowstorm compose project/containers (the Elasticsearch
+  volume was copied to `wci-snomed-sparql-snowstorm_elastic`; the old `snomed-sparql-snowstorm_elastic` is left
+  for the user to remove); directory renamed to `wci-snomed-sparql`.
+- Final: `make clean build test install` — 532 tests, 0 skipped, checkstyle 0 warnings, spotbugs clean.
 
 ## To revisit at the end
-- **6.1-24 `^*`** (members of any refset): skipped as a degenerate case (marked not executable in the catalog);
-  Snowstorm times out evaluating it. Decide on expected results and SPARQL support.
-
+- ~~**6.1-24 `^*`**~~ resolved in step 10: supported; Snowstorm times out, so it is tested against a baseline checked
+  against RF2 (539,490 = every concept, active or inactive, that is an active member of any refset).
 - **Top/bottom of set (`!!>`, `!!<`)**: snomed-ecl-parser drops the operator (not in its `Operator` enum), so the
   translator rejects them (501). Equivalent: `!!> E` = `E MINUS < E`, `!!< E` = `E MINUS > E` (cf. 6.12-02/04).
+- **Refset member fields** (map targets etc.) are not in the OWL file: 9 examples unsupported (user decision: concept
+  metadata only for now).
+- **Slow refinements** over large focus sets (README "Slow examples", all < 10s).
+- **Storing the 919 MB test OWL** (git-ignored today: `*owl`): Git LFS or gzip.
 
 ## Open questions / decisions
 - **Inferred view**: classify the stated OWL with ELK during mode 1 and materialize the inferred
@@ -287,3 +290,5 @@ column and the notes as each step completes.
 - 2026-10-16: Step 9 done. Explicit outcome per example (no skips), P-01..P-15 (parser tests) and A-01..A-21
   (International adaptations) with Snowstorm results; fixes for alt identifiers (500), inactive member
   referencedComponentId, dialect !=. 530 tests pass. Docx moved to doc/. README quick-start + UI added to step 10.
+- 2026-10-16: Step 10 done. Web UI, README (quick start, curl, mapping), AGENTS.md, `make owl`, `^*` baseline,
+  docs moved to doc/, project renamed to wci-snomed-sparql. 532 tests pass.

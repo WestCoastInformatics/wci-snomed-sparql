@@ -19,8 +19,9 @@ of every catalog example from a local Snowstorm, for the unit tests.
 | `.../convert/` | `InferredOwlConverter` (pipeline), `InferredRelationshipCollector`, `RefsetMembershipReader` (members, associations, concepts), `DescriptionAnnotator`, `ReleaseFolder` |
 | `.../store/` | `SnomedStore`: OWL API → Turtle pipe → Jena; adds named-parent `rdfs:subClassOf`, `sct:hasRestriction`, `sct:hasRoleGroup` index triples |
 | `.../ecl/` | `EclTranslator` (parse + top/bottom check), `SparqlGenerator` (all ECL → SPARQL generation), `UnsupportedEclException` |
-| `.../rest/` | `EclController`, `EclService` (paging, LRU result cache), `ErrorHandler` (problem details), `ServeConfiguration` |
+| `.../rest/` | `EclController` (OpenAPI/springdoc annotations: keep them up to date when changing endpoints), `EclService` (paging, LRU result cache), `ErrorHandler` (problem details), `ServeConfiguration` (store, translator, OpenAPI info) |
 | `.../examples/` | Catalog (`EclExampleCatalog`, `ecl-examples.json`), `SnowstormClient`, `FetchExamplesRunner`, `ExpectedResultStore` |
+| Swagger UI | `/swagger-ui/index.html`, OpenAPI JSON at `/v3/api-docs` (springdoc 3.x, the Spring Boot 4 line, version from the SNOMED BOM) |
 | `src/main/resources/static/index.html` | The UI — keep it a single self-contained page (or index.html + index.js + index.css) |
 | `src/test/resources/rf2/SnomedCT_MiniRF2_20190131` | Tiny RF2 release for fast tests (`MiniStore`) |
 | `src/test/data/snomed-inferred-20261001.owl` | Full test OWL (919 MB, git-ignored; `make test-data`) — `TestDataStore` loads it once per test JVM |
